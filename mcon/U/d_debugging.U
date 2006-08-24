@@ -1,0 +1,42 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_debugging: Myread Setvar spackage cat
+?MAKE:	-pick add $@ %<
+?S:d_debugging:
+?S:	This variable conditionally defines the DEBUGGING symbol.
+?S:.
+?C:DEBUGGING:
+?C:	This symbol, when defined, activates extra debugging.
+?C:.
+?H:#$d_debugging DEBUGGING
+?H:.
+?LINT:set d_debugging
+: see whether debugging should be turned on
+$cat <<EOM
+
+$spackage comes with a debugging option.  Enabling that option will
+compile extra debugging code that may slow-down the execution and/or
+bloat the size of the executable by a significant amount.
+
+EOM
+case "$d_debugging" in
+"$define") dflt=y;;
+*) dflt=n;;
+esac
+rp='Enable extra debugging code'
+. ./myread
+val="$undef"
+case "$ans" in
+y|Y) val="$define";;
+esac
+set d_debugging
+eval $setvar
+
