@@ -1328,7 +1328,7 @@ LintDirs($(SUBDIRS))
  *	Generate rules to create a hierarchy of directories.
  */
 #define MakeDirectories(step,dirs)		@!\
-step::									@!\
+step::									@@\
 	MakeDirs(dirs)
 
 

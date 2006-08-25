@@ -27,8 +27,6 @@ INSTALLFLAGS = -m 444
 
 all::		/* So that default make does not default to install */
 
->PRIVLIB	/* Grrr.. Have to let jmake know I need this */
-
 MakeDirectories(install,$(PRIVLIB)/lib)
 InstallMultiple($(FILES),$(PRIVLIB)/lib)
 
@@ -40,8 +38,6 @@ InstallMultiple($(FILES),$(PRIVLIB)/lib)
  *	file.SH.
  */
 #define InstallSingleExt(step,file,dest,flags,old,new)	@!\
->INSTALL @!\
->RM @!\
 step:: file^^old						@@\
 	@case '${MFLAGS}' in *[i]*) set +e;; esac; \	@@\
 	(set -x; $(INSTALL) -c flags file^^old dest/file^^new)	@@\
