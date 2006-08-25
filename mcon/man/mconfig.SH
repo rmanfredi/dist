@@ -159,7 +159,8 @@ your .SH file).
 .IP \(bu
 Create a MANIFEST.new file in your top level directory that lists all the
 files in your package. This file will remain private and will not be
-part of the final distribution.
+part of the final distribution. (As a convenience, the MANIFEST file will
+be used by \fImetaconfig\fR if there is no MANIFEST.new file yet.)
 The filename should be the first field on each line.
 After some whitespace you can add a short comment describing your file.
 Only source files should be listed in there. The special file
@@ -971,6 +972,11 @@ Let's focus on the \fImetaconfig\fR program for a while to understand how
 it uses its units and your source code to produce all the needed configuration
 files. If you intend to write new units, you should have a good understanding
 of the whole scheme.
+.PP
+If there is no MANIFEST.new file, \fImetaconfig\fR will try to use the
+MANIFEST file instead, for convenience.  Everywhere we mention MANIFEST.new,
+it can be understood as MANIFEST provided there is no MANIFEST.new file
+found at the root of your package.
 .PP
 Assuming your MANIFEST.new file is properly set and lists all the source
 files you wish to configure, and that you have run \fIpackint\fR in your

@@ -119,6 +119,11 @@ sub init {
 sub init_constants {
 	$NEWMANI = 'MANIFEST.new';		# List of files to be scanned
 	$MANI = 'MANIFEST';				# For manifake
+
+	# The distinction between MANIFEST.new and MANIFEST can make sense
+	# when the "pat" tools are used, but if only metaconfig is used, then
+	# we can very well leave without a MANIFEST.new.  --RAM, 2006-08-25
+	$NEWMANI = $MANI if -f $MANI && ! -f $NEWMANI;
 }
 
 # Record the exceptions -- almost all symbols but these are lower case
