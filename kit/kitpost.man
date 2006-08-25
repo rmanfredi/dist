@@ -1,4 +1,4 @@
-''' $Id: kitpost.man,v 3.0.1.2 1995/05/12 11:58:09 ram Exp ram $
+''' $Id$
 '''
 '''  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
 '''  

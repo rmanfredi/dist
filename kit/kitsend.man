@@ -1,4 +1,4 @@
-''' $Id: kitsend.man,v 3.0.1.1 1994/05/06 14:00:11 ram Exp ram $
+''' $Id$
 '''
 '''  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
 '''  

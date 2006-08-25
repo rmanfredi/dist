@@ -2,7 +2,7 @@
  * Jmakefile for bin subdirectory.
  */
 
-;# $Id: Jmakefile,v 3.0.1.1 1994/01/24 13:42:53 ram Exp ram $
+;# $Id$
 ;#
 ;#  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
 ;#  

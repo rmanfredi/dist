@@ -2,7 +2,7 @@
  * Jmakefile for patching tools.
  */
 
-;# $Id: Jmakefile,v 3.0.1.3 1995/07/24 09:57:21 ram Exp ram $
+;# $Id$
 ;#
 ;#  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
 ;#  

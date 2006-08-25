@@ -2,7 +2,7 @@
  * Jmakefile for kit maker
  */
 
-;# $Id: Jmakefile,v 3.0.1.2 1994/04/22 09:35:35 ram Exp ram $
+;# $Id$
 ;#
 ;#  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
 ;#  

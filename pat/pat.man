@@ -1,5 +1,5 @@
 .rn '' }`
-''' $Id: pat.man,v 3.0.1.7 1997/02/28 16:32:45 ram Exp ram $
+''' $Id$
 '''
 '''  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
 '''  
