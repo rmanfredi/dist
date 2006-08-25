@@ -1,12 +1,12 @@
 ;########################################################################
 ;# Jmake rules for building libraries, programs, scripts, and data files
-;# $Id: Jmake.rules,v 3.0.1.7 2004/08/22 08:28:58 ram Exp ram $
+;# $Id$
 
 /*
  *		   MACHINE-INDEPENDENT RULES -- DO NOT MODIFY
  */
 
-/* $Id: Jmake.rules,v 3.0.1.7 2004/08/22 08:28:58 ram Exp ram $
+/* $Id$
  *
  *  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
  *  
