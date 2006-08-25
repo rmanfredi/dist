@@ -592,14 +592,14 @@ local_clobber:: local_realclean		@!\
  *	Generate rules to recursively install files
  */
 #define	InstallTarget()											@!\
-?SUBDIRS:install: local_install sub_install						@!\
-%SUBDIRS:install: local_install									@!\
-?SUBDIRS:install.man: maybe_install.man sub_install.man			@!\
-%SUBDIRS:install.man: maybe_install.man							@!\
-?SUBDIRS:deinstall: sub_deinstall local_deinstall				@!\
-%SUBDIRS:deinstall: local_deinstall								@!\
-?SUBDIRS:deinstall.man: sub_deinstall.man maybe_deinstall.man	@!\
-%SUBDIRS:deinstall.man: maybe_deinstall.man						@!\
+?SUBDIRS:install:: local_install sub_install					@!\
+%SUBDIRS:install:: local_install								@!\
+?SUBDIRS:install.man:: maybe_install.man sub_install.man		@!\
+%SUBDIRS:install.man:: maybe_install.man						@!\
+?SUBDIRS:deinstall:: sub_deinstall local_deinstall				@!\
+%SUBDIRS:deinstall:: local_deinstall							@!\
+?SUBDIRS:deinstall.man:: sub_deinstall.man maybe_deinstall.man	@!\
+%SUBDIRS:deinstall.man:: maybe_deinstall.man					@!\
 																@!\
 ?MANSRC:install.man-yes: local_install.man						@!\
 install.man-no:													@!\
