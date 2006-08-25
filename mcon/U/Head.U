@@ -77,8 +77,8 @@
 ?X:
 # Note: this Configure script was generated automatically. Rather than
 # working with this copy of Configure, you may wish to get metaconfig.
-# The dist package (which contains metaconfig) is available at
-#     http://sourceforge.net/projects/dist/
+# The dist package (which contains metaconfig) is available via SVN:
+#     svn co https://svn.sourceforge.net/svnroot/dist/trunk/dist
 ?X:
 ?X: NOTA BENE:
 ?X: If you develop you own version of metaconfig based on this work,
