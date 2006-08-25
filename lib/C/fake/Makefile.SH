@@ -1,5 +1,5 @@
-: Makefile.SH generated from Jmake.tmpl and Jmakefile [jmake 3.0 PL44]
-: $X-Id: Jmake.tmpl,v 3.0.1.1 1993/08/20 07:36:36 ram Exp ram $
+: Makefile.SH generated from Jmake.tmpl and Jmakefile [jmake 3.5 PL0]
+: $X-Id: Jmake.tmpl 8 2006-08-25 22:27:18Z rmanfredi $
 
 case $CONFIG in
 '')
@@ -41,7 +41,7 @@ INSTALLDIR = $INSTALLDIR
 # Parameters set by Configure -- edit config.sh if changes are needed
 
 CTAGS = ctags
-MAKE = make
+JCPPFLAGS = $cppflags
 MV = $mv
 PRIVLIB = $installprivlib
 RM = $rm -f
@@ -50,15 +50,15 @@ RM = $rm -f
 $spitshell >>Makefile <<'!NO!SUBS!'
 ########################################################################
 # Jmake rules for building libraries, programs, scripts, and data files
-# $X-Id: Jmake.rules,v 3.0.1.1 1994/10/29 15:46:30 ram Exp ram $
+# $X-Id: Jmake.rules 8 2006-08-25 22:27:18Z rmanfredi $
 
 ########################################################################
 # Start of Jmakefile
 
-# $X-Id: Jmakefile,v 3.0.1.1 1994/01/24 13:43:44 ram Exp ram $
+# $X-Id: Jmakefile 9 2006-08-25 22:31:50Z rmanfredi $
 #
 #  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
-#  
+#
 #  You may redistribute only under the terms of the Artistic Licence,
 #  as specified in the README file that comes with the distribution.
 #  You may reuse parts of this distribution only within the terms of
@@ -77,39 +77,55 @@ INSTALLFLAGS = -m 444
 all::
 
 install::
-	@for dir in $(PRIVLIB)/lib/C/fake; do \
-		case '${MFLAGS}' in *[i]*) set +e;; esac; \
-		(set -x; test -d $$dir || $(INSTALLDIR) $$dir); \
+	@case '${MFLAGS}' in *[i]*) set +e;; esac; \
+	for dir in $(PRIVLIB)/lib/C/fake; do \
+		(set -x; test -d $$dir || $(INSTALLDIR) $$dir) || \
+		exit 1; \
 	done
 
-install:: $(FILES)
-	@case '${MFLAGS}' in *[i]*) set +e;; esac; \
+local_install:: $(FILES)
+	@case '${MFLAGS}' in *[i]*) set +e;; esac;		\
+	(set -x; test -d $(INSTALL_PREFIX)$(PRIVLIB)/lib/C/fake || \
+		$(INSTALLDIR) $(INSTALL_PREFIX)$(PRIVLIB)/lib/C/fake); \
 	for i in $(FILES); do \
-		(set -x; $(INSTALL) -c $(INSTALLFLAGS) $$i $(PRIVLIB)/lib/C/fake); \
+		(set -x; $(INSTALL) -c $(INSTALLFLAGS) \
+			$$i $(INSTALL_PREFIX)$(PRIVLIB)/lib/C/fake) || exit 1;\
 	done
 
-deinstall::
+local_deinstall::
 	@case '${MFLAGS}' in *[i]*) set +e;; esac; \
 	for i in $(FILES); do \
-		(set -x; $(RM) $(PRIVLIB)/lib/C/fake/$$i); \
+		(set -x; $(RM) $(INSTALL_PREFIX)$(PRIVLIB)/lib/C/fake/$$i); \
 	done
 
 ########################################################################
 # Common rules for all Makefiles -- do not edit
 
-emptyrule::
+all::
 
 clean: local_clean
 realclean: local_realclean
 clobber: local_clobber
 
 local_clean::
-	$(RM) core *~ *.o
+	if test -f core; then $(RM) core; fi
+	$(RM) *~ *.o
 
 local_realclean:: local_clean
 
 local_clobber:: local_realclean
 	$(RM) Makefile config.sh
+
+install:: local_install
+install.man:: maybe_install.man
+deinstall:: local_deinstall
+deinstall.man:: maybe_deinstall.man
+
+install.man-no:
+deinstall.man-no:
+
+maybe_install.man: install.man-no
+maybe_deinstall.man: deinstall.man-no
 
 Makefile.SH: Jmakefile
 	-@if test -f $(TOP)/.package; then \
@@ -119,7 +135,7 @@ Makefile.SH: Jmakefile
 		fi; \
 		echo "	$(JMAKE) -DTOPDIR=$(TOP) -DCURDIR=$(CURRENT)" ; \
 		$(JMAKE) -DTOPDIR=$(TOP) -DCURDIR=$(CURRENT) ; \
-	else touch $@; exit 0; fi
+	else touch $@; fi
 
 Makefile: Makefile.SH
 	/bin/sh Makefile.SH
@@ -134,16 +150,16 @@ local_clobber::
 ########################################################################
 # Empty rules for directories with no sub-directories -- do not edit
 
-install::
+local_install::
 	@echo "install in $(CURRENT) done."
 
-deinstall::
+local_deinstall::
 	@echo "deinstall in $(CURRENT) done."
 
-install.man::
+local_install.man::
 	@echo "install.man in $(CURRENT) done."
 
-deinstall.man::
+local_deinstall.man::
 	@echo "deinstall.man in $(CURRENT) done."
 
 Makefiles::

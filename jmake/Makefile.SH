@@ -1,5 +1,5 @@
-: Makefile.SH generated from Jmake.tmpl and Jmakefile [jmake 3.0 PL70]
-: $X-Id: Jmake.tmpl,v 3.0.1.3 1997/02/28 14:56:16 ram Exp ram $
+: Makefile.SH generated from Jmake.tmpl and Jmakefile [jmake 3.5 PL0]
+: $X-Id: Jmake.tmpl 8 2006-08-25 22:27:18Z rmanfredi $
 
 case $CONFIG in
 '')
@@ -41,6 +41,7 @@ INSTALLDIR = $INSTALLDIR
 # Parameters set by Configure -- edit config.sh if changes are needed
 
 CTAGS = ctags
+JCPPFLAGS = $cppflags
 L = $manext
 MANSRC = $installmansrc
 MV = $mv
@@ -58,15 +59,15 @@ SCRIPTS =  jmake jmkmf
 $spitshell >>Makefile <<'!NO!SUBS!'
 ########################################################################
 # Jmake rules for building libraries, programs, scripts, and data files
-# $X-Id: Jmake.rules,v 3.0.1.7 2004/08/22 08:28:58 ram Exp ram $
+# $X-Id: Jmake.rules 8 2006-08-25 22:27:18Z rmanfredi $
 
 ########################################################################
 # Start of Jmakefile
 
-# $X-Id: Jmakefile,v 3.0.1.2 1995/03/21 08:34:16 ram Exp ram $
+# $X-Id: Jmakefile 3 2006-08-25 21:39:07Z rmanfredi $
 #
 #  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
-#  
+#
 #  You may redistribute only under the terms of the Artistic Licence,
 #  as specified in the README file that comes with the distribution.
 #  You may reuse parts of this distribution only within the terms of
@@ -106,12 +107,13 @@ jmkmf: jmkmf.SH
 
 
 local_install:: $(SCRIPTS) $(LSCRIPTS)
-	case '${MFLAGS}' in *[i]*) set +e;; esac;		\
+	@case '${MFLAGS}' in *[i]*) set +e;; esac;		\
 	(set -x; test -d $(INSTALL_PREFIX)$(SCRIPTDIR) || \
 		$(INSTALLDIR) $(INSTALL_PREFIX)$(SCRIPTDIR)); \
 	for file in $(SCRIPTS) $(LSCRIPTS); do \
 		(set -x; \
-		$(INSTALL) -c -m 555 $$file $(INSTALL_PREFIX)$(SCRIPTDIR)); \
+		$(INSTALL) -c -m 555 $$file $(INSTALL_PREFIX)$(SCRIPTDIR)) || \
+		exit 1; \
 	done
 
 local_deinstall::
@@ -121,14 +123,15 @@ local_deinstall::
 	done
 
 local_install.man::
-	case '${MFLAGS}' in *[i]*) set +e;; esac;		\
+	@case '${MFLAGS}' in *[i]*) set +e;; esac;		\
 	(set -x; test -d $(INSTALL_PREFIX)$(MANSRC) || \
 		$(INSTALLDIR) $(INSTALL_PREFIX)$(MANSRC)); \
 	for file in $(SCRIPTS); do \
 		if test -f $$file.man; then \
 			(set -x; \
 			$(INSTALL) -c -m 444 $$file.man \
-				$(INSTALL_PREFIX)$(MANSRC)/$$file.$(L)); \
+				$(INSTALL_PREFIX)$(MANSRC)/$$file.$(L)) || \
+				exit 1; \
 		fi; \
 	done
 
@@ -151,22 +154,20 @@ fixcpp: fixcpp.SH
 
 
 local_install::
-
 	@case '${MFLAGS}' in *[i]*) set +e;; esac; \
 	for dir in $(PRIVLIB) $(PRIVLIB)/files; do	\
-	(set -x; test -d $(INSTALL_PREFIX)$$dir || \
+		(set -x; test -d $(INSTALL_PREFIX)$$dir || \
 		$(INSTALLDIR) $(INSTALL_PREFIX)$$dir);	\
 	done
 
 local_deinstall::
-
 	@case '${MFLAGS}' in *[i]*) set +e;; esac; \
 	for dir in $(PRIVLIB) $(PRIVLIB)/files; do \
 		(set -x; test -d $$dir && $(RM) -r $(INSTALL_PREFIX)$$dir); \
 	done
 
 local_install:: Index
-	case '${MFLAGS}' in *[i]*) set +e;; esac;		\
+	@case '${MFLAGS}' in *[i]*) set +e;; esac;		\
 	(set -x; test -d $(INSTALL_PREFIX)$(PRIVLIB) || \
 		$(INSTALLDIR) $(INSTALL_PREFIX)$(PRIVLIB)); \
 	$(INSTALL) -c -m 444 Index $(INSTALL_PREFIX)$(PRIVLIB)
@@ -175,7 +176,7 @@ local_deinstall::
 	$(RM) $(INSTALL_PREFIX)$(PRIVLIB)/Index
 
 local_install:: bindex
-	case '${MFLAGS}' in *[i]*) set +e;; esac;		\
+	@case '${MFLAGS}' in *[i]*) set +e;; esac;		\
 	(set -x; test -d $(INSTALL_PREFIX)$(PRIVLIB) || \
 		$(INSTALLDIR) $(INSTALL_PREFIX)$(PRIVLIB)); \
 	$(INSTALL) -c -m 555  bindex $(INSTALL_PREFIX)$(PRIVLIB)
@@ -184,7 +185,7 @@ local_deinstall::
 	$(RM) $(INSTALL_PREFIX)$(PRIVLIB)/bindex
 
 local_install:: fixcpp
-	case '${MFLAGS}' in *[i]*) set +e;; esac;		\
+	@case '${MFLAGS}' in *[i]*) set +e;; esac;		\
 	(set -x; test -d $(INSTALL_PREFIX)$(PRIVLIB)/files || \
 		$(INSTALLDIR) $(INSTALL_PREFIX)$(PRIVLIB)/files); \
 	$(INSTALL) -c -m 555  fixcpp $(INSTALL_PREFIX)$(PRIVLIB)/files
@@ -193,11 +194,12 @@ local_deinstall::
 	$(RM) $(INSTALL_PREFIX)$(PRIVLIB)/files/fixcpp
 
 local_install:: files/Jmake*
-	case '${MFLAGS}' in *[i]*) set +e;; esac;		\
+	@case '${MFLAGS}' in *[i]*) set +e;; esac;		\
 	(set -x; test -d $(INSTALL_PREFIX)$(PRIVLIB)/files || \
 		$(INSTALLDIR) $(INSTALL_PREFIX)$(PRIVLIB)/files); \
 	for i in files/Jmake*; do \
-		(set -x; $(INSTALL) -c -m 444 $$i $(INSTALL_PREFIX)$(PRIVLIB)/files); \
+		(set -x; $(INSTALL) -c -m 444 \
+			$$i $(INSTALL_PREFIX)$(PRIVLIB)/files) || exit 1;\
 	done
 
 local_deinstall::
@@ -220,24 +222,25 @@ depend::
 ########################################################################
 # Common rules for all Makefiles -- do not edit
 
-emptyrule::
+all::
 
 clean: local_clean
 realclean: local_realclean
 clobber: local_clobber
 
 local_clean::
-	$(RM) core *~ *.o
+	if test -f core; then $(RM) core; fi
+	$(RM) *~ *.o
 
 local_realclean:: local_clean
 
 local_clobber:: local_realclean
 	$(RM) Makefile config.sh
 
-install: local_install
-install.man: maybe_install.man
-deinstall: local_deinstall
-deinstall.man: maybe_deinstall.man
+install:: local_install
+install.man:: maybe_install.man
+deinstall:: local_deinstall
+deinstall.man:: maybe_deinstall.man
 
 install.man-yes: local_install.man
 install.man-no:

@@ -1,5 +1,6 @@
-: Makefile.SH generated from Jmake.tmpl and Jmakefile [jmake 3.0 PL55]
-: $X-Id: Jmake.tmpl,v 3.0.1.2 1995/01/11 14:50:21 ram Exp ram $
+: Makefile.SH generated from Jmake.tmpl and Jmakefile [jmake 3.5 PL0]
+: $X-Id: Jmake.tmpl 8 2006-08-25 22:27:18Z rmanfredi $
+
 case $CONFIG in
 '')
 	if test -f config.sh; then TOP=.;
@@ -40,8 +41,7 @@ INSTALLDIR = $INSTALLDIR
 # Parameters set by Configure -- edit config.sh if changes are needed
 
 CTAGS = ctags
-MAKE = make
-MKDEP = $mkdep \$(DPFLAGS) --
+JCPPFLAGS = $cppflags
 MV = $mv
 PRIVLIB = $installprivlib
 RM = $rm -f
@@ -58,21 +58,15 @@ BIN =  metaconfig metalint metaxref
 $spitshell >>Makefile <<'!NO!SUBS!'
 ########################################################################
 # Jmake rules for building libraries, programs, scripts, and data files
-# $X-Id: Jmake.rules,v 3.0.1.3 1995/03/21 08:35:28 ram Exp ram $
-########################################################################
-# Force 'make depend' to be performed first -- do not edit
-
-.FORCE_DEPEND::
-
-all:: .FORCE_DEPEND
+# $X-Id: Jmake.rules 8 2006-08-25 22:27:18Z rmanfredi $
 
 ########################################################################
 # Start of Jmakefile
 
-# $X-Id: Jmakefile,v 3.0.1.4 1995/07/25 13:23:09 ram Exp ram $
+# $X-Id: Jmakefile 9 2006-08-25 22:31:50Z rmanfredi $
 #
 #  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
-#  
+#
 #  You may redistribute only under the terms of the Artistic Licence,
 #  as specified in the README file that comes with the distribution.
 #  You may reuse parts of this distribution only within the terms of
@@ -114,55 +108,74 @@ makegloss: makegloss.SH
 	/bin/sh makegloss.SH
 
 
-install::
-	@for dir in $(PRIVLIB) $(PRIVLIB)/U; do \
-	case '${MFLAGS}' in *[i]*) set +e;; esac; \
-	(set -x; test -d $$dir || $(INSTALLDIR) $$dir); \
+local_install::
+	@case '${MFLAGS}' in *[i]*) set +e;; esac; \
+	for dir in $(PRIVLIB) $(PRIVLIB)/U; do	\
+		(set -x; test -d $(INSTALL_PREFIX)$$dir || \
+		$(INSTALLDIR) $(INSTALL_PREFIX)$$dir);	\
 	done
 
-deinstall::
-	$(RM) -r $(PRIVLIB) $(PRIVLIB)/U
+local_deinstall::
+	@case '${MFLAGS}' in *[i]*) set +e;; esac; \
+	for dir in $(PRIVLIB) $(PRIVLIB)/U; do \
+		(set -x; test -d $$dir && $(RM) -r $(INSTALL_PREFIX)$$dir); \
+	done
 
-install:: Glossary
-	$(INSTALL) -c -m 444 Glossary $(PRIVLIB)
+local_install:: Glossary
+	@case '${MFLAGS}' in *[i]*) set +e;; esac;		\
+	(set -x; test -d $(INSTALL_PREFIX)$(PRIVLIB) || \
+		$(INSTALLDIR) $(INSTALL_PREFIX)$(PRIVLIB)); \
+	$(INSTALL) -c -m 444 Glossary $(INSTALL_PREFIX)$(PRIVLIB)
 
-deinstall::
-	$(RM) $(PRIVLIB)/Glossary
+local_deinstall::
+	$(RM) $(INSTALL_PREFIX)$(PRIVLIB)/Glossary
 
-install:: makegloss
-	$(INSTALL) -c -m 555  makegloss $(PRIVLIB)
+local_install:: makegloss
+	@case '${MFLAGS}' in *[i]*) set +e;; esac;		\
+	(set -x; test -d $(INSTALL_PREFIX)$(PRIVLIB) || \
+		$(INSTALLDIR) $(INSTALL_PREFIX)$(PRIVLIB)); \
+	$(INSTALL) -c -m 555  makegloss $(INSTALL_PREFIX)$(PRIVLIB)
 
-deinstall::
-	$(RM) $(PRIVLIB)/makegloss
+local_deinstall::
+	$(RM) $(INSTALL_PREFIX)$(PRIVLIB)/makegloss
 
-install:: configure
-	$(INSTALL) -c -m 555  configure $(PRIVLIB)
+local_install:: configure
+	@case '${MFLAGS}' in *[i]*) set +e;; esac;		\
+	(set -x; test -d $(INSTALL_PREFIX)$(PRIVLIB) || \
+		$(INSTALLDIR) $(INSTALL_PREFIX)$(PRIVLIB)); \
+	$(INSTALL) -c -m 555  configure $(INSTALL_PREFIX)$(PRIVLIB)
 
-deinstall::
-	$(RM) $(PRIVLIB)/configure
+local_deinstall::
+	$(RM) $(INSTALL_PREFIX)$(PRIVLIB)/configure
 
-install:: U/[a-d]*.U
+local_install:: U/[a-d]*.U
+	@case '${MFLAGS}' in *[i]*) set +e;; esac;		\
+	(set -x; test -d $(INSTALL_PREFIX)$(PRIVLIB)/U || \
+		$(INSTALLDIR) $(INSTALL_PREFIX)$(PRIVLIB)/U); \
+	for i in U/[a-d]*.U; do \
+		(set -x; $(INSTALL) -c -m 444 \
+			$$i $(INSTALL_PREFIX)$(PRIVLIB)/U) || exit 1;\
+	done
+
+local_deinstall::
 	@case '${MFLAGS}' in *[i]*) set +e;; esac; \
 	for i in U/[a-d]*.U; do \
-	(set -x; $(INSTALL) -c -m 444 $$i $(PRIVLIB)/U); \
+		(set -x; $(RM) $(INSTALL_PREFIX)$(PRIVLIB)/U/$$i); \
 	done
 
-deinstall::
-	@case '${MFLAGS}' in *[i]*) set +e;; esac; \
-	for i in U/[a-d]*.U; do \
-	(set -x; $(RM) $(PRIVLIB)/U/$$i); \
+local_install:: U/[A-Ze-z]*.U
+	@case '${MFLAGS}' in *[i]*) set +e;; esac;		\
+	(set -x; test -d $(INSTALL_PREFIX)$(PRIVLIB)/U || \
+		$(INSTALLDIR) $(INSTALL_PREFIX)$(PRIVLIB)/U); \
+	for i in U/[A-Ze-z]*.U; do \
+		(set -x; $(INSTALL) -c -m 444 \
+			$$i $(INSTALL_PREFIX)$(PRIVLIB)/U) || exit 1;\
 	done
 
-install:: U/[A-Ze-z]*.U
+local_deinstall::
 	@case '${MFLAGS}' in *[i]*) set +e;; esac; \
 	for i in U/[A-Ze-z]*.U; do \
-	(set -x; $(INSTALL) -c -m 444 $$i $(PRIVLIB)/U); \
-	done
-
-deinstall::
-	@case '${MFLAGS}' in *[i]*) set +e;; esac; \
-	for i in U/[A-Ze-z]*.U; do \
-	(set -x; $(RM) $(PRIVLIB)/U/$$i); \
+		(set -x; $(RM) $(INSTALL_PREFIX)$(PRIVLIB)/U/$$i); \
 	done
 
 all:: metaconfig mconfig
@@ -182,11 +195,14 @@ metaconfig: mconfig
 	perl $(TOP)/bin/perload -o mconfig > $@
 	chmod +rx $@
 
-install:: metaconfig
-	$(INSTALL) -c -m 555  metaconfig $(SCRIPTDIR)
+local_install:: metaconfig
+	@case '${MFLAGS}' in *[i]*) set +e;; esac;		\
+	(set -x; test -d $(INSTALL_PREFIX)$(SCRIPTDIR) || \
+		$(INSTALLDIR) $(INSTALL_PREFIX)$(SCRIPTDIR)); \
+	$(INSTALL) -c -m 555  metaconfig $(INSTALL_PREFIX)$(SCRIPTDIR)
 
-deinstall::
-	$(RM) $(SCRIPTDIR)/metaconfig
+local_deinstall::
+	$(RM) $(INSTALL_PREFIX)$(SCRIPTDIR)/metaconfig
 
 all:: metalint mlint
 
@@ -205,11 +221,14 @@ metalint: mlint
 	perl $(TOP)/bin/perload -o mlint > $@
 	chmod +rx $@
 
-install:: metalint
-	$(INSTALL) -c -m 555  metalint $(SCRIPTDIR)
+local_install:: metalint
+	@case '${MFLAGS}' in *[i]*) set +e;; esac;		\
+	(set -x; test -d $(INSTALL_PREFIX)$(SCRIPTDIR) || \
+		$(INSTALLDIR) $(INSTALL_PREFIX)$(SCRIPTDIR)); \
+	$(INSTALL) -c -m 555  metalint $(INSTALL_PREFIX)$(SCRIPTDIR)
 
-deinstall::
-	$(RM) $(SCRIPTDIR)/metalint
+local_deinstall::
+	$(RM) $(INSTALL_PREFIX)$(SCRIPTDIR)/metalint
 
 all:: metaxref mxref
 
@@ -228,11 +247,14 @@ metaxref: mxref
 	perl $(TOP)/bin/perload -o mxref > $@
 	chmod +rx $@
 
-install:: metaxref
-	$(INSTALL) -c -m 555  metaxref $(SCRIPTDIR)
+local_install:: metaxref
+	@case '${MFLAGS}' in *[i]*) set +e;; esac;		\
+	(set -x; test -d $(INSTALL_PREFIX)$(SCRIPTDIR) || \
+		$(INSTALLDIR) $(INSTALL_PREFIX)$(SCRIPTDIR)); \
+	$(INSTALL) -c -m 555  metaxref $(INSTALL_PREFIX)$(SCRIPTDIR)
 
-deinstall::
-	$(RM) $(SCRIPTDIR)/metaxref
+local_deinstall::
+	$(RM) $(INSTALL_PREFIX)$(SCRIPTDIR)/metaxref
 
 BINFILES = \
 	mconfig \
@@ -256,29 +278,41 @@ depend::
 ########################################################################
 # Common rules for all Makefiles -- do not edit
 
-emptyrule::
+all::
 
 clean: sub_clean local_clean
 realclean: sub_realclean local_realclean
 clobber: sub_clobber local_clobber
 
 local_clean::
-	$(RM) core *~ *.o
+	if test -f core; then $(RM) core; fi
+	$(RM) *~ *.o
 
 local_realclean:: local_clean
 
 local_clobber:: local_realclean
 	$(RM) Makefile config.sh
 
+install:: local_install sub_install
+install.man:: maybe_install.man sub_install.man
+deinstall:: sub_deinstall local_deinstall
+deinstall.man:: sub_deinstall.man maybe_deinstall.man
+
+install.man-no:
+deinstall.man-no:
+
+maybe_install.man: install.man-no
+maybe_deinstall.man: deinstall.man-no
+
 Makefile.SH: Jmakefile
 	-@if test -f $(TOP)/.package; then \
-	if test -f Makefile.SH; then \
-	echo "	$(RM) Makefile.SH~; $(MV) Makefile.SH Makefile.SH~"; \
-	$(RM) Makefile.SH~; $(MV) Makefile.SH Makefile.SH~; \
-	fi; \
-	echo "	$(JMAKE) -DTOPDIR=$(TOP) -DCURDIR=$(CURRENT)" ; \
-	$(JMAKE) -DTOPDIR=$(TOP) -DCURDIR=$(CURRENT) ; \
-	else touch $@; exit 0; fi
+		if test -f Makefile.SH; then \
+			echo "	$(RM) Makefile.SH~; $(MV) Makefile.SH Makefile.SH~"; \
+			$(RM) Makefile.SH~; $(MV) Makefile.SH Makefile.SH~; \
+		fi; \
+		echo "	$(JMAKE) -DTOPDIR=$(TOP) -DCURDIR=$(CURRENT)" ; \
+		$(JMAKE) -DTOPDIR=$(TOP) -DCURDIR=$(CURRENT) ; \
+	else touch $@; fi
 
 Makefile: Makefile.SH
 	/bin/sh Makefile.SH
@@ -297,21 +331,23 @@ subdirs:
 	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
 	for i in $(SUBDIRS) ;\
 	do \
-	(cd $$i ; echo $(VERB) "in $(DIR)$$i..."; \
-	$(MAKE) $(MFLAGS) $(FLAGS) $(TARGET)); \
+		(cd $$i ; echo $(VERB) "in $(DIR)$$i..."; \
+			$(MAKE) $(MFLAGS) $(FLAGS) $(TARGET)) || exit 1; \
 	done
 
-install::
+sub_install::
 	@$(MAKE) subdirs TARGET=install VERB="Installing" FLAGS=
 
-deinstall::
+sub_deinstall::
 	@$(MAKE) subdirs TARGET=deinstall VERB="Deinstalling" FLAGS=
+	@echo "Back to $(CURRENT) for "deinstall...
 
-install.man::
+sub_install.man::
 	@$(MAKE) subdirs TARGET=install.man VERB="Installing man pages" FLAGS=
 
-deinstall.man::
+sub_deinstall.man::
 	@$(MAKE) subdirs TARGET=deinstall.man VERB="Deinstalling man pages" FLAGS=
+	@echo "Back to $(CURRENT) for "deinstall.man...
 
 sub_clean::
 	@$(MAKE) subdirs TARGET=clean VERB="Cleaning" FLAGS=
@@ -329,49 +365,51 @@ tag::
 	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
 	for i in $(SUBDIRS) ;\
 	do \
-	(cd $$i ; echo "Tagging" "in $(DIR)$$i..."; \
-	$(MAKE) $(MFLAGS)  tag); \
+		(cd $$i ; echo "Tagging" "in $(DIR)$$i..."; \
+			$(MAKE) $(MFLAGS)  tag) || exit 1; \
 	done
 
 Makefiles::
 	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
 	for i in $(SUBDIRS);\
 	do \
-	echo "Making "Makefiles" in $(DIR)$$i..."; \
-	(cd $$i || exit 1; \
-	if test ! -f Makefile; then /bin/sh Makefile.SH; fi; \
-	$(MAKE) $(MFLAGS) Makefiles) \
+		echo "Making "Makefiles" in $(DIR)$$i..."; \
+		(cd $$i || exit 1; \
+		if test ! -f Makefile; then /bin/sh Makefile.SH; fi; \
+		$(MAKE) $(MFLAGS) Makefiles) || exit 1;\
 	done
 
 Makefiles.SH:: Makefile.SH
 	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
 	for i in $(SUBDIRS);\
 	do \
-	case "$(DIR)$$i/" in \
-	*/*/*/*/) newtop=../../../..;; \
-	*/*/*/) newtop=../../..;; \
-	*/*/) newtop=../..;; \
-	*/) newtop=..;; \
-	esac; \
-	case "$(TOP)" in \
-	/*) newtop="$(TOP)" ;; \
-	esac; \
-	echo "Making Makefiles.SH in $(DIR)$$i..."; \
-	(cd $$i || exit 1; $(MAKE) $(MFLAGS) -f ../Makefile \
-	Makefile TOP=$$newtop CURRENT=$(DIR)$$i;\
-	$(MAKE) $(MFLAGS) Makefiles.SH) \
+		case "$(DIR)$$i/" in \
+		*/*/*/*/) newtop=../../../..;; \
+		*/*/*/) newtop=../../..;; \
+		*/*/) newtop=../..;; \
+		*/) newtop=..;; \
+		esac; \
+		case "$(TOP)" in \
+		/*) newtop="$(TOP)" ;; \
+		esac; \
+		echo "Making Makefiles.SH in $(DIR)$$i..."; \
+		(cd $$i || exit 1; \
+			if test -f Jmakefile; then \
+				$(MAKE) $(MFLAGS) -f ../Makefile \
+					Makefile TOP=$$newtop CURRENT=$(DIR)$$i && \
+				$(MAKE) $(MFLAGS) Makefiles.SH; \
+			fi; \
+		) || exit 1; \
 	done
 
 all::
 	@$(MAKE) subdirs TARGET=all VERB="Making all" FLAGS=
 
-########################################################################
-# Dependencies generated by make depend
-# DO NOT DELETE THIS LINE -- make depend relies on it
+local_install::
+local_deinstall::
+local_install.man::
+local_deinstall.man::
 
-# Put nothing here or make depend will gobble it up
-.FORCE_DEPEND::
-	@echo "You must run 'make depend' in $(TOP) first."; exit 1
 !NO!SUBS!
 chmod 644 Makefile
 $eunicefix Makefile
