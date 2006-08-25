@@ -42,9 +42,6 @@ PAT = \
 NoManPages()		/* There is a single man page for all tools */
 SimpleShellScriptTarget($(PAT))
 
->SCRIPTDIR		/* Grrr... I have to find a nicer way!! */
->MANSRC			/* Idem!! */
-
 InstallMultipleFlags($(PAT),$(SCRIPTDIR),-m 555)
 InstallManPage(pat,$(MANSRC))
 
@@ -52,10 +49,6 @@ PATSH = \
 |expand f!$(PAT)!
 	!f.SH \
 -expand \\
-
->SED
->RM
->MKDEP
 
 depend::
 	($(SED) '/^# DO NOT DELETE/q' Makefile && \

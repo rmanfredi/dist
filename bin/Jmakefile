@@ -30,10 +30,6 @@ BINSH = \
 	!f.SH \
 -expand \\
 
->SED
->RM
->MKDEP
-
 depend::
 	($(SED) '/^# DO NOT DELETE/q' Makefile && \
 	grep '^\$$grep' $(BINSH) | \

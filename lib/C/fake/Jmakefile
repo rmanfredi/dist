@@ -23,7 +23,5 @@ INSTALLFLAGS = -m 444
 
 all::		/* So that default make does not default to install */
 
->PRIVLIB	/* Grrr.. Have to let jmake know I need this */
-
 MakeDirectories(install,$(PRIVLIB)/lib/C/fake)
 InstallMultiple($(FILES),$(PRIVLIB)/lib/C/fake)

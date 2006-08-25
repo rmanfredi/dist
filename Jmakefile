@@ -23,8 +23,6 @@
 ;# Baseline for dist 3.0 netwide release.
 ;#
 
->MANSRC		/* This should really become automated */
-
 all::		/* So that default target is not clobber! */
 
 SetSubdirs(bin mcon jmake pat kit lib)

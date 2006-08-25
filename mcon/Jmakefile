@@ -38,9 +38,6 @@ Glossary: makegloss
 
 SimpleShellScriptTarget(makegloss)
 
->PRIVLIB		/* We need the privlib definition */
->SCRIPTDIR		/* As well as the script directory */
-
 MakeInstallDirectories($(PRIVLIB) $(PRIVLIB)/U)
 InstallNonExec(Glossary,$(PRIVLIB))
 InstallScript(makegloss,$(PRIVLIB))
@@ -77,10 +74,6 @@ BINSH = \
 |expand f!$(BINFILES)!
 	!f.SH \
 -expand \\
-
->SED
->RM
->MKDEP
 
 depend::
 	($(SED) '/^# DO NOT DELETE/q' Makefile && \

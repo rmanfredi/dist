@@ -17,8 +17,6 @@
 ;# Baseline for dist 3.0 netwide release.
 ;#
 
->L		/* I expect to fix this with a |append command */
-
 MPAGES = metaconfig.$(L) metalint.$(L) metaxref.$(L)
 
 ComplexShellManualTarget($(MPAGES))
