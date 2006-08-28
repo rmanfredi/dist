@@ -94,10 +94,16 @@
 : determine optimize, if desired, or use for debug flag also
 case "$optimize" in
 ' '|$undef) dflt='none';;
-'') dflt='-O';;
+'')
+	case "$gccversion" in
+	'') dflt='-O';;
+	*) dflt='-O2 -g';;
+	esac
+	;;
 *) dflt="$optimize";;
 esac
-$cat <<EOH
+case "$gccversion" in
+'') $cat <<EOH
 
 Some C compilers have problems with their optimizers.  By default, $package
 compiles with the -O flag to use the optimizer.  Alternately, you might want
@@ -106,6 +112,17 @@ systems).  Either flag can be specified here.  To use neither flag, specify
 the word "none".
 
 EOH
+	;;
+*) $cat <<EOH
+
+With the GNU C compiler, it is possible to supply both -O2 and -g flags, to
+be able to reasonably optimize, whilst retaining the ability to use a
+symbolic debugger.  Either flag can be specified here.  To use neither flag,
+specify the word "none".
+
+EOH
+	;;
+esac
 rp="What optimizer/debugger flag should be used?"
 . ./myread
 optimize="$ans"
