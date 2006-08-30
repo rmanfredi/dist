@@ -24,8 +24,8 @@
 ?S:.
 ?C:HAS_POLL :
 ?C:	This symbol, if defined, indicates that the poll routine is
-?C:	available to poll active file descriptors. You may safely
-?C:	include <poll.h> when this symbol is defined.
+?C:	available to poll active file descriptors.  Please check I_POLL and
+?C:	I_SYS_POLL to know which header should be included as well.
 ?C:.
 ?H:#$d_poll HAS_POLL		/**/
 ?H:.

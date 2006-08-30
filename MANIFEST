@@ -405,6 +405,7 @@ mcon/U/i_memory.U          Shall we include <memory.h>?
 mcon/U/i_ndbm.U            Shall we include <ndbm.h>?
 mcon/U/i_neterrno.U        Shall we include <net/errno.h>?
 mcon/U/i_niin.U            Shall we include <netinet/in.h>?
+mcon/U/i_poll.U            Shall we include <poll.h>?
 mcon/U/i_pwd.U             Shall we include <pwd.h>?
 mcon/U/i_regex.U           Shall we include <regex.h>?
 mcon/U/i_sfio.U            Shall we include <sfio.h>?
@@ -417,6 +418,7 @@ mcon/U/i_sysioctl.U        Include <sys/ioctl.h> or <sgtty.h>?
 mcon/U/i_sysmman.U         Do we have to include <sys/mman.h>?
 mcon/U/i_sysndir.U         Shall we include <sys/ndir.h>?
 mcon/U/i_sysparam.U        Shall we include <sys/param.h>?
+mcon/U/i_syspoll.U         Shall we include <sys/poll.h>?
 mcon/U/i_sysresrc.U        Shall we include <sys/resource.h>?
 mcon/U/i_sysselct.U        Shall we include <sys/select.h>?
 mcon/U/i_syssock.U         Shall we include <sys/socket.h>?
