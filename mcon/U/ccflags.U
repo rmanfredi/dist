@@ -150,8 +150,8 @@ default|recommended)
 ?X: turn warnings on if they're using gcc
 	case "$gccversion" in
 	1*|2*) dflt="$dflt -Wall";;
-?X: starting with version 3, add "-W -Wall -Wformat=2" by default
-	*) dflt="$dflt -W -Wall -Wformat=2";;
+?X: starting with version 3, add "-W -Wall -Wformat=2 -Wshadow" by default
+	*) dflt="$dflt -W -Wall -Wformat=2 -Wshadow";;
 	esac
 	;;
 esac
