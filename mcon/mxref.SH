@@ -74,7 +74,7 @@ if ($opt_V) {
 	&usage;
 }
 
-$NEWMANI = $opt_f || 'MANIFEST.new';
+$NEWMANI = $opt_f || (-f 'MANIFEST.new' ? 'MANIFEST.new' : 'MANIFEST');
 
 &init;									# Various initializations
 `mkdir .MT 2>&1` unless -d '.MT';		# For private temporary files
