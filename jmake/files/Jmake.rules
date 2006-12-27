@@ -376,12 +376,36 @@ local_deinstall::					@@\
 
 
 /*
+ * InstallProgramNoStripWithFlags:
+ *	Generate rules to install an executable program using given
+ *	install flags.
+ */
+#define InstallProgramNoStripWithFlags(program,dest,flags)	@!\
+local_install:: program				@@\
+	_MakeInstallDirIgnore(dest) \	@@\
+	$(INSTALL) -c -m 555 flags program^^^$(_EXE) $(INSTALL_PREFIX)^^^dest @!\
+									@!\
+local_deinstall::					@@\
+	$(RM) $(INSTALL_PREFIX)^^^dest/program^^^$(_EXE)
+
+
+/*
  * InstallProgram:
  *	Generate rules to install an executable program using any special
  *	install flags set in $(INSTALLFLAGS).
  */
 #define	InstallProgram(program,dest)	@!\
 InstallProgramWithFlags(program,dest,^^)
+
+
+/*
+ * InstallProgramNoStrip:
+ *	Generate rules to install an executable program using any special
+ *	install flags set in $(INSTALLFLAGS), but without stripping the
+ *	executable from debugging symbols.
+ */
+#define	InstallProgramNoStrip(program,dest)	@!\
+InstallProgramNoStripWithFlags(program,dest,^^)
 
 
 /*
