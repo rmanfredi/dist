@@ -43,7 +43,7 @@ $startperl
 # This program is meant to be called from jmake. All it does is pre-process
 # the file it is given as argument, focusing on #include directives and
 # resolving them as cpp would (but without the #line stuff since we don't
-# really care about it), escaping all the trailing \ into '\ ^M'. The resulting
+# really care about it), escaping all the trailing \ into '\ ^A'. The resulting
 # temporary file is then handed off to the real cpp for macro processing, and
 # the output is printed on stdout, after restoration of any original trailing \.
 # Again, thanks HP-UX for making this so challenging and exciting... :-)
@@ -135,7 +135,7 @@ sub escape {
 	# Don't escape trailing backslashes in macro definition or cpp
 	# won't see them as macro continuation any longer, and also within
 	# macro definitions, all those @@ or @! continuations...
-	s/\\$/\\ \015/ unless /\@[!@]\\$/ || /^#define/;
+	s/\\$/\\ \001/ unless /\@[!@]\\$/ || /^#define/;
 }
 
 # Append file to given (opened) file descriptor
@@ -172,7 +172,7 @@ sub cpp {
 	local($file) = @_;
 	open(CPP, "$cpp $cpp_opt $file |") || die "Can't fork: $!\n";
 	while (<CPP>) {
-		s/\\ \015$/\\/;				# Un-escape trailing \
+		s/\\ \001$/\\/;				# Un-escape trailing \
 		print STDOUT;
 	}
 	close CPP;
