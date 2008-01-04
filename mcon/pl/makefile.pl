@@ -90,15 +90,13 @@ sub build_private {
 	print MAKEFILE "SHELL = /bin/sh\n";
 	print MAKEFILE "W = $wanted\n";
 	$saved_dependencies = $dependencies;
-	$* = 1;
 	foreach $sym (@Cond) {
 		if ($symwanted{$sym}) {
-			$dependencies =~ s/\+($sym\s)/$1/g;
+			$dependencies =~ s/\+($sym\s)/$1/gm;
 		} else {
-			$dependencies =~ s/\+$sym(\s)/$1/g;
+			$dependencies =~ s/\+$sym(\s)/$1/gm;
 		}
 	}
-	$* = 0;
 	print MAKEFILE $dependencies;
 	close MAKEFILE;
 }
@@ -161,15 +159,13 @@ sub update_makefile {
 	open(MAKEFILE,">Makefile") || die "Can't create .MT/Makefile.\n";
 	print MAKEFILE "SHELL = /bin/sh\n";
 	print MAKEFILE "W = $wanted\n";
-	$* = 1;
 	foreach $sym (@Cond) {
 		if ($symwanted{$sym}) {
-			$saved_dependencies =~ s/\+($sym\s)/$1/g;
+			$saved_dependencies =~ s/\+($sym\s)/$1/gm;
 		} else {
-			$saved_dependencies =~ s/\+$sym(\s)/$1/g;
+			$saved_dependencies =~ s/\+$sym(\s)/$1/gm;
 		}
 	}
-	$* = 0;
 	print MAKEFILE $saved_dependencies;
 	close MAKEFILE;
 }

@@ -273,8 +273,7 @@ if (@Data > 0) {
 :		unless seek(main'DATA, $pos, 0);
 :	local($/) = "\n}";
 :	local($body) = scalar(<main'DATA>);
-:	local($*) = 1;
-:	die "End of file found while loading $_[0].\n" unless $body =~ /^\}$/;
+:	die "End of file found while loading $_[0].\n" unless $body =~ /^\}$/m;
 EOC
 	if ($opt_t) {
 		print &q(<<'EOC');
@@ -462,8 +461,7 @@ sub flush_comment {
 
 sub q {
 	local($_) = @_;
-	local($*) = 1;
-	s/^://g;
+	s/^://gm;
 	$_;
 }
 

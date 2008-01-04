@@ -107,15 +107,13 @@ if ($#ARGV > 0) {
 		$mf .= $_ if /^[a-z.]+\s*:/;	# Rules in makefile
 	}
 }
-$* = 1;
 $after = '';
 $after .= "\t\tConfigure -ders\n" if -f 'Configure';
-$after .= "\t\tmake depend\n" if $mf =~ /^depend:/;
+$after .= "\t\tmake depend\n" if $mf =~ /^depend:/m;
 $after .= "\t\tmake\n" if $mf;
-$after .= "\t\tmake test\n" if $mf =~ /^test:/;
-$after .= "\t\tmake install\n" if $mf =~ /^install:/;
-$after .= "\t\tmake install.man\n" if $mf =~ /^install\.man:/;
-$* = 0;
+$after .= "\t\tmake test\n" if $mf =~ /^test:/m;
+$after .= "\t\tmake install\n" if $mf =~ /^install:/m;
+$after .= "\t\tmake install.man\n" if $mf =~ /^install\.man:/m;
 
 chdir 'bugs' if -d 'bugs';
 die "$progname: patch #$bnum already exists.\n" if -f "patch$bnum";

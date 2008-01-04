@@ -143,13 +143,11 @@ while (<CPP>) {
 	s/@!\s?/\n/g;
 	s/@@\s?/\n\t/g;
 
-	$* = 1;
 	# A '\r' is added to all lines, in order to let 'split' keep them
 	# As lines ending with '\' won't fit in the next regular
 	# expression (why ?), we have to treat that special case separately
-	s/\n$/\r\n/g;
-	s/\\\s*$/\\\r/g;	# Remove spaces after final '\' and add '\r'
-	$* = 0;
+	s/\n$/\r\n/gm;
+	s/\\\s*$/\\\r/gm;	# Remove spaces after final '\' and add '\r'
 	@macro = split(/\n/);
 	for ($i = 0; $i <= $#macro; $i++) {
 		chop($_ = $macro[$i]);				# Remove final '\r'

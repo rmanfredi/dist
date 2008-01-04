@@ -103,12 +103,10 @@ if (-s ".logs$bnum") {
 		}
 	}
 	close LOGS;
-	$* = 1;
 	$subj = $logs;
-	$logs =~ s/^patch\d+:\s*/\t/g;
-	$logs =~ s/\n/\n\n/g;
-	$subj =~ s/^patch\d+:\s*/Subject: /g;
-	$* = 0;
+	$logs =~ s/^patch\d+:\s*/\t/gm;
+	$logs =~ s/\n/\n\n/gm;
+	$subj =~ s/^patch\d+:\s*/Subject: /gm;
 } else {
 	$subj = "Subject: \n";
 }

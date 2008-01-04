@@ -47,26 +47,22 @@ sub cosmetic_update {
 	$/ = "\n";
 	close NEWMANI;
 
-	$* = 1;					# Multi-line matching
-
-	&mani_add('Configure', 'Portability tool', $spaces) unless /^Configure\b/;
+	&mani_add('Configure', 'Portability tool', $spaces) unless /^Configure\b/m;
 	&mani_add('config_h.SH', 'Produces config.h', $spaces)
-		unless /^config_h\.SH\b/ || !-f 'config_h.SH';
+		unless /^config_h\.SH\b/m || !-f 'config_h.SH';
 	&mani_add('confmagic.h', 'Magic symbol remapping', $spaces)
-		if $opt_M && !/^confmagic\.h\b/;
+		if $opt_M && !/^confmagic\.h\b/m;
 
-	&mani_remove('config_h.SH') if /^config_h\.SH\b/ && !-f 'config_h.SH';
-	&mani_remove('confmagic.h') if /^confmagic.h\b/ && !$opt_M;
+	&mani_remove('config_h.SH') if /^config_h\.SH\b/m && !-f 'config_h.SH';
+	&mani_remove('confmagic.h') if /^confmagic.h\b/m && !$opt_M;
 
 	if ($opt_G) {			# Want a GNU-like configure wrapper
 		&add_configure;
 		&mani_add('configure', 'GNU configure-like wrapper', $spaces)
-			if !/^configure\s/ && -f 'configure';
+			if !/^configure\s/m && -f 'configure';
 	} else {
-		&mani_remove('configure') if /^configure\s/ && !-f 'configure';
+		&mani_remove('configure') if /^configure\s/m && !-f 'configure';
 	}
-
-	$* = 0;
 }
 
 # Add file to MANIFEST.new, with properly indented comment
