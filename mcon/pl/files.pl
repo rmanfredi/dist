@@ -102,8 +102,7 @@ EOF
 # Remove ':' quotations in front of the lines
 sub q {
 	local($_) = @_;
-	local($*) = 1;
-	s/^://g;
+	s/^://gm;
 	$_;
 }
 
