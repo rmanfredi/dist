@@ -115,6 +115,7 @@ sub init_extraction {
 		MAINTLOC
 		VERSION
 		PATCHLEVEL
+		REVISION
 		DATE
 		BASEREV
 	);

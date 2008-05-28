@@ -1455,7 +1455,11 @@ your \fI.package\fR.
 The name of the package, as derived from your \fI.package\fR file.
 .TP
 <PATCHLEVEL>
-The patch level of the \fImetaconfig\fR program.
+The patch level of the \fImetaconfig\fR program (deprecated in favor
+of <REVISION>).
+.TP
+<REVISION>
+The SVN revision level of the \fImetaconfig\fR program.
 .TP
 <VERSION>
 The version number of the \fImetaconfig\fR program.

@@ -15,15 +15,20 @@
 ?RCS: Revision 3.0  1993/08/18  12:09:31  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:patchlevel: package baserev test rsrc
+?MAKE:patchlevel revision: package baserev test rsrc
 ?MAKE:	-pick add $@ %<
 ?S:patchlevel:
 ?S:	The patchlevel level of this package.
 ?S:	The value of patchlevel comes from the patchlevel.h file.
 ?S:.
-: get the patchlevel
+?S:revision:
+?S:	The revision / build of this package.
+?S:	The value is derived from the REVISION define in the revision.h file.
+?S: When revision is defined, the patch level should be ignored if 0.
+?S:.
+: get the patchlevel / revision
 echo " "
-echo "Getting the current patchlevel..." >&4
+echo "Getting the current patchlevel / revision..." >&4
 if $test -r $rsrc/patchlevel.h;then
 	patchlevel=`awk \
 		'/^#[ 	]*define[ 	][ 	]*PATCHLEVEL/ {print $3}' \
@@ -31,5 +36,20 @@ if $test -r $rsrc/patchlevel.h;then
 else
 	patchlevel=0
 fi
-echo "(You have $package $baserev PL$patchlevel.)"
+if $test -r $rsrc/revision.h;then
+	revision=`awk \
+		'/^#[ 	]*define[ 	][ 	]*REVISION/ {print $3}' \
+		< $rsrc/revision.h`
+else
+	revision=0
+fi
+case "$revision" in
+0) echo "(You have $package $baserev PL$patchlevel.)" ;;
+*)
+	case "$patchlevel" in
+	0) echo "(You have $package $baserev-$revision)";;
+	*) echo "(You have $package $baserev-$revision PL$patchlevel)";;
+	esac
+	;;
+esac
 

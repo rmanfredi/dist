@@ -1,4 +1,4 @@
-: Makefile.SH generated from Jmake.tmpl and Jmakefile [jmake 3.5 PL0]
+: Makefile.SH generated from Jmake.tmpl and Jmakefile [jmake 3.5-17]
 : $X-Id: Jmake.tmpl 8 2006-08-25 22:27:18Z rmanfredi $
 
 case $CONFIG in
@@ -56,7 +56,7 @@ SUBDIRS = bin mcon jmake pat kit lib
 $spitshell >>Makefile <<'!NO!SUBS!'
 ########################################################################
 # Jmake rules for building libraries, programs, scripts, and data files
-# $X-Id: Jmake.rules 8 2006-08-25 22:27:18Z rmanfredi $
+# $X-Id: Jmake.rules 18 2006-12-27 10:35:09Z rmanfredi $
 
 ########################################################################
 # Start of Jmakefile
@@ -103,6 +103,13 @@ local_install.man:: dist.man
 
 local_deinstall.man::
 	$(RM) $(INSTALL_PREFIX)$(MANSRC)/dist.$(L)
+
+all:: revision.h
+
+.FORCE:
+
+revision.h: .FORCE
+	$(TOP)/bin/svn-revision $(TOP) $@
 
 ########################################################################
 # Common rules for all Makefiles -- do not edit

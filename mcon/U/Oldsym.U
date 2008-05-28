@@ -28,6 +28,8 @@
 : add special variables
 $test -f $src/patchlevel.h && \
 awk '/^#define/ {printf "%s=%s\n",$2,$3}' $src/patchlevel.h >>config.sh
+$test -f $src/revision.h && \
+awk '/^#define/ {printf "%s=%s\n",$2,$3}' $src/revision.h >>config.sh
 echo "CONFIG=true" >>config.sh
 
 : propagate old symbols

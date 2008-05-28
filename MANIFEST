@@ -18,6 +18,7 @@ bin/manilist.man           Manual page for manilist
 bin/packinit.SH            Creates a .package file describing your package
 bin/packinit.man           Manual page for packinit
 bin/perload                Build dynamically loaded perl scripts
+bin/svn-revision           Updates the top "revision.h" file if needed
 dist.man                   Introduction to dist
 install.SH                 Installation script with a BSD-like syntax
 jmake/                     Where makefile generator is stored
@@ -612,3 +613,4 @@ pl/rcsargs.pl              Perl library to expand rcs filename lists
 pl/snapshot.pl             Perl library to parse RCS snapshot file
 pl/tilde.pl                Perl library to perform ~name expansion
 pl/users.pl                Perl library to parse users file
+revision.h                 The current SVN revision number for dist

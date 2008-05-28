@@ -51,6 +51,7 @@ $startperl
 \$MC = '$privlib';
 \$version = '$VERSION';
 \$patchlevel = '$PATCHLEVEL';
+\$revision = '$REVISION';
 \$grep = '$grep';
 !GROK!THIS!
 
@@ -60,7 +61,7 @@ require 'getopts.pl';
 &usage unless &Getopts("hklVL:");
 
 if ($opt_V) {
-	print STDERR "metalint $version PL$patchlevel\n";
+	print STDERR "metalint $version-$revision\n";
 	exit 0;
 } elsif ($opt_h) {
 	&usage;

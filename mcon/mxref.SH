@@ -51,6 +51,7 @@ $startperl
 \$MC = '$privlib';
 \$version = '$VERSION';
 \$patchlevel = '$PATCHLEVEL';
+\$revision = '$REVISION';
 \$grep = '$grep';
 !GROK!THIS!
 
@@ -68,7 +69,7 @@ chop($MC = `pwd`);				# Real metaxref lib path (no symbolic links)
 chdir $WD || die "Can't chdir back to $WD: $!\n";
 
 if ($opt_V) {
-	print STDERR "metaxref $version PL$patchlevel\n";
+	print STDERR "metaxref $version-$revision\n";
 	exit 0;
 } elsif ($opt_h) {
 	&usage;

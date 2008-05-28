@@ -71,6 +71,7 @@ $startperl
 \$cpp = '$cpp';
 \$version = '$VERSION';
 \$patchlevel = '$PATCHLEVEL';
+\$revision = '$REVISION';
 !GROK!THIS!
 $spitshell >>jmake <<'!NO!SUBS!'
 
@@ -305,7 +306,7 @@ line: for ($i = 0; $i <= $#makefile; $i++) {
 
 	# Process regular line to be generated in Makefile.SH
 
-	s/<TAG>/[jmake $version PL$patchlevel]/;
+	s/<TAG>/[jmake $version-$revision]/;
 
 	# Lines starting with ?SYMBOL: (resp. %SYMBOL:) are to be processed
 	# only if SYMBOL is defined (resp. undefined).

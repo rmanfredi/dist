@@ -31,3 +31,9 @@ AddedByConfigure(install)
 
 InstallManPage(dist,$(MANSRC))
 
+all:: revision.h
+
+.FORCE:
+
+revision.h: .FORCE
+	$(TOP)/bin/svn-revision $(TOP) $@

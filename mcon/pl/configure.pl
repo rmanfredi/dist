@@ -110,7 +110,9 @@ sub process_command {
 			s/<PACKAGENAME>/$package/g;
 			s/<MAINTLOC>/$maintloc/g;
 			s/<VERSION>/$version/g;			# This is metaconfig's version
-			s/<PATCHLEVEL>/$patchlevel/g;	# And patchlevel information
+			s/<REVISION>/$revision/g;		# And revision information
+			warn "\"$file\": usage of <PATCHLEVEL> is deprecated\n"
+				if s/<PATCHLEVEL>/$patchlevel/g;
 			s/<DATE>/$date/g;
 			s/<BASEREV>/$baserev/g;
 			s/<\$(\w+)>/eval("\$$1")/ge;	# <$var> -> $var substitution

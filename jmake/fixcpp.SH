@@ -55,6 +55,7 @@ $startperl
 \$cpp = '$cpp_trad';
 \$version = '$VERSION';
 \$patchlevel = '$PATCHLEVEL';
+\$revision = '$REVISION';
 !GROK!THIS!
 $spitshell >>fixcpp <<'!NO!SUBS!'
 

@@ -58,6 +58,7 @@ $startperl
 \$MC = '$privlib';
 \$version = '$VERSION';
 \$patchlevel = '$PATCHLEVEL';
+\$revision = '$REVISION';
 \$grep = '$grep';
 !GROK!THIS!
 
@@ -78,7 +79,7 @@ chdir $WD || die "Can't chdir back to $WD: $!\n";
 ++$opt_M if -f 'confmagic.h';	# Force -M if confmagic.h already there
 
 if ($opt_V) {
-	print STDERR "metaconfig $version PL$patchlevel\n";
+	print STDERR "metaconfig $version-$revision\n";
 	exit 0;
 } elsif ($opt_h) {
 	&usage;
