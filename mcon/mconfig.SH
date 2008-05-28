@@ -17,7 +17,7 @@ esac
 echo "Extracting mcon/mconfig (with variable substitutions)"
 cat >mconfig <<!GROK!THIS!
 $startperl
-	eval "exec perl -S \$0 \$*"
+	eval 'exec perl -S \$0 \${1+"\$@"}'
 		if \$running_under_some_shell;
 
 # $Id$
