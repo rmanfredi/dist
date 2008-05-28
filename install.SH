@@ -55,6 +55,8 @@ newdir=""
 uid=""
 gid=""
 
+CDPATH=""
+
 # simulates mkdir -p
 mkdir_p='
 name=$1;
