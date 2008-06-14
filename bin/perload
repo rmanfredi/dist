@@ -117,6 +117,8 @@ while (<>) {
 			$fn_package = $current_package;
 			$fn_basename = $function;
 		}
+		die "line $.: duplicate routine ${fn_package}::$fn_basename\n"
+			if $Seen{"${fn_package}::$fn_basename"}++;
 		# Keep leading function comment
 		foreach (@Comment) {
 			push(@Data, $_) unless $autoload;
