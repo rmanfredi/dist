@@ -61,7 +61,7 @@ $spitshell >>Makefile <<'!NO!SUBS!'
 ########################################################################
 # Start of Jmakefile
 
-# $X-Id: Jmakefile 9 2006-08-25 22:31:50Z rmanfredi $
+# $X-Id: Jmakefile 25 2008-05-28 11:19:25Z rmanfredi $
 #
 #  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
 #
