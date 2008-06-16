@@ -11,7 +11,7 @@
 ?RCS: Copyright (c) 2000, Jarkko Hietaniemi
 ?RCS: 
 ?MAKE:gccversion gccosandvers: cat cpp rm +cc \
-	Myread Guess Options Oldconfig Loc osname osvers grep run ccname
+	Myread Guess Options Oldconfig Loc osname osvers grep ccname
 ?MAKE:	-pick add $@ %<
 ?S:gccversion:
 ?S:	If GNU cc (gcc) is used, this variable holds '1' or '3' (for instance)
@@ -31,20 +31,21 @@
 echo " "
 echo "Checking for GNU cc in disguise and/or its version number..." >&4
 $cat >try.c <<EOM
-#include <stdio.h>
-int main() {
+int main(void) {
 #ifdef __GNUC__
-#ifdef __VERSION__
-	printf("%s\n", __VERSION__);
-#else
-	printf("%s\n", "1");
+gcc_version_major __GNUC__
+#ifdef __GNUC_MINOR__
+gcc_version_minor __GNUC__
+#endif
+#ifdef __GNUC_PATCHLEVEL__
+gcc_version_patchlevel __GNUC_PATCHLEVEL__
 #endif
 #endif
-	exit(0);
 }
 EOM
-if $cc -o try $ccflags $ldflags try.c >/dev/null 2>&1; then
-	gccversion=`$run ./try`
+if $cc -E try.c > try 2>&1
+then
+	gccversion=`sed -n 's/^gcc_version_major[^0-9]*//p' try`
 	case "$gccversion" in
 	'') echo "You are not using GNU cc." ;;
 	*)  echo "You are using GNU cc $gccversion."
@@ -52,16 +53,7 @@ if $cc -o try $ccflags $ldflags try.c >/dev/null 2>&1; then
 	    ;;
 	esac
 else
-	echo " "
-	echo "*** WHOA THERE!!! ***" >&4
-	echo "    Your C compiler \"$cc\" doesn't seem to be working!" >&4
-?X: using -K will prevent aborting--maybe they're cross compiling?
-	case "$knowitall" in
-	'')
-	echo "    You'd better start hunting for one and let me know about it." >&4
-		exit 1
-		;;
-	esac
+	gccversion=''
 fi
 $rm -f try try.*
 case "$gccversion" in
