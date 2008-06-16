@@ -197,7 +197,7 @@ else
 fi
 
 case "$hint" in
-default|recommended) dflt="$ccflags $dflt" ;;
+default|recommended) dflt="$dflt $ccflags" ;;
 *) dflt="$ccflags";;
 esac
 
