@@ -135,10 +135,14 @@ $spitshell >>Makefile <<'!NO!SUBS!'
 %MKDEP:|skip		/* Skip if no depend target */
 ;########################################################################
 ;# Force 'make depend' to be performed first -- do not edit
+/*
+ * The "all" target must appear first.  Some "make" programs will otherwise
+ * default to the .FORCE_DEPEND target if it was listed first, despite it
+ * starting with a leading dot.
+ */
+all:: .FORCE_DEPEND
 
 .FORCE_DEPEND::
-
-all:: .FORCE_DEPEND
 
 -skip				/* Depend target */
 ;########################################################################
