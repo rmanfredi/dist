@@ -478,9 +478,9 @@ sub q {
 .nr % 0		\" start at page 1
 '; __END__	\" the perl compiler stops here
 
-'''
-''' From here on it's a standard manual page.
-'''
+.\"
+.\" From here on it's a standard manual page.
+.\"
 
 .TH PERLOAD 1 "June 20, 1992"
 .AT 3

@@ -18,88 +18,88 @@ echo "Extracting mcon/man/metaconfig.$manext (with variable substitutions)"
 $rm -f metaconfig.$manext
 $spitshell >metaconfig.$manext <<!GROK!THIS!
 .TH METACONFIG $manext "Version $VERSION PL$PATCHLEVEL"
-''' @(#) Manual page for metaconfig
-'''
-''' $Id$
-'''
-'''  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
-'''  
-'''  You may redistribute only under the terms of the Artistic Licence,
-'''  as specified in the README file that comes with the distribution.
-'''  You may reuse parts of this distribution only within the terms of
-'''  that same Artistic Licence; a copy of which may be found at the root
-'''  of the source tree for dist 4.0.
-'''
-''' $Log: mconfig.SH,v $
-''' Revision 3.0.1.17  1997/02/28  16:29:31  ram
-''' patch61: documents the runnning environment and the src.U unit
-''' patch61: added warnings for $_a and $_o, as well as "startsh"
-'''
-''' Revision 3.0.1.16  1995/09/25  09:17:48  ram
-''' patch59: documented new ?Y: directive
-''' patch59: fixed my e-mail address
-'''
-''' Revision 3.0.1.15  1995/07/25  14:18:24  ram
-''' patch56: added extra nroff escapes at line heads to keep leading dots
-''' patch56: documented new -G option
-''' patch56: extended description of the Csym.U unit
-''' patch56: now mentions what a compile-link test line should look like
-'''
-''' Revision 3.0.1.14  1995/05/12  12:25:02  ram
-''' patch54: documented new -K switch for knowledgeable users
-'''
-''' Revision 3.0.1.13  1995/01/30  14:46:39  ram
-''' patch49: documented new special units Prefixit.U and Prefixup.U
-'''
-''' Revision 3.0.1.12  1995/01/11  15:39:16  ram
-''' patch45: documents new -O option and new Getfile escape supports
-''' patch45: documents the & escape in Myread and the new cc symbol lookup
-'''
-''' Revision 3.0.1.11  1994/10/29  16:32:38  ram
-''' patch36: added nroff protection for lines beginning with '.'
-''' patch36: documents new ?F: line for file declarations
-''' patch36: added example showing how ./loc can be used
-'''
-''' Revision 3.0.1.10  1994/08/29  16:33:40  ram
-''' patch32: documented new Typedef.U unit for typedef lookup
-'''
-''' Revision 3.0.1.9  1994/06/20  07:10:14  ram
-''' patch30: added -L option for easier unit testing
-''' patch30: new -D and -U options supported by Configure
-'''
-''' Revision 3.0.1.8  1994/05/13  15:29:16  ram
-''' patch27: now understands macro definitions in ?H: lines
-'''
-''' Revision 3.0.1.7  1994/05/06  15:19:25  ram
-''' patch23: documented the new 'p' option in Getfile.U
-'''
-''' Revision 3.0.1.6  1994/01/24  14:19:47  ram
-''' patch16: symbols defined in a unit can be tagged "internal use only"
-''' patch16: documents new MailList.U special unit
-''' patch16: new general <\$variable> macro substitution
-'''
-''' Revision 3.0.1.5  1993/10/16  13:51:50  ram
-''' patch12: new option -M to activate ?M: lines
-''' patch12: documents new ?M: lines format
-''' patch12: new internal Makefile command cm_h_weed for ?M: support
-''' patch12: documents usage for new confmagic.h file
-'''
-''' Revision 3.0.1.4  1993/09/09  11:50:35  ram
-''' patch9: lots of typo fixes and abusive variable substitution problems
-'''
-''' Revision 3.0.1.3  1993/08/30  08:53:51  ram
-''' patch8: wrongly stated that patchlevel.h should not be part of MANIFEST.new
-'''
-''' Revision 3.0.1.2  1993/08/24  12:13:32  ram
-''' patch3: typo fixes
-'''
-''' Revision 3.0.1.1  1993/08/19  06:42:23  ram
-''' patch1: leading config.sh searching was not aborting properly
-'''
-''' Revision 3.0  1993/08/18  12:10:14  ram
-''' Baseline for dist 3.0 netwide release.
-'''
-'''
+.\" @(#) Manual page for metaconfig
+.\"
+.\" $Id$
+.\"
+.\"  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
+.\"  
+.\"  You may redistribute only under the terms of the Artistic Licence,
+.\"  as specified in the README file that comes with the distribution.
+.\"  You may reuse parts of this distribution only within the terms of
+.\"  that same Artistic Licence; a copy of which may be found at the root
+.\"  of the source tree for dist 4.0.
+.\"
+.\" $Log: mconfig.SH,v $
+.\" Revision 3.0.1.17  1997/02/28  16:29:31  ram
+.\" patch61: documents the runnning environment and the src.U unit
+.\" patch61: added warnings for $_a and $_o, as well as "startsh"
+.\"
+.\" Revision 3.0.1.16  1995/09/25  09:17:48  ram
+.\" patch59: documented new ?Y: directive
+.\" patch59: fixed my e-mail address
+.\"
+.\" Revision 3.0.1.15  1995/07/25  14:18:24  ram
+.\" patch56: added extra nroff escapes at line heads to keep leading dots
+.\" patch56: documented new -G option
+.\" patch56: extended description of the Csym.U unit
+.\" patch56: now mentions what a compile-link test line should look like
+.\"
+.\" Revision 3.0.1.14  1995/05/12  12:25:02  ram
+.\" patch54: documented new -K switch for knowledgeable users
+.\"
+.\" Revision 3.0.1.13  1995/01/30  14:46:39  ram
+.\" patch49: documented new special units Prefixit.U and Prefixup.U
+.\"
+.\" Revision 3.0.1.12  1995/01/11  15:39:16  ram
+.\" patch45: documents new -O option and new Getfile escape supports
+.\" patch45: documents the & escape in Myread and the new cc symbol lookup
+.\"
+.\" Revision 3.0.1.11  1994/10/29  16:32:38  ram
+.\" patch36: added nroff protection for lines beginning with '.'
+.\" patch36: documents new ?F: line for file declarations
+.\" patch36: added example showing how ./loc can be used
+.\"
+.\" Revision 3.0.1.10  1994/08/29  16:33:40  ram
+.\" patch32: documented new Typedef.U unit for typedef lookup
+.\"
+.\" Revision 3.0.1.9  1994/06/20  07:10:14  ram
+.\" patch30: added -L option for easier unit testing
+.\" patch30: new -D and -U options supported by Configure
+.\"
+.\" Revision 3.0.1.8  1994/05/13  15:29:16  ram
+.\" patch27: now understands macro definitions in ?H: lines
+.\"
+.\" Revision 3.0.1.7  1994/05/06  15:19:25  ram
+.\" patch23: documented the new 'p' option in Getfile.U
+.\"
+.\" Revision 3.0.1.6  1994/01/24  14:19:47  ram
+.\" patch16: symbols defined in a unit can be tagged "internal use only"
+.\" patch16: documents new MailList.U special unit
+.\" patch16: new general <\$variable> macro substitution
+.\"
+.\" Revision 3.0.1.5  1993/10/16  13:51:50  ram
+.\" patch12: new option -M to activate ?M: lines
+.\" patch12: documents new ?M: lines format
+.\" patch12: new internal Makefile command cm_h_weed for ?M: support
+.\" patch12: documents usage for new confmagic.h file
+.\"
+.\" Revision 3.0.1.4  1993/09/09  11:50:35  ram
+.\" patch9: lots of typo fixes and abusive variable substitution problems
+.\"
+.\" Revision 3.0.1.3  1993/08/30  08:53:51  ram
+.\" patch8: wrongly stated that patchlevel.h should not be part of MANIFEST.new
+.\"
+.\" Revision 3.0.1.2  1993/08/24  12:13:32  ram
+.\" patch3: typo fixes
+.\"
+.\" Revision 3.0.1.1  1993/08/19  06:42:23  ram
+.\" patch1: leading config.sh searching was not aborting properly
+.\"
+.\" Revision 3.0  1993/08/18  12:10:14  ram
+.\" Baseline for dist 3.0 netwide release.
+.\"
+.\"
 .de Ex		\" Start of Example
 .sp
 .in +5
@@ -459,9 +459,9 @@ UU/*
 config.sh
 config.h
 .Ef
-'''
-''' O p t i o n s
-'''
+.\"
+.\" O p t i o n s
+.\"
 .SH OPTIONS
 The following options are recognized by \fImetaconfig\fR:
 .TP 15
@@ -541,14 +541,14 @@ The \fIfile\fR can contain blank lines, comment lines introduced with '#', and
 lines containing a single symbol.
 If this option is not supplied, any \fI$exclusions_file\fR variable in
 \fI.package\fR is honored instead.
-'''
-''' T u t o r i a l
-'''
+.\"
+.\" T u t o r i a l
+.\"
 .SH TUTORIAL
 This (long) section is an introduction to \fImetaconfig\fR, in which we will
 learn all the basics. If you already know how to use \fImetaconfig\fR, you
 may safely skip to the next section.
-'''
+.\"
 .SS Overview
 .PP
 Usually when you want to get some source package to compile on a given
@@ -601,7 +601,7 @@ unit being responsible for defining a small number of shell and/or C
 symbols. Units are assembled together at the final stage, honoring
 the dependency graph (one unit may need the result of several other
 units which are then placed before in the script).
-'''
+.\"
 .SS Symbols
 .PP
 Symbols are the most important thing in the \fImetaconfig\fR world. They
@@ -626,7 +626,7 @@ paragraph could sound. In a C file, you need to include the Configure-produced
 \fIconfig.h\fR file, and you must wrap your shell script or Makefile in a .SH
 file and you may reference the shell symbol only in the variable
 substitution part of that .SH file. More on this later.
-'''
+.\"
 .SS Source Files
 .PP
 Symbols may only appear in a limited set of source files, because
@@ -644,7 +644,7 @@ substitutions apply. Actually, \fIconfig.h\fR is produced by running the
 \fImetaconfig\fR-produced \fIconfig_h.SH\fR file, again using variable
 substitution. So we're going to look at that a little more closely since
 this is the heart of the whole \fIconfiguration\fR scheme...
-'''
+.\"
 .SS Variable Substitution
 .PP
 There is shell construct called \fIhere document\fR which enables a
@@ -685,7 +685,7 @@ echo \$\&tar
 .Ef
 The first here document has its content interpreted whilst the second
 one is output as-is. Both are useful in a .SH script, as we are about to see.
-'''
+.\"
 .SS Using .SH Scripts
 .PP
 A .SH script is usually produced by running the \fIMakeSH\fR script other
@@ -824,7 +824,7 @@ stored as a 64 bits quantity, \fIconfig.sh\fR will set \fIintsize\fR to
 On this machine, the int type is 8 bytes
 .Ef
 which is correct. Congratulations! We have just configured a shell script!!
-'''
+.\"
 .SS Producing config.h
 .PP
 We can now have a look at the way \fIconfig.h\fR is produced out of
@@ -978,7 +978,7 @@ configured C code, since \fImetaconfig\fR will know that you need
 those symbols and will generate a suitable \fIconfig_h.SH\fR file as
 well as all the necessary code in \fIConfigure\fR to compute a
 proper value for them (by assigning values to associated shell variables).
-'''
+.\"
 .SS Running Metaconfig
 .PP
 Let's focus on the \fImetaconfig\fR program for a while to understand how
@@ -1039,7 +1039,7 @@ required are removed and a second Makefile is generated. This time, we know
 about all the units and their respective orders, optional units having been
 removed and default values computed for their shell symbols. The \fIConfigure\fR
 script can then be generated, along with \fIconfig_h.SH\fR. We're done.
-'''
+.\"
 .SS Conventions
 .PP
 Proper conventions needs to be followed to make the whole process sound.
@@ -1069,7 +1069,7 @@ answer in \fI\$dflt\fR and places the user answer in \fI\$ans\fR. This is
 not documented in this manual page: you have to go and look at the unit
 itself to understand which variables are used and how the unit is to be
 used.
-'''
+.\"
 .SS Using The Glossary
 .PP
 The Glossary file is automatically produced by the \fImakegloss\fR script,
@@ -1084,7 +1084,7 @@ about \fImetaconfig\fR to do so quickly and efficiently. However, never
 forget to properly document your work in the ?S: and ?C: lines, or other
 people will not be able to reuse it. Remember about the time where you
 had only the Glossary and this manual page to get started.
-'''
+.\"
 .SS Conclusion
 .PP
 Now that you know the \fImetaconfig\fR basics, you should read the
@@ -1095,7 +1095,7 @@ commands you are allowed to use.
 .SH REFERENCE
 This section documents the internals of \fImetaconfig\fR, basically the
 unit syntax, the special units you should know about and the hint files.
-'''
+.\"
 .SS General Unit Syntax
 .PP
 A metaconfig unit is divided into two distinct parts. The header section
@@ -1303,7 +1303,7 @@ hints that can be used.
 ?INIT:\fIinitialization code\fR
 The initialization code specified by this line will be loaded at the top
 of the \fIConfigure\fR script provided the unit is needed.
-'''
+.\"
 .SS C Symbol Aliasing
 .PP
 Sometimes it is not possible to rely on \fImetaconfig\fR's own default
@@ -1383,7 +1383,7 @@ It simply tries to compile a sample C program using the \fIconst\fR keyword.
 If it can, then it will define \fI\$\&d_const\fR via the \fI\$\&setvar\fR
 fonction (defined by the \fISetvar.U\fR unit). See the paragraph about
 special units for more details.
-'''
+.\"
 .SS Make Commands
 .PP
 On the ?MAKE: command line, you may write a shell command to be executed as-is
@@ -1448,7 +1448,7 @@ As a side note, \fImetaconfig\fR generates a \fI-cond\fR command internally
 to deal with conditional dependencies. You should not use it by yourself,
 but you will see it if scanning the generated \fIMakefile\fR in the \fI.MT\fR
 directory.
-'''
+.\"
 .SS Hardwired Macros
 .PP
 The following macros are recognized by the \fIwipe\fR command and subsituted
@@ -1491,7 +1491,7 @@ which is replaced at Configure-generation time by the value of \fIvariable\fR
 taken from your \fI.package\fR file. Eventually, the old hardwired macro
 format will disappear, and <\$baserev> will replace <BASEREV> in all the
 supplied units.
-'''
+.\"
 .SS Special Units
 .PP
 The following special units are used to factorize code and provide higher
@@ -1781,7 +1781,7 @@ This unit produces the \fIwhoa\fR script, which emits a warning when the
 its old previous value held in \fI\$was\fR. Upon return, \fI\$td\fR and
 \fI\$tu\fR hold the proper value to \fIdefine\fR or \fIundef\fR the variable.
 See examples in \fIInlibc.U\fR.
-'''
+.\"
 .SS Builtin Pre-processor
 .PP
 Each unit to be included in \fIConfigure\fR is ran through a built-in
@@ -1881,7 +1881,7 @@ done
 .Ef
 and have an extra loop trying two successive values for the \fIs_timezone\fR
 variable, but only if needed.
-'''
+.\"
 .SS Obsolete Symbols
 .PP
 Obsolete symbols are preserved to ease the transition with older
@@ -1895,7 +1895,7 @@ The lifetime for obsolete symbols is one full revision, i.e. they will
 be removed when the next base revision is issued (patch upgrades do not
 count of course). Therefore, it is wise to translate your sources and
 start using the new symbols as soon as possible.
-'''
+.\"
 .SS Configure Hints
 .PP
 It may happen that the internal configuration logic makes the wrong choices.
@@ -1945,7 +1945,7 @@ Note that you don't have to provide \fIall\fR the hints known by
 possible choice. The heuristic tests ran to compute the possible hint
 candidates are flaky. If you have new values or different tests, please send
 them to me...
-'''
+.\"
 .SS Overriding Choices
 .PP
 If you create a \fIconfig.over\fR file in the top level directory,
@@ -1956,7 +1956,7 @@ you a chance to patch the values stored in there.
 This is distinct from the hints approach in that it is a local file, which
 the user is free to create for his own usage. You should not provide such
 a file yourself, but let the user know about this possibility.
-'''
+.\"
 .SS Configure Options
 .PP
 The \fIConfigure\fR script may be called with some options specified on the
@@ -2028,7 +2028,7 @@ possible to use '\fB-U\fI symbol\fR' which will set \fIsymbol\fR to 'undef'.
 Print the version number of the \fImetaconfig\fR that generated this
 .I Configure
 script and exit.
-'''
+.\"
 .SS Running Environment
 Upon starting, \fIConfigure\fR creates a local \fIUU\fR directory and runs
 from there. The directory is removed when Configure ends, but this means
@@ -2057,7 +2057,7 @@ When running \fIConfigure\fR remotely, the .SH files are extracted in the
 build directory, not in the source tree. However, it requires some kind of
 a \fImake\fR support to be able to compile things in a build directory whilst
 the sources lie elsewhere.
-'''
+.\"
 .SS Using Magic Redefinitions
 .PP
 By making use of the \fB\-M\fR switch, some magic remappings may take place
@@ -2077,7 +2077,7 @@ on \fImemcpy()\fR if no \fIbcopy()\fR is available locally, or transform
 bother about the \fIHAS_VFORK\fR symbol.
 .PP
 This configuration magic is documented in the Glossary file.
-'''
+.\"
 .SS Unit Templates
 .PP
 There is a set of unit templates in the \fImetaconfig\fR source directory,

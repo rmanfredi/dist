@@ -1,28 +1,28 @@
-''' $Id$
-'''
-'''  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
-'''  
-'''  You may redistribute only under the terms of the Artistic Licence,
-'''  as specified in the README file that comes with the distribution.
-'''  You may reuse parts of this distribution only within the terms of
-'''  that same Artistic Licence; a copy of which may be found at the root
-'''  of the source tree for dist 4.0.
-'''
-''' $Log: jmake.man,v $
-''' Revision 3.0.1.3  2004/08/22 09:01:55  ram
-''' patch71: renamed |test as |case as the construct has its syntax
-''' patch71: added |subst section to allow variable substitutions
-'''
-''' Revision 3.0.1.2  2004/08/21 23:19:52  ram
-''' patch71: added '|shell' section to emit verbatim code in Makefile.SH
-''' patch71: new '|test' to conditionally generate Makefile sections
-'''
-''' Revision 3.0.1.1  1995/05/12  11:57:58  ram
-''' patch54: updated my e-mail address
-'''
-''' Revision 3.0  1993/08/18  12:04:18  ram
-''' Baseline for dist 3.0 netwide release.
-'''
+.\" $Id$
+.\"
+.\"  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
+.\"  
+.\"  You may redistribute only under the terms of the Artistic Licence,
+.\"  as specified in the README file that comes with the distribution.
+.\"  You may reuse parts of this distribution only within the terms of
+.\"  that same Artistic Licence; a copy of which may be found at the root
+.\"  of the source tree for dist 4.0.
+.\"
+.\" $Log: jmake.man,v $
+.\" Revision 3.0.1.3  2004/08/22 09:01:55  ram
+.\" patch71: renamed |test as |case as the construct has its syntax
+.\" patch71: added |subst section to allow variable substitutions
+.\"
+.\" Revision 3.0.1.2  2004/08/21 23:19:52  ram
+.\" patch71: added '|shell' section to emit verbatim code in Makefile.SH
+.\" patch71: new '|test' to conditionally generate Makefile sections
+.\"
+.\" Revision 3.0.1.1  1995/05/12  11:57:58  ram
+.\" patch54: updated my e-mail address
+.\"
+.\" Revision 3.0  1993/08/18  12:04:18  ram
+.\" Baseline for dist 3.0 netwide release.
+.\"
 .TH JMAKE 1 ram
 .SH NAME
 jmake \- a generic makefile builder

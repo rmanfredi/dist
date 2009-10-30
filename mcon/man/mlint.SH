@@ -18,54 +18,54 @@ echo "Extracting mcon/man/metalint.$manext (with variable substitutions)"
 $rm -f metalint.$manext
 $spitshell >metalint.$manext <<!GROK!THIS!
 .TH METALINT $manext "Version $VERSION PL$PATCHLEVEL"
-''' @(#) Manual page for metalint
-'''
-''' $Id$
-'''
-'''  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
-'''  
-'''  You may redistribute only under the terms of the Artistic Licence,
-'''  as specified in the README file that comes with the distribution.
-'''  You may reuse parts of this distribution only within the terms of
-'''  that same Artistic Licence; a copy of which may be found at the root
-'''  of the source tree for dist 4.0.
-'''
-''' $Log: mlint.SH,v $
-''' Revision 3.0.1.9  1997/02/28  16:30:25  ram
-''' patch61: new "create" and "empty" lint directives
-''' patch61: documented new messages
-'''
-''' Revision 3.0.1.8  1995/09/25  09:18:07  ram
-''' patch59: documented new ?Y: directive
-''' patch59: fixed my e-mail address
-'''
-''' Revision 3.0.1.7  1995/07/25  14:18:51  ram
-''' patch56: added two new warnings for : comments lines in Configure
-'''
-''' Revision 3.0.1.6  1994/10/29  16:33:56  ram
-''' patch36: documents new ?F: lines and the related metalint warnings
-''' patch36: removed statement in BUGS since all warnings may now be shut
-'''
-''' Revision 3.0.1.5  1994/05/06  15:20:30  ram
-''' patch23: added -L switch to override public unit repository path
-''' patch23: two new warnings concerning last unit lines
-'''
-''' Revision 3.0.1.4  1994/01/24  14:20:39  ram
-''' patch16: can now easily suppress warning about made "special units"
-'''
-''' Revision 3.0.1.3  1993/11/10  17:37:39  ram
-''' patch14: documents stale ?M: dependency check
-'''
-''' Revision 3.0.1.2  1993/10/16  13:52:23  ram
-''' patch12: added support for ?M: lines and fixed some typos
-'''
-''' Revision 3.0.1.1  1993/08/19  06:42:24  ram
-''' patch1: leading config.sh searching was not aborting properly
-'''
-''' Revision 3.0  1993/08/18  12:10:15  ram
-''' Baseline for dist 3.0 netwide release.
-'''
-'''
+.\" @(#) Manual page for metalint
+.\"
+.\" $Id$
+.\"
+.\"  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
+.\"  
+.\"  You may redistribute only under the terms of the Artistic Licence,
+.\"  as specified in the README file that comes with the distribution.
+.\"  You may reuse parts of this distribution only within the terms of
+.\"  that same Artistic Licence; a copy of which may be found at the root
+.\"  of the source tree for dist 4.0.
+.\"
+.\" $Log: mlint.SH,v $
+.\" Revision 3.0.1.9  1997/02/28  16:30:25  ram
+.\" patch61: new "create" and "empty" lint directives
+.\" patch61: documented new messages
+.\"
+.\" Revision 3.0.1.8  1995/09/25  09:18:07  ram
+.\" patch59: documented new ?Y: directive
+.\" patch59: fixed my e-mail address
+.\"
+.\" Revision 3.0.1.7  1995/07/25  14:18:51  ram
+.\" patch56: added two new warnings for : comments lines in Configure
+.\"
+.\" Revision 3.0.1.6  1994/10/29  16:33:56  ram
+.\" patch36: documents new ?F: lines and the related metalint warnings
+.\" patch36: removed statement in BUGS since all warnings may now be shut
+.\"
+.\" Revision 3.0.1.5  1994/05/06  15:20:30  ram
+.\" patch23: added -L switch to override public unit repository path
+.\" patch23: two new warnings concerning last unit lines
+.\"
+.\" Revision 3.0.1.4  1994/01/24  14:20:39  ram
+.\" patch16: can now easily suppress warning about made "special units"
+.\"
+.\" Revision 3.0.1.3  1993/11/10  17:37:39  ram
+.\" patch14: documents stale ?M: dependency check
+.\"
+.\" Revision 3.0.1.2  1993/10/16  13:52:23  ram
+.\" patch12: added support for ?M: lines and fixed some typos
+.\"
+.\" Revision 3.0.1.1  1993/08/19  06:42:24  ram
+.\" patch1: leading config.sh searching was not aborting properly
+.\"
+.\" Revision 3.0  1993/08/18  12:10:15  ram
+.\" Baseline for dist 3.0 netwide release.
+.\"
+.\"
 .SH NAME
 metalint \- a metaconfig unit consistency checker
 .SH SYNOPSIS
