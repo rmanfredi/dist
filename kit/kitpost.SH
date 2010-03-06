@@ -17,7 +17,7 @@ esac
 echo "Extracting kit/kitpost (with variable substitutions)"
 cat >kitpost <<!GROK!THIS!
 $startperl
-	eval "exec perl -S \$0 \$*"
+	eval 'exec perl -S \$0 \${1+"\$@"}'
 		if \$running_under_some_shell;
 
 # $Id$

@@ -19,7 +19,7 @@ $spitshell >bindex <<!GROK!THIS!
 $startperl
 !GROK!THIS!
 $spitshell >>bindex <<'!NO!SUBS!'
-	eval 'exec perl -S $0 "$@"'
+	eval 'exec perl -S $0 ${1+"$@"}'
 		if $runnning_under_some_shell;
 
 # $Id$
