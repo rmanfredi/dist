@@ -64,14 +64,14 @@
 ?MAKE:Loc awk ar bash bison byacc cat chgrp chmod chown \
 	comm compress cp cpio cpp csh date echo egrep emacs expr find flex \
 	gmake gzip grep inews ksh less line lint ln lp lpr ls mail mailx \
-	make mkdir more mv nm nroff perl pg pmake pr rm rmail sed sendmail \
+	make mkdir more mv nawk nm nroff perl pg pmake pr rm rmail sed sendmail \
 	shar sleep smail sort submit tail tar tbl tee test touch tr troff \
 	uname uniq uuname vi zcat zip:  eunicefix n c startsh Instruct Warn
 ?MAKE:	-pick weed $@ %<
 ?LINT: describe awk ar bash bison byacc cat chgrp chmod chown \
 	comm compress cp cpio cpp csh date echo egrep emacs expr find flex \
 	gmake gzip grep inews ksh less line lint ln lp lpr ls mail mailx \
-	make mkdir more mv nm nroff perl pg pmake pr rm rmail sed sendmail \
+	make mkdir more mv nawk nm nroff perl pg pmake pr rm rmail sed sendmail \
 	shar sleep smail sort submit tail tar tbl tee test touch tr troff \
 	uname uniq uuname vi zcat zip
 ?V::pth loclist trylist
@@ -186,6 +186,7 @@ trylist="
 ?mailx:mailx
 ?make:make
 ?more:more
+?nawk:nawk
 ?nm:nm
 ?nroff:nroff
 ?perl:perl
@@ -211,7 +212,7 @@ trylist="
 ?LINT: set awk ar bash bison byacc cat chgrp chmod chown \
 	comm compress cp cpio cpp csh date echo emacs expr find flex \
 	gmake gzip grep inews ksh less line lint lp lpr ls mail mailx \
-	mkdir more mv nm nroff perl pg pmake pr rm rmail sed sendmail \
+	mkdir more mv nawk nm nroff perl pg pmake pr rm rmail sed sendmail \
 	shar sleep smail sort submit tail tar tbl tee touch tr troff \
 	uname uniq uuname vi zcat zip
 pth=`echo $PATH | sed -e "s/$p_/ /g"`
