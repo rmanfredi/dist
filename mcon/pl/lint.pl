@@ -778,10 +778,10 @@ sub p_body {
 			}
 		}
 	}
-	# Now look at the shell variables used: can be $var or ${var}
+	# Now look at the shell variables used: can be $var or ${var} or ${var:
 	local($var);
 	local($line) = $_;
-	while ($check_vars && s/\$\{?(\w+)\}?/$1/) {
+	while ($check_vars && s/\$\{?(\w+)[\}:]?/$1/) {
 		$var = $1;
 		next if $var =~ /^\d+/;		# Ignore $1 and friends
 		# Record variable as undeclared but do not issue a message right now.
