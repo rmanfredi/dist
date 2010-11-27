@@ -216,7 +216,7 @@ trylist="
 	shar sleep smail sort submit tail tar tbl tee touch tr troff \
 	uname uniq uuname vi zcat zip
 pth=`echo $PATH | sed -e "s/$p_/ /g"`
-pth="$pth /lib /usr/lib"
+pth="$pth /sbin /usr/sbin /lib /usr/lib /etc"
 for file in $loclist; do
 ?X:
 ?X: Allow them to -Dmake=pmake on the command line for instance...
@@ -231,7 +231,7 @@ for file in $loclist; do
 		if test -f "$xxx"; then
 			: ok
 		else
-			./warn "no $xxx -- ignoring your setting for $file."
+			./warn "no $xxx -- ignoring your setting for $file." 4>&4
 			xxx=`./loc $file $file $pth`
 		fi
 		;;
@@ -266,7 +266,7 @@ for file in $trylist; do
 		if test -f "$xxx"; then
 			: ok
 		else
-			./warn "no $xxx -- ignoring your setting for $file."
+			./warn "no $xxx -- ignoring your setting for $file." 4>&4
 			xxx=`./loc $file $file $pth`
 		fi
 		;;

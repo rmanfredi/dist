@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:22  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_siglist: Csym Setvar
+?MAKE:d_siglist: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_siglist:
 ?S:	This variable conditionally defines HAS_SYS_SIGLIST if sys_siglist[] is
@@ -26,14 +26,15 @@
 ?H:.
 ?LINT:set d_siglist
 : see if sys_siglist[] exist
-echo " "
-if set sys_siglist val -a d_siglist; eval $csym; $val; then	
-	echo "You have sys_siglist[] for signal description." >&4
-	val="$define"
-else
-	echo "You don't have sys_siglist[]." >&4
-	val="$undef"
-fi
+$cat >try.c <<EOC
+#include <signal.h>
+int main(void)
+{
+	static char c;
+	c |= *sys_siglist[0];
+	return c ? 0 : 1
+}
+EOC
 set d_siglist
-eval $setvar
+eval $trylink
 

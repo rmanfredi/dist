@@ -17,7 +17,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:07:34  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_dlopen: Inlibc runnm
+?MAKE:d_dlopen: Trylink cat i_dlfcn
 ?MAKE:	-pick add $@ %<
 ?S:d_dlopen:
 ?S:	This variable conditionally defines the HAS_DLOPEN symbol, which
@@ -29,17 +29,20 @@
 ?C:.
 ?H:#$d_dlopen HAS_DLOPEN		/**/
 ?H:.
-?T: xxx_runnm
 ?LINT:set d_dlopen
-?X: We don't permanently change runnm, but we do temporarily.
-?LINT: change runnm
 : see if dlopen exists
-?X: On NetBSD and FreeBSD, dlopen is available, but it is in 
-?X: /usr/lib/crt0.o, not in any of the libraries.  Therefore, do not
-?X: use the nm extraction, but use a real compile and link test instead.
-xxx_runnm="$runnm"
-runnm=false
-set dlopen d_dlopen
-eval $inlibc
-runnm="$xxx_runnm"
+$cat >try.c <<EOC
+#$i_dlfcn I_DLFCN
+#ifdef I_DLFCN
+#include <dlfcn.h>
+#endif
+int main(void)
+{
+	void *p;
+	p = dlopen("file", RTLD_GLOBAL);
+	return p ? 0 : 1;
+}
+EOC
+set d_dlopen '-ldl'
+eval $trylink
 

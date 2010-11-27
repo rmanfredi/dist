@@ -15,7 +15,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:05:56  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_setsid: Inlibc
+?MAKE:d_setsid: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_setsid:
 ?S:	This variable conditionally defines HAS_SETSID if setsid() is
@@ -29,6 +29,19 @@
 ?H:.
 ?LINT:set d_setsid
 : see if setsid exists
-set setsid d_setsid
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static pid_t ret;
+	ret |= setsid();
+	return ret ? 0 : 1;
+}
+EOC
+set d_setsid
+eval $trylink
 

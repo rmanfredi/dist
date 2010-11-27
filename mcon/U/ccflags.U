@@ -85,8 +85,7 @@
 ?D:optimize=''
 ?INIT:: Possible local include directories to search.
 ?INIT:: Set locincpth to "" in a hint file to defeat local include searches.
-?INIT:locincpth="/usr/local/include /opt/local/include /usr/gnu/include"
-?INIT:locincpth="$locincpth /opt/gnu/include /usr/GNU/include /opt/GNU/include"
+?INIT:locincpth=""
 ?INIT::
 ?INIT:: no include file wanted by default
 ?INIT:inclwanted=''

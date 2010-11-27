@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:05:59  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_fchmod: Inlibc
+?MAKE:d_fchmod: Trylink cat i_sysstat
 ?MAKE:	-pick add $@ %<
 ?S:d_fchmod:
 ?S:	This variable conditionally defines the HAS_FCHMOD symbol, which
@@ -27,6 +27,20 @@
 ?H:.
 ?LINT:set d_fchmod
 : see if fchmod exists
-set fchmod d_fchmod
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_sysstat I_SYS_STAT
+#ifdef I_SYS_STAT
+#include <sys/stat.h>
+#endif
+int main(void)
+{
+	static int fd, ret;
+	static mode_t mode;
+	ret |= fchmod(fd, mode);
+	return ret ? 0 : 1;
+}
+EOC
+set d_fchmod
+eval $trylink
 

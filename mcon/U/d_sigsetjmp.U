@@ -58,8 +58,6 @@
 ?F:!set
 ?LINT:set d_sigsetjmp
 : see if sigsetjmp exists
-?X: We can't check for these symbols with Inlibc because sigsetjmp
-?X: is (sometimes? always?) a macro under GCC
 echo " "
 case "$d_sigsetjmp" in
 '')

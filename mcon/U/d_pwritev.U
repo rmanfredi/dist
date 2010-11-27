@@ -10,7 +10,7 @@
 ?RCS:
 ?RCS: $Log: d_pwritev.U,v $
 ?RCS:
-?MAKE:d_pwritev: Inlibc
+?MAKE:d_pwritev: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_pwritev:
 ?S:	This variable conditionally defines the HAS_PWRITEV symbol, which
@@ -25,6 +25,23 @@
 ?H:.
 ?LINT:set d_pwritev
 : see if pwritev exists
-set pwritev d_pwritev
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#include <sys/uio.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static ssize_t ret;
+	static int fd, iovcnt;
+	static struct iovec iov;
+	static off_t offset;
+	ret |= pwritev(fd, &iov, iovcnt, offset);
+	return ret ? 0 : 1;
+}
+EOC
+set d_pwritev
+eval $trylink
 

@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:12:04  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_strxfrm: Inlibc
+?MAKE:d_strxfrm: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_strxfrm:
 ?S:	This variable conditionally defines HAS_STRXFRM if strxfrm() is
@@ -28,6 +28,16 @@
 ?H:.
 ?LINT:set d_strxfrm
 : see if strxfrm exists
-set strxfrm d_strxfrm
-eval $inlibc
+$cat >try.c <<EOC
+#include <string.h>
+int main(void)
+{
+	static size_t ret, n;
+	static char dst[] = "xxx", *src;
+	ret |= strxfrm(dst, src, n);
+	return ret ? 0 : 1;
+}
+EOC
+set d_strxfrm
+eval $trylink
 

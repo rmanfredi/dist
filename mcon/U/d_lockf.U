@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:09:36  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_lockf: Inlibc
+?MAKE:d_lockf: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_lockf:
 ?S:	This variable conditionally defines HAS_LOCKF if lockf() is
@@ -28,6 +28,23 @@
 ?H:.
 ?LINT:set d_lockf
 : see if lockf exists
-set lockf d_lockf
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static int fd, ret;
+	static off_t size;
+	ret |= lockf(fd, F_ULOCK, size);
+	ret |= lockf(fd, F_LOCK, size);
+	ret |= lockf(fd, F_TLOCK, size);
+	ret |= lockf(fd, F_TEST, size);
+	return ret ? 0 : 1;
+}
+EOC
+set d_lockf
+eval $trylink
 

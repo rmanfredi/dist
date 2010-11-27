@@ -226,7 +226,7 @@ EOCP
 		esac
 		val="$define"
 		if test "$status" = "$rd_nodata"; then
-			./warn "your read() can't distinguish between EOF and no data!"
+			./warn "your read() can't distinguish between EOF and no data!" 4>&4
 			val="$undef"
 		fi
 	else

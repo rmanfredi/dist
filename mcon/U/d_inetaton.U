@@ -13,7 +13,7 @@
 ?RCS: Revision 3.0.1.1  1997/02/28  15:36:35  ram
 ?RCS: patch61: created
 ?RCS:
-?MAKE:d_inetaton: Inlibc
+?MAKE:d_inetaton: Trylink cat i_arpainet
 ?MAKE:	-pick add $@ %<
 ?S:d_inetaton:
 ?S:	This variable conditionally defines the HAS_INET_ATON symbol, which
@@ -29,6 +29,19 @@
 ?H:.
 ?LINT:set d_inetaton
 : check whether inet_aton exists
-set inet_aton d_inetaton
-eval $inlibc
+$cat >try.c <<EOC
+#$i_arpainet I_ARPA_INET
+#ifdef I_ARPA_INET
+#include <arpa/inet.h>
+#endif
+int main(void)
+{
+	static int ret;
+	static struct in_addr addr;
+	ret |= inet_aton("0.0.0.0", &addr);
+	return ret ? 0 : 1;
+}
+EOC
+set d_inetaton
+eval $trylink
 

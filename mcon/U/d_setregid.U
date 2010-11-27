@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:12  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_setregid d_setresgid: Inlibc
+?MAKE:d_setregid d_setresgid: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_setregid:
 ?S:	This variable conditionally defines HAS_SETREGID if setregid() is
@@ -39,8 +39,38 @@
 ?H:.
 ?LINT: set d_setregid d_setresgid
 : see if setregid exists
-set setregid d_setregid
-eval $inlibc
-set setresgid d_setresgid
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static int ret;
+	static gid_t rgid, egid;
+	ret |= setregid(rgid, egid);
+	if (ret)
+		return 1;
+	return 0;
+}
+EOC
+set d_setregid
+eval $trylink
+
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static int ret;
+	static gid_t rgid, egid, sgid;
+	ret |= setresgid(rgid, egid, sgid);
+	return ret ? 0 : 1;
+}
+EOC
+set d_setresgid
+eval $trylink
 

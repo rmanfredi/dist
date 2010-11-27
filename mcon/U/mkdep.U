@@ -39,6 +39,8 @@
 ?S:.
 ?F:mkdep
 ?T:IFS arg flags takeflags srcfile toplev filebase inc dir files file dep c
+?T:tmpdir
+?LINT:extern TMPDIR
 : find out how to generate dependencies
 echo " "
 echo "Checking how to generate makefile dependencies on your machine..." >&4
@@ -200,7 +202,8 @@ do
 done
 set X \$files
 shift
-trap "$rm -f /tmp/mkdep\$\$; exit 1" 1 2 3 15
+tmpdir="${TMPDIR:-/tmp}"
+trap "$rm -f "$tmpdir/mkdep\$\$"; exit 1" 1 2 3 15
 for srcfile
 do
 	case "\$srcfile" in
@@ -214,7 +217,7 @@ do
 	$sed -n -e 's/#[   ]*include[  ]*//' \\
 		-e '/<\(.*\)>/ d' \\
 		-e 's/:[^"]*"\([^"]*\)".*/: \1/' \\
-		-e "s/\\.c:/$_o:/p" > /tmp/mkdep\$\$
+		-e "s/\\.c:/$_o:/p" > "$tmpdir/mkdep\$\$"
 ?X: Deal with directories specified via -I requests to locate files
 	IFS=': '
 	while read file dep; do
@@ -225,9 +228,9 @@ do
 			fi
 		done
 		echo "\$file: \$dep" | $sed -e 's,: \./,: ,'
-	done </tmp/mkdep\$\$
+	done <"$tmpdir/mkdep\$\$"
 	IFS=' '
-	$rm -f /tmp/mkdep\$\$
+	$rm -f "$tmpdir/mkdep\$\$" 
 done
 exit 0
 EOS

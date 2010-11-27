@@ -141,7 +141,7 @@ case "$valstd" in
 esac
 case "$val" in
 '')
-	./warn "I could not find the definition for va_dcl... You have problems..."
+	./warn "I could not find the definition for va_dcl... You have problems..." 4>&4
 	val="$undef"; set i_stdarg; eval $setvar
 	val="$undef"; set i_varargs; eval $setvar
 	;;

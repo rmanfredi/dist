@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:17  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_getpwent: Csym Setvar
+?MAKE:d_getpwent: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_getpwent:
 ?S:	This variable conditionally defines the HAS_GETPWENT symbol, which
@@ -27,14 +27,15 @@
 ?H:.
 ?LINT:set d_getpwent
 : see if there is a getpwent
-echo " "
-if set getpwent val -f d_getpwent; eval $csym; $val; then
-	echo "getpwent() found." >&4
-	val="$define"
-else
-	echo "No getpwent() found -- will use getpw() instead." >&4
-	val="$undef"
-fi
+$cat >try.c <<EOC
+#include <pwd.h>
+int main(void)
+{
+	struct passwd pw;
+	pw = *getpwent();
+	return pw.pw_name ? 0 : 1;
+}
+EOC
 set d_getpwent
-eval $setvar
+eval $trylink
 

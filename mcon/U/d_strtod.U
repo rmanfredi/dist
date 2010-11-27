@@ -14,7 +14,7 @@
 ?RCS: patch61: created
 ?RCS:
 ?RCS:
-?MAKE:d_strtod: Inlibc
+?MAKE:d_strtod: Trylink cat i_stdlib
 ?MAKE:	-pick add $@ %<
 ?S:d_strtod:
 ?S:	This variable conditionally defines the HAS_STRTOD symbol, which
@@ -29,6 +29,19 @@
 ?H:.
 ?LINT:set d_strtod
 : see if strtod exists
-set strtod d_strtod
-eval $inlibc
+$cat >try.c <<EOC
+#$i_stdlib I_STDLIB
+#ifdef I_STDLIB
+#include <stdlib.h>
+#endif
+int main(void)
+{
+	static double ret;
+	static char *endptr;
+	ret = strtod("1.0", &endptr) * 1.0;
+	return ret ? 0 : 1;
+}
+EOC
+set d_strtod
+eval $trylink
 

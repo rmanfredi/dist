@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:07:41  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_getlogin: Inlibc
+?MAKE:d_getlogin: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_getlogin:
 ?S:	This variable conditionally defines the HAS_GETLOGIN symbol, which
@@ -29,6 +29,18 @@
 ?H:.
 ?LINT:set d_getlogin
 : see if getlogin exists
-set getlogin d_getlogin
-eval $inlibc
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static char ret;
+	ret |= *getlogin();
+	return ret ? 0 : 1;
+}
+EOC
+set d_getlogin
+eval $trylink
 

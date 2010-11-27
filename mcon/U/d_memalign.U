@@ -10,7 +10,7 @@
 ?RCS:
 ?RCS: $Log: d_memalign.U,v $
 ?RCS:
-?MAKE:d_memalign: Inlibc
+?MAKE:d_memalign: Trylink cat i_stdlib
 ?MAKE:	-pick add $@ %<
 ?S:d_memalign:
 ?S:	This variable conditionally defines the HAS_MEMALIGN symbol, which
@@ -24,6 +24,19 @@
 ?H:.
 ?LINT:set d_memalign
 : see if memalign exists
-set memalign d_memalign
-eval $inlibc
+$cat >try.c <<EOC
+#$i_stdlib I_STDLIB
+#ifdef I_STDLIB
+#include <stdlib.h>
+#endif
+int main(void)
+{
+	static size_t align, size;
+	void *p;
+	p = memalign(align, size);
+	return p ? 0 : 1;
+}
+EOC
+set d_memalign
+eval $trylink
 

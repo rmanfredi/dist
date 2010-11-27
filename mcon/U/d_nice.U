@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:09:48  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_nice: Inlibc
+?MAKE:d_nice: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_nice:
 ?S:	This variable conditionally defines the HAS_NICE symbol, which
@@ -28,6 +28,18 @@
 ?H:.
 ?LINT:set d_nice
 : see if nice exists
-set nice d_nice
-eval $inlibc
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static int ret, i;
+	ret |= nice(i);
+	return ret ? 0 : 1;
+}
+EOC
+set d_nice
+eval $trylink
 

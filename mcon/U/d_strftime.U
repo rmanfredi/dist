@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:36  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_strftime: Inlibc
+?MAKE:d_strftime: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_strftime:
 ?S:	This variable conditionally defines HAS_STRFTIME if strftime() is
@@ -26,6 +26,17 @@
 ?H:.
 ?LINT:set d_strftime
 : see if strftime exists
-set strftime d_strftime
-eval $inlibc
+$cat >try.c <<EOC
+#include <time.h>
+int main(void)
+{
+	static size_t ret, size;
+	static struct tm tm;
+	static char buf[1];
+	ret |= strftime(buf, size, "%Y-%m-%d", &tm);
+	return ret ? 0 : 1;
+}
+EOC
+set d_strftime
+eval $trylink
 

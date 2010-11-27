@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:12:11  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_tcsetpgrp: Inlibc
+?MAKE:d_tcsetpgrp: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_tcsetpgrp:
 ?S:	This variable conditionally defines the HAS_TCSETPGRP symbol, which
@@ -29,6 +29,20 @@
 ?H:.
 ?LINT:set d_tcsetpgrp
 : see if tcsetpgrp exists
-set tcsetpgrp d_tcsetpgrp
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static int fd, ret;
+	static pid_t pid;
+	ret |= tcsetpgrp(fd, pid);
+	return ret ? 0 : 1;
+}
+EOC
+set d_tcsetpgrp
+eval $trylink
 

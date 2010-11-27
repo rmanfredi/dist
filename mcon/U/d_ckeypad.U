@@ -26,12 +26,13 @@
 ?H:#$d_ckeypad HAS_CURSES_KEYPAD	/**/
 ?H:.
 ?LINT:set d_ckeypad
-: check for the "keypad()" function in the curses library
+: check for the "keypad" function in the curses library
 echo " "
 case "$termlib" in
 '')
 	echo "You don't have a curses library, so I won't waste time looking" >&4
 	echo "to see if has the keypad() function." >&4
+	;;
 *)
 echo "Checking the curses library ($termlib) for the keypad() function..." >&4
 	$cat >c_keypad.c <<'EOCP'
@@ -48,6 +49,7 @@ EOCP
 		val=$undef
 		echo "Your curses library doesn't appear to have the keypad() function."
 	fi
+	;;
 esac
 set d_ckeypad
 eval $setvar

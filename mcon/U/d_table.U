@@ -15,7 +15,7 @@
 ?RCS: Revision 3.0.1.1  1993/10/16  13:49:29  ram
 ?RCS: patch12: created
 ?RCS:
-?MAKE:d_table: Inlibc
+?MAKE:d_table: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_table:
 ?S:	This variable conditionally defines HAS_TABLE if table() is
@@ -29,6 +29,16 @@
 ?H:.
 ?LINT:set d_table
 : see if table exists
-set table d_table
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/table.h>
+int main(void)
+{
+	static int ret;
+	static void *addr;
+	ret |= table(1,  2L, addr, 3L,  4L, 5L);
+	return ret ? 0 : 1;
+}
+EOC
+set d_table
+eval $trylink
 

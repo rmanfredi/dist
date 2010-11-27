@@ -18,8 +18,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:22  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_htonl: Inlibc Setvar i_niin i_sysin cat rm contains \
-	cppstdin cppflags cppminus
+?MAKE:d_htonl: Trylink cat i_niin i_sysin
 ?MAKE:	-pick add $@ %<
 ?S:d_htonl:
 ?S:	This variable conditionally defines HAS_HTONL if htonl() and its
@@ -50,39 +49,31 @@
 ?H:#$d_htonl HAS_NTOHL		/**/
 ?H:#$d_htonl HAS_NTOHS		/**/
 ?H:.
-?F:!htonl.c
 ?LINT:set d_htonl
 : see if htonl --and friends-- exists
-val=''
-set htonl val
-eval $inlibc
-
-: Maybe they are macros.
-case "$val" in
-$undef)
-	$cat >htonl.c <<EOM
+$cat >try.c <<EOC
 #include <stdio.h>
 #include <sys/types.h>
 #$i_niin I_NETINET_IN
-#$i_sysin I_SYS_IN
 #ifdef I_NETINET_IN
 #include <netinet/in.h>
 #endif
+#$i_sysin I_SYS_IN
 #ifdef I_SYS_IN
 #include <sys/in.h>
 #endif
-#ifdef htonl
-printf("Defined as a macro.");
-#endif
-EOM
-	$cppstdin $cppflags $cppminus < htonl.c >htonl.E 2>/dev/null
-	if $contains 'Defined as a macro' htonl.E >/dev/null 2>&1; then
-		val="$define"
-		echo "But it seems to be defined as a macro." >&4
-	fi
-	$rm -f htonl.?
-	;;
-esac
+int main(int argc, char *argv[])
+{
+	static unsigned long ret;
+	unsigned char val = argc;
+	(void) argv;
+	ret |= htonl(val);
+	ret |= htons(val);
+	ret |= ntohl(val);
+	ret |= ntohs(val);
+	return ret ? 0 : 1;
+}
+EOC
 set d_htonl
-eval $setvar
+eval $trylink
 

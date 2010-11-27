@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:33  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_strcspn: Inlibc
+?MAKE:d_strcspn: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_strcspn:
 ?S:	This variable conditionally defines the HAS_STRCSPN symbol, which
@@ -27,6 +27,15 @@
 ?H:.
 ?LINT:set d_strcspn
 : see if strcspn exists
-set strcspn d_strcspn
-eval $inlibc
+$cat >try.c <<EOC
+#include <string.h>
+int main(void)
+{
+	size_t ret;
+	ret |= strcspn("abc", "x");
+	return ret ? 0 : 1;
+}
+EOC
+set d_strcspn
+eval $trylink
 

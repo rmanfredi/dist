@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:41  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_symlink: Inlibc
+?MAKE:d_symlink: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_symlink:
 ?S:	This variable conditionally defines the HAS_SYMLINK symbol, which
@@ -27,6 +27,18 @@
 ?H:.
 ?LINT:set d_symlink
 : see if symlink exists
-set symlink d_symlink
-eval $inlibc
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static int ret;
+	ret |= symlink("name1", "name2");
+	return ret ? 0 : 1;
+}
+EOC
+set d_symlink
+eval $trylink
 

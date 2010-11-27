@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:20  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_shmget: Inlibc
+?MAKE:d_shmget: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_shmget:
 ?S:	This variable conditionally defines the HAS_SHMGET symbol, which
@@ -26,6 +26,20 @@
 ?H:.
 ?LINT:set d_shmget
 : see if shmget exists
-set shmget d_shmget
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/shm.h>
+int main(void)
+{
+	static key_t key = IPC_PRIVATE;
+	static size_t size;
+	static int ret, flags;
+	flags |= IPC_CREAT;
+	flags |= IPC_EXCL;
+	flags |= IPC_NOWAIT;
+	ret |= shmget(key, size, flags);
+	return ret ? 0 : 1;
+}
+EOC
+set d_shmget
+eval $trylink
 

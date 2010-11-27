@@ -9,7 +9,7 @@
 ?RCS: of the source tree for dist 4.0.
 ?RCS:
 ?RCS: $Log: d_msem_lck.U,v $
-?MAKE:d_msem_lck: Inlibc
+?MAKE:d_msem_lck: Trylink cat i_sysmman
 ?MAKE:	-pick add $@ %<
 ?S:d_msem_lck:
 ?S:	This variable conditionally defines HAS_MSEM_LOCK if msem_lock() is
@@ -23,6 +23,19 @@
 ?H:.
 ?LINT:set d_msem_lck
 : see if msem_lock exists
-set msem_lock d_msem_lck
-eval $inlibc
+$cat >try.c <<EOC
+#$i_sysmman I_SYS_MMAN
+#ifdef I_SYS_MMAN
+#include <sys/mman.h>
+#endif
+int main(void)
+{
+	static int ret;
+	static msemaphore *sem;
+	ret |= msem_lock(sem, MSEM_IF_NOWAIT);
+	return ret ? 0 : 1;
+}
+EOC
+set d_msem_lck
+eval $trylink
 

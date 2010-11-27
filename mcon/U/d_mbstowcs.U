@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:29  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_mbstowcs: Inlibc
+?MAKE:d_mbstowcs: Trylink cat i_stdlib
 ?MAKE:	-pick add $@ %<
 ?S:d_mbstowcs:
 ?S:	This variable conditionally defines the HAS_MBSTOWCS symbol, which
@@ -27,6 +27,19 @@
 ?H:.
 ?LINT:set d_mbstowcs
 : see if mbstowcs exists
-set mbstowcs d_mbstowcs
-eval $inlibc
+$cat >try.c <<EOC
+#$i_stdlib I_STDLIB
+#ifdef I_STDLIB
+#include <stdlib.h>
+#endif
+int main(void)
+{
+	static size_t n, ret;
+	static wchar_t wcs;
+	ret |= mbstowcs(&wcs, "xxx", n);
+	return ret ? 0 : 1;
+}
+EOC
+set d_mbstowcs
+eval $trylink
 

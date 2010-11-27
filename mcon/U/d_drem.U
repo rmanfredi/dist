@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/10/29  16:12:14  ram
 ?RCS: patch36: created by ADO
 ?RCS:
-?MAKE:d_drem: Inlibc
+?MAKE:d_drem: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_drem:
 ?S:	This variable conditionally defines the HAS_DREM symbol, which
@@ -30,6 +30,15 @@
 ?H:.
 ?LINT:set d_drem
 : see if drem exists
-set drem d_drem
-eval $inlibc
+$cat >try.c <<EOC
+#include <math.h>
+int main(void)
+{
+	static double x, y, ret;
+	ret = 1.0 * drem(x, y);
+	return ret ? 0 : 1;
+}
+EOC
+set d_drem '-lm'
+eval $trylink
 

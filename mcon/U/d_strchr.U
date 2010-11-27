@@ -19,7 +19,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:32  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_strchr d_index: contains strings Setvar Myread Oldconfig Csym
+?MAKE:d_strchr d_index: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_strchr:
 ?S:	This variable conditionally defines HAS_STRCHR if strchr() and
@@ -55,41 +55,31 @@
 ?M:#endif
 ?M:#endif
 ?M:.
-?T:vali
 ?LINT:set d_strchr d_index
 : index or strchr
-echo " "
-if set index val -f; eval $csym; $val; then
-	if set strchr val -f d_strchr; eval $csym; $val; then
-		if $contains strchr "$strings" >/dev/null 2>&1 ; then
-?X: has index, strchr, and strchr in string header
-			val="$define"
-			vali="$undef"
-			echo "strchr() found." >&4
-		else
-?X: has index, strchr, and no strchr in string header
-			val="$undef"
-			vali="$define"
-			echo "index() found." >&4
-		fi
-	else
-?X: has only index, no strchr, string header is a moot point
-		val="$undef"
-		vali="$define"
-		echo "index() found." >&4
-	fi
-else
-	if set strchr val -f d_strchr; eval $csym; $val; then
-		val="$define"
-		vali="$undef"
-		echo "strchr() found." >&4
-	else
-		echo "No index() or strchr() found!" >&4
-		val="$undef"
-		vali="$undef"
-	fi
-fi
-set d_strchr; eval $setvar
-val="$vali"
-set d_index; eval $setvar
+$cat >try.c <<EOC
+#include <string.h>
+int main(void)
+{
+	static char ret;
+	static int c;
+	ret |= *strchr("string", c);
+	return ret ? 0 : 1;
+}
+EOC
+set d_strchr
+eval $trylink
+
+$cat >try.c <<EOC
+#include <strings.h>
+int main(void)
+{
+	static char ret;
+	static int c;
+	ret |= *index("string", c);
+	return ret ? 0 : 1;
+}
+EOC
+set d_index 
+eval $trylink
 

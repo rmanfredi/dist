@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:03  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_ffs: Inlibc
+?MAKE:d_ffs: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_ffs:
 ?S:	This variable conditionally defines the HAS_FFS symbol, which
@@ -28,6 +28,15 @@
 ?H:.
 ?LINT:set d_ffs
 : see if ffs exists
-set ffs d_ffs
-eval $inlibc
+$cat >try.c <<EOC
+#include <strings.h>
+int main(void)
+{
+	static int i, ret;
+	ret |= ffs(i);
+	return ret ? 0 : 1;
+}
+EOC
+set d_ffs
+eval $trylink
 

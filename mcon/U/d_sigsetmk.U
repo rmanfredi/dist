@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:23  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_sigsetmk: Csym Setvar
+?MAKE:d_sigsetmk: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_sigsetmk:
 ?S:	This variable conditionally defines the HAS_SIGSETMASK symbol, which
@@ -28,14 +28,15 @@
 ?H:.
 ?LINT:set d_sigsetmk
 : see if sigsetmask exists
-echo " "
-if set sigsetmask val -f d_sigsetmk; eval $csym; $val; then
-	echo 'sigsetmask() found.' >&4
-	val="$define"
-else
-	echo "sigsetmask() not found -- We'll use signal()." >&4
-	val="$undef"
-fi
+$cat >try.c <<EOC
+#include <signal.h>
+int main(void)
+{
+	static int ret, mask;
+	ret |= sigsetmask(mask);
+	return ret ? 0 : 1;
+}
+EOC
 set d_sigsetmk
-eval $setvar
+eval $trylink
 

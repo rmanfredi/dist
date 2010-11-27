@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:07  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_ftrncate: Inlibc
+?MAKE:d_ftrncate: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_ftrncate (d_ftruncate):
 ?S:	This variable conditionally defines the HAS_FTRUNCATE symbol, which
@@ -26,6 +26,20 @@
 ?H:.
 ?LINT:set d_ftrncate
 : see if ftruncate exists
-set ftruncate d_ftrncate
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static int fd, ret;
+	static off_t length;
+	ret |= ftruncate(fd, length);
+	return ret ? 0 : 1;
+}
+EOC
+set d_ftrncate
+eval $trylink
 

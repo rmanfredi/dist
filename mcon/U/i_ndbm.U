@@ -15,7 +15,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:08:23  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:i_ndbm: Inhdr Inlibc Setvar
+?MAKE:i_ndbm: Inhdr Trylink Setvar cat
 ?MAKE:	-pick add $@ %<
 ?S:i_ndbm (d_ndbm):
 ?S:	This variable conditionally defines the I_NDBM symbol, which
@@ -28,26 +28,22 @@
 ?C:.
 ?H:#$i_ndbm I_NDBM	/**/
 ?H:.
-?T:t_ndbm d_dbm_open
+?T:d_dbm_open
 ?LINT:set i_ndbm
 : see if ndbm.h is available
-?X: t_ndbm is a tentative check.  We might just have the .h, not the lib -- ADO
-set ndbm.h t_ndbm
-eval $inhdr
-case "$t_ndbm" in
-$define)
-	: see if dbm_open exists
-	set dbm_open d_dbm_open
-	eval $inlibc
-	case "$d_dbm_open" in
-	$undef)
-		t_ndbm="$undef"
-		echo "We won't be including <ndbm.h>"
-		;;
-	esac
-	;;
-esac
-val="$t_ndbm"
+$cat >try.c <<EOC
+#include <ndbm.h>
+int main(void)
+{
+	static DBM *dbm;
+	dbm = dbm_open("file", 1, 2);
+	return dbm ? 0 : 1;
+}
+EOC
+set d_dbm_open
+eval $trylink
+
+val="$d_dbm_open"
 set i_ndbm
 eval $setvar
 

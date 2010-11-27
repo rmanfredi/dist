@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0.1.1  1993/12/15  08:19:22  ram
 ?RCS: patch15: created
 ?RCS:
-?MAKE:d_munmap: Inlibc
+?MAKE:d_munmap: Trylink cat i_sysmman
 ?MAKE:	-pick add $@ %<
 ?S:d_munmap:
 ?S:	This variable conditionally defines HAS_MUNMAP if munmap() is
@@ -26,6 +26,20 @@
 ?H:.
 ?LINT:set d_munmap
 : see if munmap exists
-set munmap d_munmap
-eval $inlibc
+$cat >try.c <<EOC
+#$i_sysmman I_SYS_MMAN
+#ifdef I_SYS_MMAN
+#include <sys/mman.h>
+#endif
+int main(void)
+{
+	static int ret;
+	static void *addr;
+	static size_t len;
+	ret |= munmap(addr, len);
+	return ret ? 0 : 1;
+}
+EOC
+set d_munmap 
+eval $trylink
 

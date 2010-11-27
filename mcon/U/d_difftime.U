@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:07:31  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_difftime: Inlibc
+?MAKE:d_difftime: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_difftime:
 ?S:	This variable conditionally defines the HAS_DIFFTIME symbol, which
@@ -28,6 +28,16 @@
 ?H:.
 ?LINT:set d_difftime
 : see if difftime exists
-set difftime d_difftime
-eval $inlibc
+$cat >try.c <<EOC
+#include <time.h>
+int main(void)
+{
+	static double ret;
+	static time_t t0, t1;
+	ret = difftime(t1, t0) * 1.0;
+	return ret ? 0 : 1;
+}
+EOC
+set d_difftime
+eval $trylink
 

@@ -18,7 +18,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:08:15  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:i_dbm i_rpcsvcdbm: Inhdr Inlibc Setvar
+?MAKE:i_dbm i_rpcsvcdbm: Inhdr Trylink Setvar cat
 ?MAKE:	-pick add $@ %<
 ?S:i_dbm (d_odbm):
 ?S:	This variable conditionally defines the I_DBM symbol, which
@@ -49,30 +49,46 @@
 ?X: some versions of SCO Unix have -ldbm, but are missing dbmclose(). -- ADO
 ?X: Some System V systems have <rpcsvc/dbm.h> instead of <dbm.h>.
 : see if dbmclose exists
-set dbmclose d_dbmclose
-eval $inlibc
+$cat >try.c <<EOC
+#include <dbm.h>
+int main(void)
+{
+	dbmclose();
+	return 0;
+}
+EOC
+set d_dbmclose
+eval $trylink
 
 case "$d_dbmclose" in
 $define)
-	set dbm.h i_dbm
-	eval $inhdr
-	case "$i_dbm" in
-	$define)
-		val="$undef"
-		set i_rpcsvcdbm
-		eval $setvar
-		;;
-	*)	set rpcsvc/dbm.h i_rpcsvcdbm
-		eval $inhdr
-		;;
-	esac
-	;;
-*)	echo "We won't be including <dbm.h>"
-	val="$undef"
-	set i_dbm
-	eval $setvar
 	val="$undef"
 	set i_rpcsvcdbm
+	eval $setvar
+
+	val="$define"
+	set i_dbm
+	eval $setvar
+	;;
+*)
+	$cat >try.c <<EOC
+#include <rpcsvc/dbm.h>
+int main(void)
+{
+	static int ret;
+	ret |= dbmclose();
+	return ret ? 0 : 1;
+}
+EOC
+	set d_dbmclose
+	eval $trylink
+
+	val="$define"
+	set i_rpcsvcdbm
+	eval $setvar
+
+	val="$undef"
+	set i_dbm
 	eval $setvar
 	;;
 esac

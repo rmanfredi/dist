@@ -15,7 +15,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:43  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_syslog: test Csym Setvar Findhdr
+?MAKE:d_syslog: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_syslog:
 ?S:	This variable conditionally defines the HAS_SYSLOG symbol, which
@@ -30,15 +30,15 @@
 ?H:.
 ?LINT:set d_syslog
 : see if syslog is available
-echo " "
-if $test `./findhdr syslog.h` && \
-	(set syslog val -f d_syslog; eval $csym; $val); then
-	echo "syslog() found." >&4
-	val="$define"
-else
-	echo "syslog() not found in your C library." >&4
-	val="$undef"
-fi
+$cat >try.c <<EOC
+#include <syslog.h>
+int main(void)
+{
+	static int priority;
+	syslog(priority, "%s", "msg");
+	return 0;
+}
+EOC
 set d_syslog
-eval $setvar
+eval $trylink
 

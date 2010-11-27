@@ -122,6 +122,7 @@ mcon/U/Rcs.U               Some stupid redefinitions to keep RCS happy
 mcon/U/Setvar.U            Set a variable with some sanity checks
 mcon/U/Signal.U            Utilities for sig_name.U
 mcon/U/Tr.U                Builds a tr script to handle lower and upper classes
+mcon/U/Trylink.U           Compiles and links a test program
 mcon/U/Typedef.U           Defines a typedef lookup function
 mcon/U/Unix.U              Common UNIX settings and assumptions
 mcon/U/Warn.U              Summarizes warnings emitted during Configure run

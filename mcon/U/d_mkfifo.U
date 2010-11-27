@@ -15,7 +15,7 @@
 ?RCS: patch36: created by ADO
 ?RCS:
 ?RCS:
-?MAKE:d_mkfifo: Inlibc
+?MAKE:d_mkfifo: Trylink cat i_sysstat
 ?MAKE:	-pick add $@ %<
 ?S:d_mkfifo:
 ?S:	This variable conditionally defines the HAS_MKFIFO symbol, which
@@ -31,6 +31,20 @@
 ?H:.
 ?LINT:set d_mkfifo
 : see if mkfifo exists
-set mkfifo d_mkfifo
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_sysstat I_SYS_STAT
+#ifdef I_SYS_STAT
+#include <sys/stat.h>
+#endif
+int main(void)
+{
+	static int ret;
+	static mode_t mode;
+	ret |= mkfifo("path", mode);
+	return ret ? 0 : 1;
+}
+EOC
+set d_mkfifo
+eval $trylink
 

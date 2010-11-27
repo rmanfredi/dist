@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:27  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_killpg: Inlibc
+?MAKE:d_killpg: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_killpg:
 ?S:	This variable conditionally defines the HAS_KILLPG symbol, which
@@ -28,6 +28,17 @@
 ?H:.
 ?LINT:set d_killpg
 : see if killpg exists
-set killpg d_killpg
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#include <signal.h>
+int main(void)
+{
+	static pid_t pid;
+	static int ret, sig;
+	ret |= killpg(pid, sig);
+	return ret ? 0 : 1;
+}
+EOC
+set d_killpg
+eval $trylink
 

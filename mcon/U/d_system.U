@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:44  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_system: Inlibc
+?MAKE:d_system: Trylink cat i_stdlib
 ?MAKE:	-pick add $@ %<
 ?S:d_system:
 ?S:	This variable conditionally defines HAS_SYSTEM if system() is
@@ -26,6 +26,18 @@
 ?H:.
 ?LINT:set d_system
 : see if system exists
-set system d_system
-eval $inlibc
+$cat >try.c <<EOC
+#$i_stdlib I_STDLIB
+#ifdef I_STDLIB
+#include <stdlib.h>
+#endif
+int main(void)
+{
+	static int ret;
+	ret |= system("command");
+	return ret ? 0 : 1;
+}
+EOC
+set d_system
+eval $trylink
 

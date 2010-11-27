@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0.1.1  1993/12/15  08:19:12  ram
 ?RCS: patch15: created
 ?RCS:
-?MAKE:d_mmap: Inlibc
+?MAKE:d_mmap: Trylink cat i_sysmman
 ?MAKE:	-pick add $@ %<
 ?S:d_mmap:
 ?S:	This variable conditionally defines HAS_MMAP if mmap() is
@@ -26,6 +26,27 @@
 ?H:.
 ?LINT:set d_mmap
 : see if mmap exists
-set mmap d_mmap
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_sysmman I_SYS_MMAN
+#ifdef I_SYS_MMAN
+#include <sys/mman.h>
+#endif
+int main(void)
+{
+	static off_t offset;
+	static void *addr;
+	static size_t len;
+	static int flags, fd, prot;
+	void *p;
+	flags |= PROT_NONE;
+	flags |= PROT_READ;
+	flags |= PROT_WRITE;
+	flags |= PROT_EXEC;
+	p = mmap(addr, len, prot, flags, fd, offset);
+	return p ? 0 : 1;
+}
+EOC
+set d_mmap
+eval $trylink
 

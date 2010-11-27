@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:37  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_strstr: Inlibc
+?MAKE:d_strstr: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_strstr:
 ?S:	This variable conditionally defines HAS_STRSTR if strstr() is
@@ -26,6 +26,15 @@
 ?H:.
 ?LINT:set d_strstr
 : see if strstr exists
-set strstr d_strstr
-eval $inlibc
+$cat >try.c <<EOC
+#include <string.h>
+int main(void)
+{
+	static char ret;
+	ret |= *strstr("abc", "b");
+	return ret ? 0 : 1;
+}
+EOC
+set d_strstr
+eval $trylink
 

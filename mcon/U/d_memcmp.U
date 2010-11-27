@@ -15,7 +15,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:33  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_memcmp: Inlibc
+?MAKE:d_memcmp: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_memcmp:
 ?S:	This variable conditionally defines the HAS_MEMCMP symbol, which
@@ -30,6 +30,15 @@
 ?H:.
 ?LINT:set d_memcmp
 : see if memcmp exists
-set memcmp d_memcmp
-eval $inlibc
+$cat >try.c <<EOC
+#include <string.h>
+int main(void)
+{
+	static int a, b, ret;
+	ret |= memcmp(&a, &b, sizeof(a));
+	return ret ? 0 : 1;
+}
+EOC
+set d_memcmp
+eval $trylink
 

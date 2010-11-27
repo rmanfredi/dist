@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:11:52  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_readlink: Inlibc
+?MAKE:d_readlink: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_readlink:
 ?S:	This variable conditionally defines the HAS_READLINK symbol, which
@@ -29,6 +29,20 @@
 ?H:.
 ?LINT:set d_readlink
 : see if readlink exists
-set readlink d_readlink
-eval $inlibc
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static ssize_t ret;
+	static char buf[1];
+	static size_t size;
+	ret |= readlink("path", buf, size);
+	return ret ? 0 : 1;
+}
+EOC
+set d_readlink
+eval $trylink
 

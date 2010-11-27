@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/06/20  06:57:51  ram
 ?RCS: patch30: created
 ?RCS:
-?MAKE:d_setlocale: Inlibc
+?MAKE:d_setlocale: Trylink cat i_locale
 ?MAKE:	-pick add $@ %<
 ?S:d_setlocale:
 ?S:	This variable conditionally defines HAS_SETLOCALE if setlocale() is
@@ -28,6 +28,19 @@
 ?H:.
 ?LINT:set d_setlocale
 : see if setlocale exists
-set setlocale d_setlocale
-eval $inlibc
+$cat >try.c <<EOC
+#$i_locale I_LOCALE
+#ifdef I_LOCALE
+#include <locale.h>
+#endif
+int main(void)
+{
+	static int category;
+	static char ret;
+	ret |= *setlocale(category, "locale");
+	return ret ? 0 : 1;
+}
+EOC
+set d_setlocale
+eval $trylink
 

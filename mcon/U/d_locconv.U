@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/10/29  16:14:11  ram
 ?RCS: patch36: created by ADO
 ?RCS:
-?MAKE:d_locconv: Inlibc
+?MAKE:d_locconv: Trylink cat i_locale
 ?MAKE:	-pick add $@ %<
 ?S:d_locconv:
 ?S:	This variable conditionally defines HAS_LOCALECONV if localeconv() is
@@ -28,6 +28,18 @@
 ?H:.
 ?LINT:set d_locconv
 : see if localeconv exists
-set localeconv d_locconv
-eval $inlibc
+$cat >try.c <<EOC
+#$i_locale I_LOCALE
+#ifdef I_LOCALE
+#include <locale.h>
+#endif
+int main(void)
+{
+	struct lconv *lc;
+	lc = localeconv();
+	return lc ? 0 : 1;
+}
+EOC
+set d_locconv
+eval $trylink
 

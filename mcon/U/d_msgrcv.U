@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:40  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_msgrcv: Inlibc
+?MAKE:d_msgrcv: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_msgrcv:
 ?S:	This variable conditionally defines the HAS_MSGRCV symbol, which
@@ -26,6 +26,21 @@
 ?H:.
 ?LINT:set d_msgrcv
 : see if msgrcv exists
-set msgrcv d_msgrcv
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/msg.h>
+int main(void)
+{
+	static ssize_t ret;
+	static int id, flags;
+	static size_t size;
+	static long type;
+	static char buf[16];
+	flags |= IPC_CREAT;
+	flags |= IPC_EXCL;
+	ret |= msgrcv(id, &buf, size, type, flags);
+	return ret ? 0 : 1;
+}
+EOC
+set d_msgrcv
+eval $trylink
 

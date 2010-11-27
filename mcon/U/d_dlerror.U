@@ -17,7 +17,7 @@
 ?RCS: Revision 3.0.1.1  1994/10/29  16:11:23  ram
 ?RCS: patch36: created by ADO
 ?RCS:
-?MAKE:d_dlerror: Inlibc runnm
+?MAKE:d_dlerror: Trylink cat i_dlfcn
 ?MAKE:	-pick add $@ %<
 ?S:d_dlerror:
 ?S:	This variable conditionally defines the HAS_DLERROR symbol, which
@@ -30,17 +30,20 @@
 ?C:.
 ?H:#$d_dlerror HAS_DLERROR	/**/
 ?H:.
-?T: xxx_runnm
 ?LINT:set d_dlerror
-?X: We don't permanently change runnm, but we do temporarily.
-?LINT: change runnm
 : see if dlerror exists
-?X: On NetBSD and FreeBSD, dlerror might be available, but it is in 
-?X: /usr/lib/crt0.o, not in any of the libraries.  Therefore, do not
-?X: use the nm extraction, but use a real compile and link test instead.
-xxx_runnm="$runnm"
-runnm=false
-set dlerror d_dlerror
-eval $inlibc
-runnm="$xxx_runnm"
+$cat >try.c <<EOC
+#$i_dlfcn I_DLFCN
+#ifdef I_DLFCN 
+#include <dlfcn.h>
+#endif
+int main(void)
+{
+	static char ret;
+	ret |= *dlerror();
+	return ret ? 0 : 1;
+}
+EOC
+set d_dlerror '-ldl'
+eval $trylink
 

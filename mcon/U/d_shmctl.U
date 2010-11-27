@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:18  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_shmctl: Inlibc
+?MAKE:d_shmctl: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_shmctl:
 ?S:	This variable conditionally defines the HAS_SHMCTL symbol, which
@@ -26,6 +26,18 @@
 ?H:.
 ?LINT:set d_shmctl
 : see if shmctl exists
-set shmctl d_shmctl
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/shm.h>
+int main(void)
+{
+	static int ret, id;
+	static struct shmid_ds *buf;
+	ret |= shmctl(id, IPC_STAT, buf);
+	ret |= shmctl(id, IPC_SET, buf);
+	ret |= shmctl(id, IPC_RMID, buf);
+	return ret ? 0 : 1;
+}
+EOC
+set d_shmctl
+eval $trylink
 

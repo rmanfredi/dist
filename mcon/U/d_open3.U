@@ -82,7 +82,7 @@ elif $test `./findhdr fcntl.h` && \
 	fi
 else
 	val="$undef"
-	./warn "I can't find the O_* constant definitions!  You got problems."
+	./warn "I can't find the O_* constant definitions!  You got problems." 4>&4
 fi
 set d_open3
 eval $setvar

@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:48  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_truncate: Inlibc
+?MAKE:d_truncate: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_truncate:
 ?S:	This variable conditionally defines HAS_TRUNCATE if truncate() is
@@ -26,6 +26,20 @@
 ?H:.
 ?LINT:set d_truncate
 : see if truncate exists
-set truncate d_truncate
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static int ret;
+	static off_t length;
+	ret |= truncate("path", length);
+	return ret ? 0 : 1;
+}
+EOC
+set d_truncate
+eval $trylink
 

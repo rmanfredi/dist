@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:07:14  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_chown: Inlibc
+?MAKE:d_chown: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_chown:
 ?S:	This variable conditionally defines the HAS_CHOWN symbol, which
@@ -28,6 +28,21 @@
 ?H:.
 ?LINT:set d_chown
 : see if chown exists
-set chown d_chown
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static uid_t uid;
+	static gid_t gid;
+	static int ret;
+	ret |= chown("path", uid, gid);
+	return ret ? 0 : 1;
+}
+EOC
+set d_chown
+eval $trylink
 

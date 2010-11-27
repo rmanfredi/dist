@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:05  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_semget: Inlibc
+?MAKE:d_semget: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_semget:
 ?S:	This variable conditionally defines the HAS_SEMGET symbol, which
@@ -26,6 +26,19 @@
 ?H:.
 ?LINT:set d_semget
 : see if semget exists
-set semget d_semget
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/sem.h>
+int main(void)
+{
+	static int ret, n, flags;
+	static key_t key;
+	key = IPC_PRIVATE;
+	flags |= IPC_CREAT;
+	flags |= IPC_EXCL;
+	ret |= semget(key, n, flags);
+	return ret ? 0 : 1;
+}
+EOC
+set d_semget
+eval $trylink
 

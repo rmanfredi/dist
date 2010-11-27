@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:47  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_popen: Inlibc
+?MAKE:d_popen: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_popen:
 ?S:	This variable conditionally defines HAS_POPEN if popen() is
@@ -26,6 +26,16 @@
 ?H:.
 ?LINT:set d_popen
 : see if popen exists
-set popen d_popen
-eval $inlibc
+$cat >try.c <<EOC
+#include <stdio.h>
+int main(void)
+{
+	FILE *f;
+
+	f = popen("command", "mode");
+	return f ? 0 : 1;
+}
+EOC
+set d_popen
+eval $trylink
 

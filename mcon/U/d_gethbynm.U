@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:08  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_gethbynm: Inlibc
+?MAKE:d_gethbynm: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_gethbynm (d_gethhstby):
 ?S:	This variable conditionally defines the HAS_GETHOSTBYNAME symbol, which
@@ -27,6 +27,15 @@
 ?H:.
 ?LINT:set d_gethbynm
 : see if gethostbyname exists
-set gethostbyname d_gethbynm
-eval $inlibc
+$cat >try.c <<EOC
+#include <netdb.h>
+int main(void)
+{
+	struct hostent *he;
+	he = gethostbyname("hostname");
+	return he ? 0 : 1;
+}
+EOC
+set d_gethbynm '-lnsl'
+eval $trylink
 

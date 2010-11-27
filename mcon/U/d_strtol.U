@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:39  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_strtol: Inlibc
+?MAKE:d_strtol: Trylink cat i_stdlib
 ?MAKE:	-pick add $@ %<
 ?S:d_strtol:
 ?S:	This variable conditionally defines the HAS_STRTOL symbol, which
@@ -27,6 +27,19 @@
 ?H:.
 ?LINT:set d_strtol
 : see if strtol exists
-set strtol d_strtol
-eval $inlibc
+$cat >try.c <<EOC
+#$i_stdlib I_STDLIB
+#ifdef I_STDLIB
+#include <stdlib.h>
+#endif
+int main(void)
+{
+	static long ret;
+	static char *endptr;
+	ret |= strtol("1234", &endptr, 10);
+	return ret ? 0 : 1;
+}
+EOC
+set d_strtol
+eval $trylink
 

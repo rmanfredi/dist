@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:08:03  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_wcstombs: Inlibc
+?MAKE:d_wcstombs: Trylink cat i_stdlib
 ?MAKE:	-pick add $@ %<
 ?S:d_wcstombs:
 ?S:	This variable conditionally defines the HAS_WCSTOMBS symbol, which
@@ -27,6 +27,20 @@
 ?H:.
 ?LINT:set d_wcstombs
 : see if wcstombs exists
-set wcstombs d_wcstombs
-eval $inlibc
+$cat >try.c <<EOC
+#$i_stdlib I_STDLIB
+#ifdef I_STDLIB
+#include <stdlib.h>
+#endif
+int main(void)
+{
+	static size_t ret, n;
+	static wchar_t wcs;
+	static char buf[1];
+	ret |= wcstombs(buf, &wcs, n);
+	return ret ? 0 : 1;
+}
+EOC
+set d_wcstombs
+eval $trylink
 

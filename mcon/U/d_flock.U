@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:05  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_flock: Inlibc
+?MAKE:d_flock: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_flock:
 ?S:	This variable conditionally defines HAS_FLOCK if flock() is
@@ -26,6 +26,18 @@
 ?H:.
 ?LINT:set d_flock
 : see if flock exists
-set flock d_flock
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/file.h>
+#include <fcntl.h>
+int main(void)
+{
+	static int fd, ret;
+	ret |= flock(fd, LOCK_SH);
+	ret |= flock(fd, LOCK_EX);
+	ret |= flock(fd, LOCK_UN);
+	return ret ? 0 : 1;
+}
+EOC
+set d_flock
+eval $trylink
 

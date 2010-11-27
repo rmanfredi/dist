@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:20:43  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_wctomb: Inlibc
+?MAKE:d_wctomb: Trylink cat i_stdlib i_limits
 ?MAKE:	-pick add $@ %<
 ?S:d_wctomb:
 ?S:	This variable conditionally defines the HAS_WCTOMB symbol, which
@@ -29,6 +29,24 @@
 ?H:.
 ?LINT:set d_wctomb
 : see if wctomb exists
-set wctomb d_wctomb
-eval $inlibc
+$cat >try.c <<EOC
+#$i_stdlib I_STDLIB
+#ifdef I_STDLIB
+#include <stdlib.h>
+#endif
+#$i_limits I_LIMITS
+#ifdef I_LIMITS
+#include <limits.h>
+#endif
+int main(void)
+{
+	static int ret;
+	static char dst[MB_LEN_MAX];
+	static wchar_t wc;
+	ret |= wctomb(dst, wc);
+	return ret ? 0 : 1;
+}
+EOC
+set d_wctomb
+eval $trylink
 

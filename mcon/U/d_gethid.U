@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:10  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_gethid: Inlibc
+?MAKE:d_gethid: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_gethid:
 ?S:	This variable conditionally defines HAS_GETHOSTID if gethostid() is
@@ -26,6 +26,18 @@
 ?H:.
 ?LINT:set d_gethid
 : see if gethid exists
-set gethostid d_gethid
-eval $inlibc
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static long id;
+	id |= gethostid();
+	return id ? 0 : 1;
+}
+EOC
+set d_gethid
+eval $trylink
 

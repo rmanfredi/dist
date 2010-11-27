@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0.1.1  1993/12/15  08:19:17  ram
 ?RCS: patch15: created
 ?RCS:
-?MAKE:d_msync: Inlibc
+?MAKE:d_msync: Trylink cat i_sysmman
 ?MAKE:	-pick add $@ %<
 ?S:d_msync:
 ?S:	This variable conditionally defines HAS_MSYNC if msync() is
@@ -26,6 +26,23 @@
 ?H:.
 ?LINT:set d_msync
 : see if msync exists
-set msync d_msync
-eval $inlibc
+$cat >try.c <<EOC
+#$i_sysmman I_SYS_MMAN
+#ifdef I_SYS_MMAN
+#include <sys/mman.h>
+#endif
+int main(void)
+{
+	static int ret, flags;
+	static void *addr;
+	static size_t len;
+	flags |= MS_ASYNC;
+	flags |= MS_SYNC;
+	flags |= MS_INVALIDATE;
+	ret |= msync(addr, len, flags);
+	return ret ? 0 : 1;
+}
+EOC
+set d_msync
+eval $trylink
 

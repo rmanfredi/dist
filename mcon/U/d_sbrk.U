@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0.1.1  1994/01/24  14:06:31  ram
 ?RCS: patch16: created
 ?RCS:
-?MAKE:d_sbrk: Inlibc
+?MAKE:d_sbrk: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_sbrk:
 ?S:	This variable conditionally defines HAS_SBRK if sbrk() is
@@ -26,6 +26,18 @@
 ?H:.
 ?LINT:set d_sbrk
 : see if sbrk exists
-set sbrk d_sbrk
-eval $inlibc
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	void *ret;
+	ret = sbrk(1);
+	return ret ? 0 : 1;
+}
+EOC
+set d_sbrk
+eval $trylink
 

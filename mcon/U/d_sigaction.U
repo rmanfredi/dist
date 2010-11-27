@@ -13,7 +13,7 @@
 ?RCS: patch61: created
 ?RCS:
 ?RCS:
-?MAKE:d_sigaction: Csym Setvar cat cc ccflags ldflags libs rm _o
+?MAKE:d_sigaction: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_sigaction:
 ?S:	This variable conditionally defines the HAS_SIGACTION symbol, which
@@ -25,37 +25,20 @@
 ?C:.
 ?H:#$d_sigaction HAS_SIGACTION	/**/
 ?H:.
-?T:val
 ?LINT:set d_sigaction
 : see if we have sigaction
-echo " "
-if set sigaction val -f d_sigaction; eval $csym; $val; then
-	echo 'sigaction() found.' >&4
-	val="$define"
-else
-	echo 'sigaction NOT found.' >&4
-	val="$undef"
-fi
-?X:
-?X: Solaris 2.5_x86 with SunWorks Pro C 3.0.1 doesn't have a complete
-?X: sigaction structure if compiled with cc -Xc.  This compile test
-?X: will fail then.  <doughera@lafcol.lafayette.edu>
-?X:
-$cat > set.c <<'EOP'
+$cat >try.c <<EOC
 #include <stdio.h>
 #include <sys/types.h>
 #include <signal.h>
-int main()
+int main(void)
 {
-    struct sigaction act, oact;
+	struct sigaction act, oact;
+	static int ret, sig;
+	ret |= sigaction(sig, &act, &oact);
+	return ret ? 0 : 1;
 }
-EOP
-if $cc $ccflags $ldflags -o set set.c $libs >/dev/null 2>&1; then
-	:
-else
-	echo "But you don't seem to have a useable struct sigaction." >&4
-	val="$undef"
-fi
-set d_sigaction; eval $setvar
-$rm -f set set$_o set.c
+EOC
+set d_sigaction
+eval $trylink
 

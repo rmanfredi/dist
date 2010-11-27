@@ -135,7 +135,7 @@ Hopefully, $package does not need this feature.
 EOM
 	fi
 else
-	./warn <<EOM
+	./warn 4>&4 <<EOM
 I can't seem to be able to catenate tokens with your cpp.
 @if CAT2 || CAT3 || CAT4 || CAT5 || SCAT2 || SCAT3 || SCAT4 || SCAT5
 You're going to have to edit the values of the following

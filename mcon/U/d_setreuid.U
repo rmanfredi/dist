@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:13  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_setreuid d_setresuid: Inlibc
+?MAKE:d_setreuid d_setresuid: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_setreuid:
 ?S:	This variable conditionally defines HAS_SETREUID if setreuid() is
@@ -39,8 +39,38 @@
 ?H:.
 ?LINT:set d_setreuid d_setresuid
 : see if setreuid exists
-set setreuid d_setreuid
-eval $inlibc
-set setresuid d_setresuid
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int
+main(void)
+{
+	static uid_t ruid, euid;
+	static int ret;
+	ret |= setreuid(ruid, euid);
+	return ret ? 0 : 1;
+}
+EOC
+set d_setreuid
+eval $trylink
+
+: see if setresuid exists
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static uid_t ruid, euid, suid;
+	static int ret;
+	ret |= setresuid(ruid, euid, suid);
+	return ret ? 0 : 1;
+}
+EOC
+set d_setresuid
+eval $trylink
 

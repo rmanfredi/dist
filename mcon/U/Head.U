@@ -49,7 +49,7 @@
 ?MAKE:Head:
 ?MAKE:	-pick wipe $@ %<
 ?V:PATH p_ _exe me newsh
-?T:argv Id p paths OS2_SHELL DJGPP
+?T:argv Id OS2_SHELL DJGPP
 ?T:inksh needksh avoidksh newsh changesh reason
 ?F:!*
 ?LINT:extern ENV CDPATH SHELL MACHTYPE
@@ -144,44 +144,6 @@ if test -d c:/. ; then
 		esac
 	fi
 fi
-
-?X:
-?X: There are two schools of thoughts here. Some people correctly argue that
-?X: the user has a better chance than we do of setting a reasonable PATH and
-?X: others argue that Configure is the best place there is to set up a suitable
-?X: PATH. Well, here we try to compromize by keeping the user's PATH and
-?X: appending some directories which are known to work on some machine or the
-?X: other. The rationale behind this being that a novice user might not have a
-?X: proper environment variable set, and some directories like /etc (where
-?X: chown is located on some BSD systems) may be missing--RAM.
-?X:
-?X: SVR4 adds an /opt directory for optional packages.  Some sites use
-?X: various permutations on /opt as opposed to /usr or /usr/local.-- ADO
-?X:
-?X: We only add directories that are not already in the PATH of the
-?X: user and the directories must exist also.
-?X:
-: Proper PATH setting
-paths='/bin /usr/bin /usr/local/bin /usr/ucb /usr/local /usr/lbin'
-paths="$paths /opt/bin /opt/local/bin /opt/local /opt/lbin"
-paths="$paths /usr/5bin /etc /usr/gnu/bin /usr/new /usr/new/bin /usr/nbin"
-paths="$paths /opt/gnu/bin /opt/new /opt/new/bin /opt/nbin"
-paths="$paths /sys5.3/bin /sys5.3/usr/bin /bsd4.3/bin /bsd4.3/usr/ucb"
-paths="$paths /bsd4.3/usr/bin /usr/bsd /bsd43/bin /usr/ccs/bin"
-paths="$paths /etc /usr/lib /usr/ucblib /lib /usr/ccs/lib"
-paths="$paths /sbin /usr/sbin /usr/libexec"
-paths="$paths /system/gnu_library/bin"
-
-for p in $paths
-do
-	case "$p_$PATH$p_" in
-	*$p_$p$p_*) ;;
-	*) test -d $p && PATH=$PATH$p_$p ;;
-	esac
-done
-
-PATH=.$p_$PATH
-export PATH
 
 : shall we be using ksh?
 inksh=''

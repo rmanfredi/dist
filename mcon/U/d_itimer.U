@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:25  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_itimer: Inlibc
+?MAKE:d_itimer: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_itimer:
 ?S:	This variable conditionally defines the HAS_ITIMER symbol, which
@@ -27,6 +27,19 @@
 ?H:.
 ?LINT:set d_itimer
 : see if setitimer exists
-set setitimer d_itimer
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/time.h>
+int main(void)
+{
+	static int ret;
+	static struct itimerval val, old;
+
+	ret |= setitimer(ITIMER_REAL, &val, &old);
+	ret |= setitimer(ITIMER_VIRTUAL, &val, &old);
+	ret |= setitimer(ITIMER_PROF, &val, &old);
+	return ret ? 0 : 1;
+}
+EOC
+set d_itimer
+eval $trylink
 

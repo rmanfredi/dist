@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:01  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_fcntl: Inlibc
+?MAKE:d_fcntl: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_fcntl:
 ?S:	This variable conditionally defines the HAS_FCNTL symbol, and indicates
@@ -26,6 +26,22 @@
 ?H:.
 ?LINT:set d_fcntl
 : see if this is an fcntl system
-set fcntl d_fcntl
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+#include <fcntl.h>
+int main(void)
+{
+	static int fd, ret;
+	ret |= fcntl(fd, F_DUPFD, 1);
+	ret |= fcntl(fd, F_GETFD);
+	ret |= fcntl(fd, F_GETFL);
+	return ret ? 0 : 1;
+}
+EOC
+set d_fcntl
+eval $trylink
 

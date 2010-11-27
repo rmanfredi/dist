@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:51  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_rdchk: Inlibc
+?MAKE:d_rdchk: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_rdchk:
 ?S:	This variable conditionally defines the HAS_RDCHK symbol, which
@@ -28,6 +28,14 @@
 ?H:.
 ?LINT:set d_rdchk
 : see if rdchk exists
-set rdchk d_rdchk
-eval $inlibc
+$cat >try.c <<EOC
+int main(void)
+{
+	static int ret, fd;
+	ret |= rdchk(fd);
+	return ret ? 0 : 1;
+}
+EOC
+set d_rdchk
+eval $trylink
 

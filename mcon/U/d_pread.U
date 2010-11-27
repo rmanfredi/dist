@@ -10,7 +10,7 @@
 ?RCS:
 ?RCS: $Log: d_pread.U,v $
 ?RCS:
-?MAKE:d_pread: Inlibc
+?MAKE:d_pread: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_pread:
 ?S:	This variable conditionally defines the HAS_PREAD symbol, which
@@ -24,6 +24,23 @@
 ?H:.
 ?LINT:set d_pread
 : see if pread exists
-set pread d_pread
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static ssize_t ret;
+	static int fd;
+	static char buf[1];
+	static size_t size;
+	static off_t offset;
+	ret |= pread(fd, buf, size, offset);
+	return ret ? 0 : 1;
+}
+EOC
+set d_pread
+eval $trylink
 

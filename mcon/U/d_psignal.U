@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:49  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_psignal: Inlibc
+?MAKE:d_psignal: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_psignal:
 ?S:	This variable conditionally defines the HAS_PSIGNAL symbol, which
@@ -26,6 +26,15 @@
 ?H:.
 ?LINT:set d_psignal
 : see if psignal exists
-set psignal d_psignal
-eval $inlibc
+$cat >try.c <<EOC
+#include <signal.h>
+int main(void)
+{
+	static int sig;
+	psignal(sig, "signal");
+	return 0;
+}
+EOC
+set d_psignal
+eval $trylink
 

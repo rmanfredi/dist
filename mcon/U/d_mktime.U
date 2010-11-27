@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:09:44  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_mktime: Inlibc
+?MAKE:d_mktime: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_mktime:
 ?S:	This variable conditionally defines the HAS_MKTIME symbol, which
@@ -28,6 +28,16 @@
 ?H:.
 ?LINT:set d_mktime
 : see if mktime exists
-set mktime d_mktime
-eval $inlibc
+$cat >try.c <<EOC
+#include <time.h>
+int main(void)
+{
+	static struct tm tm;
+	static time_t ret;
+	ret = mktime(&tm);
+	return ret ? 0 : 1;
+}
+EOC
+set d_mktime
+eval $trylink
 

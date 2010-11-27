@@ -21,8 +21,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:18  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_shmat shmattype d_shmatprototype: Inlibc cat +cc +ccflags \
-	rm cppstdin cppflags cppminus Findhdr Setvar contains
+?MAKE:d_shmat shmattype d_shmatprototype: Trylink Setvar cat
 ?MAKE:	-pick add $@ %<
 ?S:d_shmat:
 ?S:	This variable conditionally defines the HAS_SHMAT symbol, which
@@ -57,37 +56,79 @@
 ?H:#$d_shmatprototype HAS_SHMAT_PROTOTYPE	/**/
 ?H:.
 ?LINT:set d_shmat d_shmatprototype
-?T:xxx
 : see if shmat exists
-set shmat d_shmat
-eval $inlibc
-: see what shmat returns
+$cat >try.c <<EOC
+#include <sys/shm.h>
+int main(void)
+{
+	static int id, flags;
+	static void *addr;
+	(void) shmat(id, addr, flags);
+	return 0;
+}
+EOC
+set d_shmat 
+eval $trylink
+
 case "$d_shmat" in
 "$define")
-	$cat >shmat.c <<'END'
+	$cat >try.c <<EOC
 #include <sys/shm.h>
-void *shmat();
-END
-	if $cc $ccflags -c shmat.c >/dev/null 2>&1; then
-		shmattype='void *'
-	else
-		shmattype='char *'
-	fi
-	echo "and it returns ($shmattype)." >&4
-	: see if a prototype for shmat is available
-	xxx=`./findhdr sys/shm.h`
-	$cppstdin $cppflags $cppminus < $xxx > shmat.c 2>/dev/null
-	if $contains 'shmat.*(' shmat.c >/dev/null 2>&1; then
-		val="$define"
-	else
-		val="$undef"
-	fi
-	$rm -f shmat.[co]
+extern void shmat(void);
+int main(void) { return 0; }
+EOC
+	set val
+	eval $trylink
+	case "$val" in
+	"$define")	val="$undef";;
+	*)		val="$define";;
+	esac
 	;;
-*)
-	val="$undef"
-	;;
+*)	val="$undef";;
 esac
+
 set d_shmatprototype
 eval $setvar
+
+case "$d_shmat" in
+"$define")
+	$cat >try.c <<EOC
+#include <sys/shm.h>
+extern void *shmat(int, const void *, int);
+int main(void) { return 0; }
+EOC
+	set val
+	eval $trylink
+	;;
+esac
+
+case "$d_shmat" in
+"$define")
+	$cat >try.c <<EOC
+#include <sys/shm.h>
+extern void *shmat(int, void *, int);
+int main(void) { return 0; }
+EOC
+	set val
+	eval $trylink
+	case "$val" in
+	"$define") shmattype='void *';;
+	esac
+	;;
+esac
+
+case "$d_shmat" in
+"$define")
+	$cat >try.c <<EOC
+#include <sys/shm.h>
+extern char *shmat(int, char *, int);
+int main(void) { return 0; }
+EOC
+	set val
+	eval $trylink
+	case "$val" in
+	"$define") shmattype='char *';;
+	esac
+	;;
+esac
 

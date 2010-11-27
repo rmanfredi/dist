@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:07:45  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_getppid: Inlibc
+?MAKE:d_getppid: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_getppid:
 ?S:	This variable conditionally defines the HAS_GETPPID symbol, which
@@ -29,6 +29,19 @@
 ?H:.
 ?LINT:set d_getppid
 : see if getppid exists
-set getppid d_getppid
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static pid_t ret;
+	ret |= getppid();
+	return ret ? 0 : 1;
+}
+EOC
+set d_getppid
+eval $trylink
 

@@ -18,7 +18,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:24  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_strccmp: Inlibc
+?MAKE:d_strccmp: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_strccmp:
 ?S:	This variable conditionally defines the HAS_STRCASECMP symbol, which
@@ -33,6 +33,16 @@
 ?H:.
 ?LINT:set d_strccmp
 : see if strcasecmp exists
-set strcasecmp d_strccmp
-eval $inlibc
+$cat >try.c <<EOC
+#include <strings.h>
+int
+main(void)
+{
+	static int ret;
+	ret |= strcasecmp("xxx", "XXX");
+	return ret ? 0 : 1;
+}
+EOC
+set d_strccmp
+eval $trylink
 

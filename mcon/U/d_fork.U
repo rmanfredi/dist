@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:07:38  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_fork: Inlibc
+?MAKE:d_fork: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_fork:
 ?S:	This variable conditionally defines the HAS_FORK symbol, which
@@ -28,6 +28,19 @@
 ?H:.
 ?LINT:set d_fork
 : see if fork exists
-set fork d_fork
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static pid_t pid;
+	pid |= fork();
+	return pid ? 0 : 1;
+}
+EOC
+set d_fork
+eval $trylink
 

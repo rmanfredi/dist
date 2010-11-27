@@ -12,7 +12,8 @@
 ?RCS: Revision 3.0  1993/08/18  12:05:42  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_access: test +cc cat +cppflags h_fcntl h_sysfile rm Inlibc Findhdr
+?MAKE:d_access: test +cc cat +cppflags h_fcntl h_sysfile rm Trylink Findhdr \
+	i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_access:
 ?S:	This variable conditionally defines HAS_ACCESS if the access() system
@@ -29,8 +30,20 @@
 ?LINT:set d_access
 ?LINT:change h_fcntl h_sysfile
 : access call always available on UNIX
-set access d_access
-eval $inlibc
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static int ret;
+	ret |= access("path", 1);
+	return ret ? 0 : 1;
+}
+EOC
+set d_access
+eval $trylink
 
 : locate the flags for 'access()'
 case "$d_access" in

@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0.1.1  1993/12/15  08:21:41  ram
 ?RCS: patch15: created
 ?RCS:
-?MAKE:d_strdup: Inlibc
+?MAKE:d_strdup: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_strdup:
 ?S:	This variable conditionally defines HAS_STRDUP if strdup() is
@@ -27,6 +27,16 @@
 ?H:.
 ?LINT:set d_strdup
 : see if strdup exists
-set strdup d_strdup
-eval $inlibc
+$cat >try.c <<EOC
+#include <string.h>
+int main(void)
+{
+	static char ret;
+
+	ret |= *strdup("x");
+	return ret ? 0 : 1;
+}
+EOC
+set d_strdup
+eval $trylink
 

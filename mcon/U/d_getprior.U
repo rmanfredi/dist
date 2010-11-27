@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:16  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_getprior: Inlibc
+?MAKE:d_getprior: Trylink cat i_sysresrc
 ?MAKE:	-pick add $@ %<
 ?S:d_getprior:
 ?S:	This variable conditionally defines HAS_GETPRIORITY if getpriority()
@@ -26,6 +26,21 @@
 ?H:.
 : see if getpriority exists
 ?LINT:set d_getprior
-set getpriority d_getprior
-eval $inlibc
+$cat >try.c <<EOC
+#$i_sysresrc I_SYS_RESOURCE
+#ifdef I_SYS_RESOURCE
+#include <sys/resource.h>
+#endif
+int main(void)
+{
+	static int ret;
+	static id_t id;
+	ret |= getpriority(PRIO_PROCESS, id);
+	ret |= getpriority(PRIO_PGRP, id);
+	ret |= getpriority(PRIO_USER, id);
+	return ret ? 0 : 1;
+}
+EOC
+set d_getprior
+eval $trylink
 

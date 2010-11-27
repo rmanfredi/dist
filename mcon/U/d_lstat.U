@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:28  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_lstat: Inlibc
+?MAKE:d_lstat: Trylink cat i_sysstat
 ?MAKE:	-pick add $@ %<
 ?S:d_lstat:
 ?S:	This variable conditionally defines HAS_LSTAT if lstat() is
@@ -26,6 +26,19 @@
 ?H:.
 ?LINT:set d_lstat
 : see if lstat exists
-set lstat d_lstat
-eval $inlibc
+$cat >try.c <<EOC
+#$i_sysstat I_SYS_STAT
+#ifdef I_SYS_STAT
+#include <sys/stat.h>
+#endif
+int main(void)
+{
+	static int ret;
+	struct stat sb;
+	ret |= lstat("path", &sb);
+	return ret ? 0 : 1;
+}
+EOC
+set d_lstat
+eval $trylink
 

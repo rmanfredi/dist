@@ -31,7 +31,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:55  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_vfork usevfork: Inlibc Myread Oldconfig Setvar
+?MAKE:d_vfork usevfork: Trylink Myread Oldconfig Setvar cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_vfork:
 ?S:	This variable conditionally defines the HAS_VFORK symbol, which
@@ -54,9 +54,22 @@
 ?M:.
 ?LINT:set d_vfork
 : see if there is a vfork
-val=''
-set vfork val
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static pid_t ret;
+	ret |= vfork();
+	return ret ? 0 : 1;
+}
+EOC
+set val
+eval $trylink
+
 
 : Ok, but do we want to use it. vfork is reportedly unreliable in 
 : perl on Solaris 2.x, and probably elsewhere.

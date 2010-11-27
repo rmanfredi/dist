@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:38  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_msgctl: Inlibc
+?MAKE:d_msgctl: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_msgctl:
 ?S:	This variable conditionally defines the HAS_MSGCTL symbol, which
@@ -26,6 +26,18 @@
 ?H:.
 ?LINT:set d_msgctl
 : see if msgctl exists
-set msgctl d_msgctl
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/msg.h>
+int main(void)
+{
+	static int ret, id;
+	static struct msqid_ds buf;
+	ret |= msgctl(id, IPC_STAT, &buf);
+	ret |= msgctl(id, IPC_SET, &buf);
+	ret |= msgctl(id, IPC_RMID, &buf);
+	return ret ? 0 : 1;
+}
+EOC
+set d_msgctl
+eval $trylink
 

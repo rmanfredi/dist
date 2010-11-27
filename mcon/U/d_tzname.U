@@ -15,7 +15,7 @@
 ?RCS: Revision 3.0.1.1  1994/06/20  06:57:55  ram
 ?RCS: patch30: created
 ?RCS:
-?MAKE:d_tzname: Csym Setvar
+?MAKE:d_tzname: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_tzname:
 ?S:	This variable conditionally defines HAS_TZNAME if tzname[] is
@@ -29,14 +29,16 @@
 ?H:.
 ?LINT:set d_tzname
 : see if tzname[] exists
-echo " "
-if set tzname val -a d_tzname; eval $csym; $val; then
-	val="$define"
-	echo 'tzname[] found.' >&4
-else
-	val="$undef"
-	echo 'tzname[] NOT found.' >&4
-fi
+$cat >try.c <<EOC
+#include <time.h>
+int main(void)
+{
+	extern char *tzname[];
+	static char c;
+	c |= *tzname[0];
+	return c ? 0 : 1;
+}
+EOC
 set d_tzname
-eval $setvar
+eval $trylink
 

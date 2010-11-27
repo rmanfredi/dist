@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:54  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_rename: Inlibc
+?MAKE:d_rename: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_rename:
 ?S:	This variable conditionally defines the HAS_RENAME symbol, which
@@ -28,6 +28,15 @@
 ?H:.
 ?LINT:set d_rename
 : see if rename exists
-set rename d_rename
-eval $inlibc
+$cat >try.c <<EOC
+#include <stdio.h>
+int main(void)
+{
+	static int ret;
+	ret |= rename("old", "new");
+	return ret ? 0 : 1;
+}
+EOC
+set d_rename
+eval $trylink
 

@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0.1.1  1994/06/20  06:57:38  ram
 ?RCS: patch30: created
 ?RCS:
-?MAKE:d_fsetpos: Inlibc
+?MAKE:d_fsetpos: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_fsetpos:
 ?S:	This variable conditionally defines HAS_FSETPOS if fsetpos() is
@@ -26,6 +26,16 @@
 ?H:.
 ?LINT:set d_fsetpos
 : see if fsetpos exists
-set fsetpos d_fsetpos
-eval $inlibc
+$cat >try.c <<EOC
+#include <stdio.h>
+int main(void)
+{
+	static fpos_t pos;
+	static int ret;
+	ret |= fsetpos(stdout, &pos);
+	return ret ? 0 : 1;
+}
+EOC
+set d_fsetpos
+eval $trylink
 

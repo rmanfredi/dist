@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:08:02  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_waitpid: Inlibc
+?MAKE:d_waitpid: Trylink cat i_syswait
 ?MAKE:	-pick add $@ %<
 ?S:d_waitpid:
 ?S:	This variable conditionally defines HAS_WAITPID if waitpid() is
@@ -26,6 +26,22 @@
 ?H:.
 ?LINT:set d_waitpid
 : see if waitpid exists
-set waitpid d_waitpid
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_syswait I_SYS_WAIT
+#ifdef I_SYS_WAIT
+#include <sys/wait.h>
+#endif
+int main(void)
+{
+	static pid_t ret, pid;
+	static int status, options;
+	options |= WNOHANG;
+	options |= WUNTRACED;
+	ret |= waitpid(pid, &status, options);
+	return ret ? 0 : 1;
+}
+EOC
+set d_waitpid
+eval $trylink
 

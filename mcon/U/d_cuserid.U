@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:07:25  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_cuserid: Inlibc
+?MAKE:d_cuserid: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_cuserid:
 ?S:	This variable conditionally defines the HAS_CUSERID symbol, which
@@ -29,6 +29,15 @@
 ?H:.
 ?LINT:set d_cuserid
 : see if cuserid exists
-set cuserid d_cuserid
-eval $inlibc
+$cat >try.c <<EOC
+#include <stdio.h>
+int main(void)
+{
+	static char user[L_cuserid], ret;
+	ret |= *cuserid(user);
+	return ret ? 0 : 1;
+}
+EOC
+set d_cuserid
+eval $trylink
 

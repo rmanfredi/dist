@@ -18,7 +18,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:05:56  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_setpgid: Inlibc
+?MAKE:d_setpgid: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_setpgid:
 ?S:	This variable conditionally defines the HAS_SETPGID symbol if the
@@ -32,6 +32,20 @@
 ?H:.
 ?LINT:set d_setpgid
 : see if setpgid exists
-set setpgid d_setpgid
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static pid_t pid, pgid;
+	static int ret;
+	ret |= setpgid(pid, pgid);
+	return ret ? 0 : 1;
+}
+EOC
+set d_setpgid
+eval $trylink
 

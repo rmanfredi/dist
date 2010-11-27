@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:53  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_usleep: Inlibc
+?MAKE:d_usleep: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_usleep:
 ?S:	This variable conditionally defines HAS_USLEEP if usleep() is
@@ -26,6 +26,18 @@
 ?H:.
 ?LINT:set d_usleep
 : see if usleep exists
-set usleep d_usleep
-eval $inlibc
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static unsigned ret;
+	ret |= usleep(1);
+	return ret ? 0 : 1;
+}
+EOC
+set d_usleep
+eval $trylink
 

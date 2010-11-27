@@ -18,7 +18,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:05:42  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_bcmp: Inlibc
+?MAKE:d_bcmp: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_bcmp:
 ?S:	This variable conditionally defines the HAS_BCMP symbol if
@@ -39,6 +39,16 @@
 ?M:.
 ?LINT:set d_bcmp
 : see if bcmp exists
-set bcmp d_bcmp
-eval $inlibc
+$cat >try.c <<EOC
+#include <strings.h>
+int main(void)
+{
+	static int a, b, ret;
+	ret |= bcmp(&a, &b, sizeof(a));
+	return ret ? 0 : 1;
+}
+EOC
+set d_bcmp
+eval $trylink
+
 

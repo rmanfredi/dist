@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:05:54  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_ctermid: Inlibc
+?MAKE:d_ctermid: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_ctermid:
 ?S:	This variable conditionally defines CTERMID if ctermid() is
@@ -26,6 +26,15 @@
 ?H:.
 ?LINT:set d_ctermid
 : see if ctermid exists
-set ctermid d_ctermid
-eval $inlibc
+$cat >try.c <<EOC
+#include <stdio.h>
+int main(void)
+{
+	static char term[L_ctermid], ret;
+	ret |= *ctermid(term);
+	return ret ? 0 : 1;
+}
+EOC
+set d_ctermid
+eval $trylink
 

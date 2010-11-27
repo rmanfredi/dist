@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:39  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_msgget: Inlibc
+?MAKE:d_msgget: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_msgget:
 ?S:	This variable conditionally defines the HAS_MSGGET symbol, which
@@ -26,6 +26,19 @@
 ?H:.
 ?LINT:set d_msgget
 : see if msgget exists
-set msgget d_msgget
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/msg.h>
+int main(void)
+{
+	static int ret, flags;
+	static key_t key;
+	flags |= IPC_CREAT;
+	flags |= IPC_EXCL;
+	key = IPC_PRIVATE;
+	ret |= msgget(key, flags);
+	return ret ? 0 : 1;
+}
+EOC
+set d_msgget
+eval $trylink
 

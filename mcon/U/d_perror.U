@@ -15,7 +15,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:45  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_perror: Inlibc
+?MAKE:d_perror: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_perror:
 ?S:	This variable conditionally remaps perror to a null action and
@@ -39,6 +39,14 @@
 ?H:.
 ?LINT:set d_perror
 : see if perror exists
-set perror d_perror
-eval $inlibc
+$cat >try.c <<EOC
+#include <stdio.h>
+int main(void)
+{
+	perror("error");
+	return 0;
+}
+EOC
+set d_perror
+eval $trylink
 

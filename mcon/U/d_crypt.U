@@ -15,7 +15,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:05:52  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_crypt cryptlib: Loc test xlibpth libpth Csym Setvar _a Inlibc
+?MAKE:d_crypt cryptlib: Loc test xlibpth libpth Setvar _a Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_crypt:
 ?S:	This variable conditionally defines the CRYPT symbol, which
@@ -36,41 +36,47 @@
 ?LINT:set d_crypt
 ?T:val
 : see if crypt exists
-echo " "
-set crypt d_crypt
-eval $inlibc
+
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static char ret;
+	ret |= *crypt("key", "salt");
+	return ret ? 0 : 1;
+}
+EOC
+set d_crypt -lcrypt
+eval $trylink
+
 case "$d_crypt" in
-$define) cryptlib='' ;;
-*)	if set crypt val -f d_crypt; eval $csym; $val; then
-		echo 'crypt() found.' >&4
-		val="$define"
-		cryptlib=''
+$define) cryptlib='';;
+*)
+	cryptlib=`./loc Slibcrypt$_a "" $xlibpth`
+	if $test -z "$cryptlib"; then
+		cryptlib=`./loc Mlibcrypt$_a "" $xlibpth`
 	else
-		cryptlib=`./loc Slibcrypt$_a "" $xlibpth`
-		if $test -z "$cryptlib"; then
-			cryptlib=`./loc Mlibcrypt$_a "" $xlibpth`
-		else
-			cryptlib=-lcrypt
-		fi
-		if $test -z "$cryptlib"; then
-			cryptlib=`./loc Llibcrypt$_a "" $xlibpth`
-		else
-			cryptlib=-lcrypt
-		fi
-		if $test -z "$cryptlib"; then
-			cryptlib=`./loc libcrypt$_a "" $libpth`
-		else
-			cryptlib=-lcrypt
-		fi
-		if $test -z "$cryptlib"; then
-			echo 'crypt() NOT found.' >&4
-			val="$undef"
-		else
-			val="$define"
-		fi
+		cryptlib=-lcrypt
 	fi
-	set d_crypt
-	eval $setvar
-	;;
+	if $test -z "$cryptlib"; then
+		cryptlib=`./loc Llibcrypt$_a "" $xlibpth`
+	else
+		cryptlib=-lcrypt
+	fi
+	if $test -z "$cryptlib"; then
+		cryptlib=`./loc libcrypt$_a "" $libpth`
+	else
+		cryptlib=-lcrypt
+	fi
+	if $test -z "$cryptlib"; then
+		echo 'crypt() NOT found.' >&4
+		val="$undef"
+	else
+		val="$define"
+	fi
+;;
 esac
 

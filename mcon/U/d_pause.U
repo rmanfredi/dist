@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:09:54  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_pause: Inlibc
+?MAKE:d_pause: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_pause:
 ?S:	This variable conditionally defines the HAS_PAUSE symbol, which
@@ -29,6 +29,18 @@
 ?H:.
 ?LINT:set d_pause
 : see if pause exists
-set pause d_pause
-eval $inlibc
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static int ret;
+	ret |= pause();
+	return ret ? 0 : 1;
+}
+EOC
+set d_pause
+eval $trylink
 

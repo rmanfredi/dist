@@ -17,7 +17,7 @@
 ?RCS:
 ?X: d_sigvec.U, from d_ftime.U 1.0
 ?X:
-?MAKE:d_sigvec d_sigvectr d_sigintrp: Csym Inlibc Setvar
+?MAKE:d_sigvec d_sigvectr d_sigintrp: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_sigvec:
 ?S:	This variable conditionally defines the HAS_SIGVEC symbol, which indicates
@@ -49,31 +49,48 @@
 ?H:#$d_sigvectr HAS_SIGVECTOR	/**/
 ?H:#$d_sigintrp HAS_SIGINTRP	/**/
 ?H:.
-?T:val
-?LINT:set d_sigvec d_sigintrp
+?LINT:set d_sigvec d_sigvectr d_sigintrp
 @if d_sigvectr || d_sigvec || HAS_SIGVEC || HAS_SIGVECTOR
-: see if sigvector exists -- since sigvec will match the substring
-echo " "
-if set sigvector val -f d_sigvectr; eval $csym; $val; then
-	echo 'sigvector() found--you must be running HP-UX.' >&4
-	val="$define"; set d_sigvectr; eval $setvar
-	val="$define"; set d_sigvec; eval $setvar
-else
-: try the original name
-	d_sigvectr="$undef"
-	if set sigvec val -f d_sigvec; eval $csym; $val; then
-		echo 'sigvec() found.' >&4
-		val="$define"; set d_sigvec; eval $setvar
-	else
-		echo 'sigvec() not found--race conditions with signals may occur.' >&4
-		val="$undef"; set d_sigvec; eval $setvar
-	fi
-fi
+: see if sigvector exists
+$cat >try.c <<EOC
+#include <signal.h>
+int main(void)
+{
+	static int ret, sig;
+	struct sigvec vec, ovec;
+	ret |= sigvector(sig, &vec, &ovec); 
+	return ret ? 0 : 1;
+}
+EOC
+set d_sigvectr
+eval $trylink
+
+$cat >try.c <<EOC
+#include <signal.h>
+int main(void)
+{
+	static int ret, sig;
+	struct sigvec vec, ovec;
+	ret |= sigvec(sig, &vec, &ovec); 
+	return ret ? 0 : 1;
+}
+EOC
+set d_sigvec
+eval $trylink
 
 @end
 @if d_sigintrp || HAS_SIGINTRP
 : see if we have siginterrupt
-set siginterrupt d_sigintrp
-eval $inlibc
+$cat >try.c <<EOC
+#include <signal.h>
+int main(void)
+{
+	static int ret, sig, flag;
+	ret |= siginterrupt(sig, flag);
+	return ret ? 0 : 1;
+}
+EOC
+set d_sigintrp
+eval $trylink
 
 @end

@@ -19,7 +19,7 @@
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
 ?MAKE:d_socket d_oldsock d_sockpair socketlib sockethdr: contains libc \
-	echo n c nm_opt nm_extract Inlibc Csym _a
+	echo n c nm_opt nm_extract Trylink Csym _a cat
 ?MAKE:	-pick add $@ %<
 ?S:d_socket:
 ?S:	This variable conditionally defines HAS_SOCKET, which indicates
@@ -117,7 +117,16 @@ fi
 
 @if HAS_SOCKETPAIR || d_sockpair
 : see if socketpair exists
-set socketpair d_sockpair
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/socket.h>
+int main(void)
+{
+	static int ret, domain, type, protocol, sv[2];
+	ret |= socketpair(domain, type, protocol, sv);
+	return ret ? 0 : 1;
+}
+EOC
+set d_sockpair
+eval $trylink
 
 @end

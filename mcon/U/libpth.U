@@ -66,8 +66,7 @@
 ?INIT:: change the next line if compiling for Xenix/286 on Xenix/386
 ?INIT:xlibpth='/usr/lib/386 /lib/386'
 ?INIT:: Possible local library directories to search.
-?INIT:loclibpth="/usr/local/lib /opt/local/lib /usr/gnu/lib"
-?INIT:loclibpth="$loclibpth /opt/gnu/lib /usr/GNU/lib /opt/GNU/lib"
+?INIT:loclibpth=""
 ?INIT:
 ?INIT:: general looking path for locating libraries
 ?INIT:glibpth="/lib /usr/lib $xlibpth"

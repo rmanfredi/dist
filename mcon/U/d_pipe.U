@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:11:44  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_pipe: Inlibc
+?MAKE:d_pipe: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_pipe:
 ?S:	This variable conditionally defines the HAS_PIPE symbol, which
@@ -29,6 +29,18 @@
 ?H:.
 ?LINT:set d_pipe
 : see if pipe exists
-set pipe d_pipe
-eval $inlibc
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static int fds[2], ret;
+	ret |= pipe(fds);
+	return ret ? 0 : 1;
+}
+EOC
+set d_pipe
+eval $trylink
 

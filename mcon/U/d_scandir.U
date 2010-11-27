@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0.1.1  1994/01/24  14:06:35  ram
 ?RCS: patch16: created
 ?RCS:
-?MAKE:d_scandir: Inlibc
+?MAKE:d_scandir: Trylink cat i_dirent
 ?MAKE:	-pick add $@ %<
 ?S:d_scandir:
 ?S:	This variable conditionally defines HAS_SCANDIR if scandir() is
@@ -26,6 +26,32 @@
 ?H:.
 ?LINT:set d_scandir
 : see if scandir exists
-set scandir d_scandir
-eval $inlibc
+$cat >try.c <<EOC
+#$i_dirent I_DIRENT
+#ifdef I_DIRENT
+#include <dirent.h>
+#endif
+int filter(const struct dirent *d)
+{
+	(void) d;
+	return 1;
+}
+
+int compare(const struct dirent **a, const struct dirent **b)
+{
+	(void) a;
+	(void) b;
+	return 1;
+}
+
+int main(void)
+{
+	static struct dirent **namelist;
+	static int ret;
+	ret |= scandir("dir", &namelist, filter, compare);
+	return ret ? 0 : 1;
+}
+EOC
+set d_scandir
+eval $trylink
 

@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:31  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_memccpy: Inlibc
+?MAKE:d_memccpy: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_memccpy:
 ?S:	This variable conditionally defines the HAS_MEMCCPY symbol, which
@@ -28,6 +28,17 @@
 ?H:.
 ?LINT:set d_memccpy
 : see if memccpy exists
-set memccpy d_memccpy
-eval $inlibc
+$cat >try.c <<EOC
+#include <string.h>
+int main(void)
+{
+	static int dst, src, c;
+	static size_t n;
+	void *p;
+	p = memccpy(&dst, &src, c, n);
+	return p ? 0 : 1;
+}
+EOC
+set d_memccpy
+eval $trylink
 

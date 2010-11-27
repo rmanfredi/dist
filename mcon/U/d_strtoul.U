@@ -14,7 +14,7 @@
 ?RCS: patch61: created
 ?RCS:
 ?RCS:
-?MAKE:d_strtoul: Inlibc
+?MAKE:d_strtoul: Trylink cat i_stdlib
 ?MAKE:	-pick add $@ %<
 ?S:d_strtoul:
 ?S:	This variable conditionally defines the HAS_STRTOUL symbol, which
@@ -29,6 +29,19 @@
 ?H:.
 ?LINT:set d_strtoul
 : see if strtoul exists
-set strtoul d_strtoul
-eval $inlibc
+$cat >try.c <<EOC
+#$i_stdlib I_STDLIB
+#ifdef I_STDLIB
+#include <stdlib.h>
+#endif
+int main(void)
+{
+	static unsigned long ret;
+	static char *endptr;
+	ret |= strtoul("1234", &endptr, 10);
+	return ret ? 0 : 1;
+}
+EOC
+set d_strtoul
+eval $trylink
 

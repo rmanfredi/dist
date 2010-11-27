@@ -15,8 +15,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:15  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_getpgrp d_bsdgetpgrp: Guess Inlibc Setvar cat rm \
-	+cc +ccflags +ldflags +libs i_unistd
+?MAKE:d_getpgrp d_bsdgetpgrp: Trylink Setvar cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_getpgrp:
 ?S:	This variable conditionally defines HAS_GETPGRP if getpgrp() is
@@ -37,72 +36,46 @@
 ?H:#$d_getpgrp HAS_GETPGRP		/**/
 ?H:#$d_bsdgetpgrp USE_BSD_GETPGRP	/**/
 ?H:.
-?F:!set !set.c
-?T:xxx
 ?LINT:set d_getpgrp d_bsdgetpgrp
 : see if getpgrp exists
-set getpgrp d_getpgrp
-eval $inlibc
-
-@if USE_BSD_GETPGRP || d_bsdgetpgrp
-case "$d_getpgrp" in
-"$define")
-	echo " "
-	echo "Checking to see which flavor of getpgrp is in use..."
-	$cat >set.c <<EOP
-#$i_unistd I_UNISTD
+$cat >try.c <<EOC
 #include <sys/types.h>
+#$i_unistd I_UNISTD
 #ifdef I_UNISTD
-#  include <unistd.h>
+#include <unistd.h>
 #endif
-int main()
+int main(void)
 {
-	if (getuid() == 0) {
-		printf("(I see you are running Configure as super-user...)\n");
-		setuid(1);
-	}
-#ifdef TRY_BSD_PGRP
-	if (getpgrp(1) == 0)
-		exit(0);
-#else
-	if (getpgrp() > 0)
-		exit(0);
-#endif
-	exit(1);
+	static pid_t ret, pid;
+	ret |= getpgrp(pid);
+	return ret ? 0 : 1;
 }
-EOP
-	if $cc -DTRY_BSD_PGRP $ccflags $ldflags -o set set.c $libs >/dev/null 2>&1
-		&& ./set
-	then
-		echo "You have to use getpgrp(pid) instead of getpgrp()." >&4
-		val="$define"
-	elif $cc $ccflags $ldflags -o set set.c $libs >/dev/null 2>&1 && ./set; then
-		echo "You have to use getpgrp() instead of getpgrp(pid)." >&4
-		val="$undef"
-	else
-		echo "I can't seem to compile and run the test program."
-		if ./usg; then
-			xxx="a USG one, i.e. you use getpgrp()."
-		else
-			# SVR4 systems can appear rather BSD-ish.
-			case "$i_unistd" in
-			$undef)
-				xxx="a BSD one, i.e. you use getpgrp(pid)."
-				val="$define"
-				;;
-			$define)
-				xxx="probably a USG one, i.e. you use getpgrp()."
-				val="$undef"
-				;;
-			esac
-		fi
-		echo "Assuming your getpgrp is $xxx" >&4
-	fi
-	;;
-*) val="$undef";;
-esac
+EOC
 set d_bsdgetpgrp
-eval $setvar
-$rm -f set set.c
-@end
+eval $trylink
+
+case "$d_bsdgetpgrp" in
+$define)
+	val="$define"
+	set d_getpgrp
+	eval $setvar
+	;;
+*)
+	$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static pid_t ret;
+	ret |= getpgrp();
+	return ret ? 0 : 1;
+}
+EOC
+	set d_getpgrp
+	eval $trylink
+	;;
+esac
 

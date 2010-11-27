@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:35  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_memmove: Inlibc
+?MAKE:d_memmove: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_memmove:
 ?S:	This variable conditionally defines the HAS_MEMMOVE symbol, which
@@ -29,6 +29,16 @@
 ?H:.
 ?LINT:set d_memmove
 : see if memmove exists
-set memmove d_memmove
-eval $inlibc
+$cat >try.c <<EOC
+#include <string.h>
+int main(void)
+{
+	static char dst, src;
+	void *p;
+	p = memmove(&dst, &src, sizeof(dst));
+	return p ? 0 : 1;
+}
+EOC
+set d_memmove
+eval $trylink
 

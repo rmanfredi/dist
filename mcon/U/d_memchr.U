@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:32  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_memchr: Inlibc
+?MAKE:d_memchr: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_memchr:
 ?S:	This variable conditionally defines the HAS_MEMCHR symbol, which
@@ -27,6 +27,17 @@
 ?H:.
 ?LINT:set d_memchr
 : see if memchr exists
-set memchr d_memchr
-eval $inlibc
+$cat >try.c <<EOC
+#include <string.h>
+int main(void)
+{
+	static char s[] = "xxx";
+	static size_t n = sizeof(s);
+	void *p;
+	p = memchr(s, 'x', n);
+	return p ? 0 : 1;
+}
+EOC
+set d_memchr
+eval $trylink
 

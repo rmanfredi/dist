@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:11:57  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_setlinebuf: Inlibc
+?MAKE:d_setlinebuf: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_setlinebuf:
 ?S:	This variable conditionally defines the HAS_SETLINEBUF symbol, which
@@ -31,6 +31,14 @@
 ?H:.
 ?LINT:set d_setlinebuf
 : see if setlinebuf exists
-set setlinebuf d_setlinebuf
-eval $inlibc
+$cat >try.c <<EOC
+#include <stdio.h>
+int main(void)
+{
+	setlinebuf(stdout);
+	return 0;
+}
+EOC
+set d_setlinebuf
+eval $trylink
 

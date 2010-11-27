@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/10/29  16:14:54  ram
 ?RCS: patch36: created by ADO
 ?RCS:
-?MAKE:d_pathconf d_fpathconf: Inlibc
+?MAKE:d_pathconf d_fpathconf: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_pathconf:
 ?S:	This variable conditionally defines the HAS_PATHCONF symbol, which
@@ -44,12 +44,39 @@
 ?LINT:set d_pathconf
 ?LINT:set d_fpathconf
 : see if pathconf exists
-set pathconf d_pathconf
-eval $inlibc
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static long ret;
+	static int name;
+	ret |= pathconf("path", name);
+	return ret ? 0 : 1;
+}
+EOC
+set d_pathconf
+eval $trylink
+
 
 @if d_fpathconf || HAS_FPATHCONF
 : see if fpathconf exists
-set fpathconf d_fpathconf
-eval $inlibc
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static long ret;
+	static int fd, name;
+	ret |= fpathconf(fd, name);
+	return ret ? 0 : 1;
+}
+EOC
+set d_fpathconf
+eval $trylink
 
 @end

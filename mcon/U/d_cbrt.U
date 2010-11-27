@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:05:48  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_cbrt: Inlibc
+?MAKE:d_cbrt: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_cbrt:
 ?S:	This variable conditionally defines the CBRT symbol, which
@@ -27,6 +27,15 @@
 ?H:.
 ?LINT:set d_cbrt
 : see if cbrt exists
-set cbrt d_cbrt
-eval $inlibc
+$cat >try.c <<EOC
+#include <math.h>
+int main(void)
+{
+	static double x, ret;
+	ret = 1.0 * cbrt(x);
+	return ret ? 0 : 1;
+}
+EOC
+set d_cbrt '-lm'
+eval $trylink
 

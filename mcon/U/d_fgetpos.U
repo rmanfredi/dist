@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0.1.1  1994/06/20  06:57:33  ram
 ?RCS: patch30: created
 ?RCS:
-?MAKE:d_fgetpos: Inlibc
+?MAKE:d_fgetpos: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_fgetpos:
 ?S:	This variable conditionally defines HAS_FGETPOS if fgetpos() is
@@ -26,6 +26,16 @@
 ?H:.
 ?LINT:set d_fgetpos
 : see if fgetpos exists
-set fgetpos d_fgetpos
-eval $inlibc
+$cat >try.c <<EOC
+#include <stdio.h>
+int main(void)
+{
+	static fpos_t pos;
+	static int ret;
+	ret |= fgetpos(stdout, &pos);
+	return ret ? 0 : 1;
+}
+EOC
+set d_fgetpos
+eval $trylink
 

@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:09:40  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_mblen: Inlibc
+?MAKE:d_mblen: Trylink cat i_stdlib
 ?MAKE:	-pick add $@ %<
 ?S:d_mblen:
 ?S:	This variable conditionally defines the HAS_MBLEN symbol, which
@@ -29,6 +29,19 @@
 ?H:.
 ?LINT:set d_mblen
 : see if mblen exists
-set mblen d_mblen
-eval $inlibc
+$cat >try.c <<EOC
+#$i_stdlib I_STDLIB
+#ifdef I_STDLIB
+#include <stdlib.h>
+#endif
+int main(void)
+{
+	static int ret;
+	static size_t n;
+	ret |= mblen("xxx", n);
+	return ret ? 0 : 1;
+}
+EOC
+set d_mblen
+eval $trylink
 

@@ -33,7 +33,7 @@
 : are stat macros sane?
 echo " "
 echo "Checking whether your stat() macros are broken..."
-$cat >try.c <<'EOC'
+$cat >try.c <<EOC
 #include <sys/types.h>
 #include <sys/stat.h>
 

@@ -25,7 +25,8 @@
 ?RCS: Revision 3.0  1993/08/18  12:08:44  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:i_termio i_sgtty i_termios: test Inlibc Cppsym Guess Setvar Findhdr Warn
+?MAKE:i_termio i_sgtty i_termios: Trylink Cppsym Guess Setvar Findhdr Warn \
+	test cat
 ?MAKE:	-pick add $@ %<
 ?S:i_termio:
 ?S:	This variable conditionally defines the I_TERMIO symbol, which
@@ -69,11 +70,21 @@ val="$undef"
 val2="$undef"
 val3="$undef"
 ?X: Prefer POSIX-approved termios.h over all else
-if $test `./findhdr termios.h`; then
-	set tcsetattr i_termios
-	eval $inlibc
-	val3="$i_termios"
-fi
+$cat >try.c <<EOC
+#include <termios.h>
+int main(void)
+{
+	static struct termios t;
+	static int ret;
+	ret |= tcsetattr(1, 2, &t);
+	return ret ? 0 : 1;
+}
+EOC
+set i_termios
+eval $trylink
+set tcsetattr i_termios
+val3="$i_termios"
+
 echo " "
 case "$val3" in
 "$define") echo "You have POSIX termios.h... good!" >&4;;
@@ -84,14 +95,14 @@ case "$val3" in
 				echo "<sgtty.h> found." >&4
 			else
 				echo "System is pyramid with BSD universe."
-				./warn "<sgtty.h> not found--you could have problems."
+				./warn "<sgtty.h> not found--you could have problems." 4>&4
 			fi;;
 		*) if $test `./findhdr termio.h`; then
 				val="$define"
 				echo "<termio.h> found." >&4
 			else
 				echo "System is pyramid with USG universe."
-				./warn "<termio.h> not found--you could have problems."
+				./warn "<termio.h> not found--you could have problems." 4>&4
 			fi;;
 		esac
 ?X: Start with USG to avoid problems if both usg/bsd was guessed
@@ -103,7 +114,7 @@ case "$val3" in
 			echo "<sgtty.h> found." >&4
 			val2="$define"
 		else
-			./warn "Neither <termio.h> nor <sgtty.h> found--cross fingers!"
+			./warn "Neither <termio.h> nor <sgtty.h> found--cross fingers!" 4>&4
 		fi
 	else
 		if $test `./findhdr sgtty.h`; then
@@ -113,7 +124,7 @@ case "$val3" in
 			echo "<termio.h> found." >&4
 			val="$define"
 		else
-			./warn "Neither <sgtty.h> nor <termio.h> found--cross fingers!"
+			./warn "Neither <sgtty.h> nor <termio.h> found--cross fingers!" 4>&4
 		fi
 	fi;;
 esac

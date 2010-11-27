@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:15  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_getpgrp2: Inlibc
+?MAKE:d_getpgrp2: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_getpgrp2:
 ?S:	This variable conditionally defines the HAS_GETPGRP2 symbol, which
@@ -27,6 +27,19 @@
 ?H:.
 ?LINT:set d_getpgrp2
 : see if getpgrp2 exists
-set getpgrp2 d_getpgrp2
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static pid_t pid, ret;
+	ret |= getpgrp2(pid);
+	return ret ? 0 : 1;
+}
+EOC
+set d_getpgrp2
+eval $trylink
 

@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:12:01  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_strcoll: Inlibc
+?MAKE:d_strcoll: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_strcoll:
 ?S:	This variable conditionally defines HAS_STRCOLL if strcoll() is
@@ -28,6 +28,15 @@
 ?H:.
 ?LINT:set d_strcoll
 : see if strcoll exists
-set strcoll d_strcoll
-eval $inlibc
+$cat >try.c <<EOC
+#include <string.h>
+int main(void)
+{
+	static int ret;
+	ret |= strcoll("A", "B");
+	return ret ? 0 : 1;
+}
+EOC
+set d_strcoll
+eval $trylink
 

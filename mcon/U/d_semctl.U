@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:04  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_semctl: Inlibc
+?MAKE:d_semctl: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_semctl:
 ?S:	This variable conditionally defines the HAS_SEMCTL symbol, which
@@ -26,6 +26,26 @@
 ?H:.
 ?LINT:set d_semctl
 : see if semctl exists
-set semctl d_semctl
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/sem.h>
+int main(void)
+{
+	static int ret, id, num;
+	static union semun {
+		int val;
+		struct semid_ds *buf;
+		unsigned short  *array;
+	} arg;
+	ret |= semctl(id, num, GETVAL, &arg);
+	ret |= semctl(id, num, SETVAL, &arg);
+	ret |= semctl(id, num, GETPID, &arg);
+	ret |= semctl(id, num, GETNCNT, &arg);
+	ret |= semctl(id, num, GETZCNT, &arg);
+	ret |= semctl(id, num, GETALL, &arg);
+	ret |= semctl(id, num, SETALL, &arg);
+	return ret ? 0 : 1;
+}
+EOC
+set d_semctl
+eval $trylink
 

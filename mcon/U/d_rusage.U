@@ -14,7 +14,7 @@
 ?RCS:
 ?X:	We may need to include <sys/resource.h> and <sys/time.h> FIXME
 ?X:INC: i_sysresrc i_systime
-?MAKE:d_rusage: Inlibc
+?MAKE:d_rusage: Trylink cat i_sysresrc
 ?MAKE:	-pick add $@ %<
 ?S:d_rusage (d_getrusg):
 ?S:	This variable conditionally defines the HAS_GETRUSAGE symbol, which
@@ -31,6 +31,22 @@
 ?H:.
 ?LINT:set d_rusage
 : see if getrusage exists
-set getrusage d_rusage
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#include <sys/time.h>
+#$i_sysresrc I_SYS_RESOURCE
+#ifdef I_SYS_RESOURCE
+#include <sys/resource.h>
+#endif
+int main(void)
+{
+	static struct rusage ru;
+	static int ret;
+	ret |= getrusage(RUSAGE_SELF, &ru);
+	ret |= getrusage(RUSAGE_CHILDREN, &ru);
+	return ret ? 0 : 1;
+}
+EOC
+set d_rusage
+eval $trylink
 

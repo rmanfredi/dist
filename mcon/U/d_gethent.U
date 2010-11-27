@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:09  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_gethent: Inlibc
+?MAKE:d_gethent: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_gethent:
 ?S:	This variable conditionally defines HAS_GETHOSTENT if gethostent() is
@@ -26,6 +26,15 @@
 ?H:.
 ?LINT:set d_gethent
 : see if gethostent exists
-set gethostent d_gethent
-eval $inlibc
+$cat >try.c <<EOC
+#include <netdb.h>
+int main(void)
+{
+	struct hostent *ret;
+	ret = gethostent();
+	return ret ? 0 : 1;
+}
+EOC
+set d_gethent
+eval $trylink
 

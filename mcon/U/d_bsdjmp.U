@@ -35,7 +35,6 @@
 ?F:!set
 ?LINT:set d_bsdjmp
 : see if _setjmp and _longjmp exists
-?X: We can't check for these symbols with Inlibc because of the leading "_"
 echo " "
 case "$d_bsdjmp" in
 '')

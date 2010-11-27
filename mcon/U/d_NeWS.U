@@ -62,6 +62,7 @@ fn=d
 rp="Path to NeWS you want:"
 . UU/getfile
 d_newshome=$ans
+done
 
 echo " "
 if $test ! -d $d_newshome/lib; then

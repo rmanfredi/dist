@@ -18,7 +18,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:05:44  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_bcopy: Inlibc
+?MAKE:d_bcopy: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_bcopy:
 ?S:	This variable conditionally defines the HAS_BCOPY symbol if
@@ -39,6 +39,15 @@
 ?M:.
 ?LINT:set d_bcopy
 : see if bcopy exists
-set bcopy d_bcopy
-eval $inlibc
+$cat >try.c <<EOC
+#include <strings.h>
+int main(void)
+{
+	static int src, dst;
+	bcopy(&src, &dst, sizeof(dst));
+	return 0;
+}
+EOC
+set d_bcopy
+eval $trylink
 

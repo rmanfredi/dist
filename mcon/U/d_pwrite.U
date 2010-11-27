@@ -10,7 +10,7 @@
 ?RCS:
 ?RCS: $Log: d_pwrite.U,v $
 ?RCS:
-?MAKE:d_pwrite: Inlibc
+?MAKE:d_pwrite: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_pwrite:
 ?S:	This variable conditionally defines the HAS_PWRITE symbol, which
@@ -24,6 +24,23 @@
 ?H:.
 ?LINT:set d_pwrite
 : see if pwrite exists
-set pwrite d_pwrite
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static ssize_t ret;
+	static int fd;
+	static char buf[1];
+	static size_t size;
+	static off_t offset;
+	ret |= pwrite(fd, buf, size, offset);
+	return ret ? 0 : 1;
+}
+EOC
+set d_pwrite
+eval $trylink
 

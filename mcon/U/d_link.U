@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0.1.1  1993/08/25  14:01:13  ram
 ?RCS: patch6: created for completeness
 ?RCS:
-?MAKE:d_link: Inlibc
+?MAKE:d_link: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_link:
 ?S:	This variable conditionally defines HAS_LINK if link() is
@@ -26,6 +26,18 @@
 ?H:.
 ?LINT:set d_link
 : see if link exists
-set link d_link
-eval $inlibc
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static int ret;
+	ret |= link("path1", "path2");
+	return ret ? 0 : 1;
+}
+EOC
+set d_link
+eval $trylink
 

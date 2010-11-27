@@ -85,7 +85,7 @@ EOM
 ?X: seemingly affect the compiling environment.
                        $cat *.cbu >checktmp 2>/dev/null
                        if $contains ccflags checktmp >/dev/null; then
-                           ./warn <<EOM 
+                           ./warn 4>&4 <<EOM 
 Any previous setting of the C compiler flags has been lost.
 It may be necessary to pass -Dcc=gcc to Configure right away.
 EOM

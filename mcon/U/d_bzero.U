@@ -18,7 +18,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:05:46  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_bzero: Inlibc
+?MAKE:d_bzero: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_bzero:
 ?S:	This variable conditionally defines the HAS_BZERO symbol if
@@ -39,6 +39,15 @@
 ?M:.
 ?LINT:set d_bzero
 : see if bzero exists
-set bzero d_bzero
-eval $inlibc
+$cat >try.c <<EOC
+#include <strings.h>
+int main(void)
+{
+	static int dst;
+	bzero(&dst, sizeof(dst));
+	return 0;
+}
+EOC
+set d_bzero
+eval $trylink
 

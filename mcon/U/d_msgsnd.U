@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:41  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_msgsnd: Inlibc
+?MAKE:d_msgsnd: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_msgsnd:
 ?S:	This variable conditionally defines the HAS_MSGSND symbol, which
@@ -26,6 +26,18 @@
 ?H:.
 ?LINT:set d_msgsnd
 : see if msgsnd exists
-set msgsnd d_msgsnd
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/msg.h>
+int main(void)
+{
+	static int ret, id, flags;
+	static size_t size;
+	static char buf[16];
+	flags |= IPC_NOWAIT;
+	ret |= msgsnd(id, &buf, size, flags);
+	return ret ? 0 : 1;
+}
+EOC
+set d_msgsnd
+eval $trylink
 

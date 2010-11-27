@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:02  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_select: Inlibc
+?MAKE:d_select: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_select:
 ?S:	This variable conditionally defines HAS_SELECT if select() is
@@ -28,6 +28,17 @@
 ?H:.
 ?LINT:set d_select
 : see if select exists
-set select d_select
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/select.h>
+int main(void)
+{
+	static int ret, n;
+	static struct fd_set r, w, x;
+	static struct timeval timeout;
+	ret |= select(n, &r, &w, &x, &timeout);
+	return ret ? 0 : 1;
+}
+EOC
+set d_select
+eval $trylink
 

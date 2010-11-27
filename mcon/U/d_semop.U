@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:05  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_semop: Inlibc
+?MAKE:d_semop: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_semop:
 ?S:	This variable conditionally defines the HAS_SEMOP symbol, which
@@ -26,6 +26,22 @@
 ?H:.
 ?LINT:set d_semop
 : see if semop exists
-set semop d_semop
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/sem.h>
+int main(void)
+{
+	static int ret, id;
+	static size_t n;
+	static struct sembuf buf;
+	
+	buf.sem_num |= 1;
+	buf.sem_op |= 1;
+	buf.sem_flg |= SEM_UNDO;
+	buf.sem_flg |= IPC_NOWAIT;
+	ret |= semop(id, &buf, n);
+	return ret ? 0 : 1;
+}
+EOC
+set d_semop
+eval $trylink
 

@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:05:50  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_chsize: Inlibc
+?MAKE:d_chsize: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_chsize:
 ?S:	This variable conditionally defines the CHSIZE symbol, which
@@ -27,6 +27,15 @@
 ?H:.
 ?LINT:set d_chsize
 : see if chsize exists
-set chsize d_chsize
-eval $inlibc
+$cat >try.c <<EOC
+int main(void)
+{
+	static int fd, ret;
+	static long size;
+	ret |= chsize(fd, size);
+	return ret ? 0 : 1;
+}
+EOC
+set d_chsize
+eval $trylink
 

@@ -45,7 +45,8 @@ gcc_version_patchlevel __GNUC_PATCHLEVEL__
 EOM
 if $cc -E try.c > try 2>&1
 then
-	gccversion=`sed -n 's/^gcc_version_major[^0-9]*//p' try`
+	gccversion=`$grep gcc_version_major try |
+		sed 's/^.*gcc_version_major[\t ]*//'`
 	case "$gccversion" in
 	'') echo "You are not using GNU cc." ;;
 	*)  echo "You are using GNU cc $gccversion."

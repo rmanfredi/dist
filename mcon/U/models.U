@@ -207,7 +207,7 @@ none)
 	esac
 	;;
 *)
-	./warn "Unrecognized memory models--you may have to edit Makefile.SH"
+	./warn "Unrecognized memory models--you may have to edit Makefile.SH" 4>&4
 	;;
 esac
 $rm -f pdp11.* pdp11

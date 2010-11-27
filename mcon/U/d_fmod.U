@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/10/29  16:12:46  ram
 ?RCS: patch36: created by ADO
 ?RCS:
-?MAKE:d_fmod: Inlibc
+?MAKE:d_fmod: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_fmod:
 ?S:	This variable conditionally defines the HAS_FMOD symbol, which
@@ -29,6 +29,15 @@
 ?H:.
 ?LINT:set d_fmod
 : see if fmod exists
-set fmod d_fmod
-eval $inlibc
+$cat >try.c <<EOC
+#include <math.h>
+int main(void)
+{
+	static double x, y, ret;
+	ret = 1.0 * fmod(x, y);
+	return ret ? 0 : 1;
+}
+EOC
+set d_fmod '-lm'
+eval $trylink
 

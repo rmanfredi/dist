@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:42  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_syscall: Inlibc
+?MAKE:d_syscall: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_syscall:
 ?S:	This variable conditionally defines HAS_SYSCALL if syscall() is
@@ -26,6 +26,19 @@
 ?H:.
 ?LINT:set d_syscall
 : see if syscall exists
-set syscall d_syscall
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/syscall.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static int ret, number;
+	ret |= syscall(number, 0);
+	return ret ? 0 : 1;
+}
+EOC
+set d_syscall
+eval $trylink
 

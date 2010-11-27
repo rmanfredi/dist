@@ -20,7 +20,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:07:21  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_closedir d_void_closedir: Inlibc i_dirent i_sysdir i_sysndir \
+?MAKE:d_closedir d_void_closedir: Trylink cat i_dirent i_sysdir i_sysndir \
 	cc ccflags ldflags libs Setvar rm
 ?MAKE:	-pick add $@ %<
 ?S:d_closedir:
@@ -46,8 +46,22 @@
 ?F:!closedir
 ?LINT:set d_closedir d_void_closedir
 : see if closedir exists
-set closedir d_closedir
-eval $inlibc
+$cat >try.c <<EOC
+#$i_dirent I_DIRENT
+#ifdef I_DIRENT
+#include <dirent.h>
+#endif
+int main(void)
+{
+	static DIR *dir;
+	dir = opendir("path");
+	closedir(dir);
+	return 0;
+}
+EOC
+set d_closedir
+eval $trylink
+
 
 @if VOID_CLOSEDIR || d_void_closedir
 ?X: The following contortions are designed so we can call closedir()
@@ -84,7 +98,7 @@ case "$d_closedir" in
 #endif 
 int main() { return closedir(opendir(".")); }
 EOM
-	if $cc $ccflags $ldflags -o closedir closedir.c $libs > /dev/null 2>&1; then
+	if $cc $ccflags -o closedir closedir.c $ldflags $libs > /dev/null 2>&1; then
 		if ./closedir > /dev/null 2>&1 ; then
 			echo "Yes, it does."
 			val="$undef"

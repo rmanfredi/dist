@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:21:59  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:i_math: Inhdr
+?MAKE:i_math: Inhdr Trylink cat
 ?MAKE:	-pick add $@ %<
 ?X: Are there really systems that *DON'T* have math.h?
 ?S:i_math:
@@ -31,4 +31,22 @@
 : see if this is a math.h system
 set math.h i_math
 eval $inhdr
+
+: see whether we need libm
+$cat >try.c <<EOC
+#$i_math I_MATH
+#ifdef I_MATH
+#include <math.h>
+#endif
+int main(void)
+{
+	static double ret;
+
+	ret += 1.2 * pow(1.2, 1.2);
+	ret += 1.2 * sqrt(ret);
+	return 0 != ret;
+}
+EOC
+set val '-lm'
+eval $trylink
 

@@ -50,7 +50,7 @@ else
 	if $test "$strings" && $test -r "$strings"; then
 		echo "Using <strings.h> instead of <string.h>." >&4
 	else
-		./warn "No string header found -- You'll surely have problems."
+		./warn "No string header found -- You'll surely have problems." 4>&4
 	fi
 fi
 set i_string

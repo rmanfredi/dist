@@ -14,7 +14,7 @@
 ?RCS: Revision 3.0.1.1  1994/10/29  16:15:57  ram
 ?RCS: patch36: created by ADO
 ?RCS:
-?MAKE:d_sysconf: Inlibc
+?MAKE:d_sysconf: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_sysconf:
 ?S:	This variable conditionally defines the HAS_SYSCONF symbol, which
@@ -29,6 +29,18 @@
 ?H:.
 ?LINT:set d_sysconf
 : see if sysconf exists
-set sysconf d_sysconf
-eval $inlibc
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static long ret;
+	ret |= sysconf(1);
+	return ret ? 0 : 1;
+}
+EOC
+set d_sysconf
+eval $trylink
 

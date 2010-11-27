@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:51  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_ulimit: Inlibc
+?MAKE:d_ulimit: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_ulimit:
 ?S:	This variable conditionally defines HAS_ULIMIT if ulimit() is
@@ -26,6 +26,16 @@
 ?H:.
 ?LINT:set d_ulimit
 : see if ulimit exists
-set ulimit d_ulimit
-eval $inlibc
+$cat >try.c <<EOC
+#include <ulimit.h>
+int main(void)
+{
+	static long ret;
+	ret |= ulimit(UL_GETFSIZE);
+	ret |= ulimit(UL_SETFSIZE, 1L);
+	return ret ? 0 : 1;
+}
+EOC
+set d_ulimit
+eval $trylink
 

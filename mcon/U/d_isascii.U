@@ -17,7 +17,7 @@
 ?RCS: Revision 3.0.1.1  1994/08/29  16:09:32  ram
 ?RCS: patch32: created by ADO
 ?RCS:
-?MAKE:d_isascii: cc cat ccflags ldflags rm libs Setvar
+?MAKE:d_isascii: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_isascii:
 ?S:	This variable conditionally defines the HAS_ISASCII constant,
@@ -30,28 +30,16 @@
 ?H:#$d_isascii HAS_ISASCII		/**/
 ?H:.
 ?LINT:set d_isascii
-?X: Can't use Inlibc because isascii() might be a macro.
 : Look for isascii
-echo " "
-$cat >isascii.c <<'EOCP'
-#include <stdio.h>
+$cat >try.c <<EOC
 #include <ctype.h>
-int main() {
-	int c = 'A';
-	if (isascii(c))
-		exit(0);
-	else
-		exit(1);
+int main(void)
+{
+	static int ret, c;
+	ret |= isascii(c);
+	return ret ? 0 : 1;
 }
-EOCP
-if $cc $ccflags $ldflags -o isascii isascii.c $libs >/dev/null 2>&1 ; then
-	echo "isascii() found." >&4
-	val="$define"
-else
-	echo "isascii() NOT found." >&4
-	val="$undef"
-fi
+EOC
 set d_isascii
-eval $setvar
-$rm -f isascii*
+eval $trylink
 

@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:08  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_setgrps: Inlibc
+?MAKE:d_setgrps: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_setgrps:
 ?S:	This variable conditionally defines the HAS_SETGROUPS symbol, which
@@ -28,6 +28,20 @@
 ?H:.
 ?LINT:set d_setgrps
 : see if setgroups exists
-set setgroups d_setgrps
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static int ret, n;
+	static gid_t gids;
+	ret |= setgroups(n, &gids);
+	return ret ? 0 : 1;
+}
+EOC
+set d_setgrps
+eval $trylink
 

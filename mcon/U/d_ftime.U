@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:06  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_ftime d_gettimeod: Inlibc Setvar
+?MAKE:d_ftime d_gettimeod: Trylink cat i_systimeb
 ?MAKE:	-pick add $@ %<
 ?S:d_ftime:
 ?S:	This variable conditionally defines the HAS_FTIME symbol, which indicates
@@ -58,17 +58,37 @@
 ?X:
 ?X:	Give priority to gettimeofday(2) because timing is more accurate
 ?X:
-set gettimeofday d_gettimeod
-eval $inlibc
-case "$d_gettimeod" in
-"$undef")
-	set ftime d_ftime 
-	eval $inlibc
-	;;
-*)
-	val="$undef"; set d_ftime; eval $setvar
-	;;
-esac
+$cat >try.c <<EOC
+#include <sys/time.h>
+int main(void)
+{
+	static struct timeval tv;
+	static void *tz;
+	static int ret;
+	ret |= gettimeofday(&tv, tz);
+	return ret ? 0 : 1;
+}
+EOC
+set d_gettimeod
+eval $trylink
+
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_systimeb I_SYS_TIMEB
+#ifdef I_SYS_TIMEB
+#include <sys/timeb.h>
+#endif
+int main(void)
+{
+	static struct timeb t;
+	static int ret;
+	ret |= ftime(&t);
+	return ret ? 0 : 1;
+}
+EOC
+set d_ftime
+eval $trylink
+
 case "$d_gettimeod$d_ftime" in
 "$undef$undef")
 	echo " "

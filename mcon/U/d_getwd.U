@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:18  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_getwd: Csym Setvar
+?MAKE:d_getwd: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_getwd:
 ?S:	This variable conditionally defines HAS_GETWD if getwd() is
@@ -28,14 +28,20 @@
 ?H:.
 ?LINT:set d_getwd
 : see if getwd exists
-echo " "
-if set getwd val -f d_getwd; eval $csym; $val; then
-	echo 'getwd() found.' >&4
-	val="$define"
-else
-	echo 'getwd() not found. Assuming getcwd() exists.' >&4
-	val="$undef"
-fi
+$cat >try.c <<EOC
+#include <sys/param.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static char ret;
+	static char buf[MAXPATHLEN];
+	ret |= *getwd(buf);
+	return ret ? 0 : 1;
+}
+EOC
 set d_getwd
-eval $setvar
+eval $trylink
 

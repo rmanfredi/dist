@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:11  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_setprior: Inlibc
+?MAKE:d_setprior: Trylink cat i_sysresrc
 ?MAKE:	-pick add $@ %<
 ?S:d_setprior:
 ?S:	This variable conditionally defines HAS_SETPRIORITY if setpriority()
@@ -26,6 +26,21 @@
 ?H:.
 ?LINT:set d_setprior
 : see if setpriority exists
-set setpriority d_setprior
-eval $inlibc
+$cat >try.c <<EOC
+#$i_sysresrc I_SYS_RESOURCE
+#ifdef I_SYS_RESOURCE
+#include <sys/resource.h>
+#endif
+int main(void)
+{
+	static int ret, prio;
+	static id_t id;
+	ret |= setpriority(PRIO_PROCESS, id, prio);
+	ret |= setpriority(PRIO_PGRP, id, prio);
+	ret |= setpriority(PRIO_USER, id, prio);
+	return ret ? 0 : 1;
+}
+EOC
+set d_setprior
+eval $trylink
 

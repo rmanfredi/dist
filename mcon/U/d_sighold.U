@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:21  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_sighold: Inlibc
+?MAKE:d_sighold: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_sighold:
 ?S:	This variable conditionally defines HAS_SIGHOLD if sighold() is
@@ -26,6 +26,15 @@
 ?H:.
 ?LINT:set d_sighold
 : see if sighold exists
-set sighold d_sighold
-eval $inlibc
+$cat >try.c <<EOC
+#include <signal.h>
+int main(void)
+{
+	static int ret, sig;
+	ret |= sighold(sig);
+	return ret ? 0 : 1;
+}
+EOC
+set d_sighold
+eval $trylink
 

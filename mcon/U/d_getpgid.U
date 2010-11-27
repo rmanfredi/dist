@@ -13,7 +13,7 @@
 ?RCS: Revision 3.0.1.1  1997/02/28  15:33:44  ram
 ?RCS: patch61: created
 ?RCS:
-?MAKE:d_getpgid: Inlibc
+?MAKE:d_getpgid: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_getpgid:
 ?S:	This variable conditionally defines the HAS_GETPGID symbol, which
@@ -29,6 +29,19 @@
 ?H:.
 ?LINT:set d_getpgid
 : see if getpgid exists
-set getpgid d_getpgid
-eval $inlibc
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static pid_t pid, ret;
+	ret |= getpgid(pid);
+	return ret ? 0 : 1;
+}
+EOC
+set d_getpgid
+eval $trylink
 

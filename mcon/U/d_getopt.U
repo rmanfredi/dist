@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:13  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_getopt: Inlibc
+?MAKE:d_getopt: Trylink cat i_unistd
 ?MAKE:	-pick add $@ %<
 ?S:d_getopt:
 ?S:	This variable conditionally defines the HAS_GETOPT symbol, which
@@ -26,6 +26,20 @@
 ?H:.
 ?LINT:set d_getopt
 : see if getopt exists
-set getopt d_getopt
-eval $inlibc
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+extern char *optarg;
+extern int optind, opterr, optopt;
+int main(int argc, char *argv[])
+{
+	static int ret;
+	ret |= getopt(argc, argv, "abc");
+	return ret ? 0 : 1;
+}
+EOC
+set d_getopt
+eval $trylink
 

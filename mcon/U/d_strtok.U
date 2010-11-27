@@ -16,7 +16,7 @@
 ?X:	The strtok routine now appears to be a standard one, but it was
 ?X:	missing in early BSD systems.
 ?X:
-?MAKE:d_strtok: Inlibc
+?MAKE:d_strtok: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_strtok:
 ?S:	This variable conditionally defines HAS_STRTOK if strtok() is
@@ -30,6 +30,15 @@
 ?H:.
 ?LINT:set d_strtok
 : see if strtok exists
-set strtok d_strtok
-eval $inlibc
+$cat >try.c <<EOC
+#include <string.h>
+int main(void)
+{
+	static char s[] = "a.b.c", ret;
+	ret |= *strtok(s, ".");
+	return ret ? 0 : 1;
+}
+EOC
+set d_strtok
+eval $trylink
 

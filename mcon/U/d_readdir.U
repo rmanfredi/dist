@@ -15,9 +15,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:06:52  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?X:	Force checking for <dirent.h> inclusion
-?X:INC: i_dirent
-?MAKE:d_readdir d_seekdir d_telldir d_rewinddir: Inlibc
+?MAKE:d_readdir d_seekdir d_telldir d_rewinddir: Trylink cat i_dirent
 ?MAKE:	-pick add $@ %<
 ?S:d_readdir:
 ?S:	This variable conditionally defines HAS_READDIR if readdir() is
@@ -62,18 +60,72 @@
 ?H:.
 ?LINT:set d_readdir d_seekdir d_telldir d_rewinddir
 : see if readdir and friends exist
-set readdir d_readdir
-eval $inlibc
+$cat >try.c <<EOC
+#$i_dirent I_DIRENT
+#ifdef I_DIRENT
+#include <dirent.h>
+#endif
+int main(void)
+{
+	static DIR *dir;
+	struct dirent *ret;
+	ret = readdir(dir);
+	return ret ? 0 : 1;
+}
+EOC
+set d_readdir
+eval $trylink
+
 @if d_seekdir || HAS_SEEKDIR
-set seekdir d_seekdir
-eval $inlibc
+$cat >try.c <<EOC
+#$i_dirent I_DIRENT
+#ifdef I_DIRENT
+#include <dirent.h>
+#endif
+int main(void)
+{
+	static DIR *dir;
+	static long loc;
+	seekdir(dir, loc);
+	return 0;
+}
+EOC
+set d_seekdir
+eval $trylink
 @end
 @if d_telldir || HAS_TELLDIR
-set telldir d_telldir
-eval $inlibc
+$cat >try.c <<EOC
+#$i_dirent I_DIRENT
+#ifdef I_DIRENT
+#include <dirent.h>
+#endif
+int main(void)
+{
+	static DIR *dir;
+	static long ret;
+	ret |= telldir(dir);
+	if (ret)
+		return 1;
+	return 0;
+}
+EOC
+set d_telldir
+eval $trylink
 @end
 @if d_rewinddir || HAS_REWINDDIR
-set rewinddir d_rewinddir
-eval $inlibc
+$cat >try.c <<EOC
+#$i_dirent I_DIRENT
+#ifdef I_DIRENT
+#include <dirent.h>
+#endif
+int main(void)
+{
+	static DIR *dir;
+	rewinddir(dir);
+	return 0;
+}
+EOC
+set d_rewinddir
+eval $trylink
 @end
 
