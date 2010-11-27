@@ -20,7 +20,7 @@
 ?RCS: Revision 3.0.1.1  1994/10/29  16:08:55  ram
 ?RCS: patch36: created by ADO
 ?RCS:
-?MAKE:d_attribut: Myread Oldconfig cat cc ccflags rm Setvar contains
+?MAKE:d_attribut: Myread Oldconfig Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_attribut (d_attrib):
 ?S:	This variable conditionally defines HASATTRIBUTE, which
@@ -42,23 +42,11 @@
 : Look for GNU-cc style attribute checking
 echo " "
 echo "Checking whether your compiler can handle __attribute__ ..." >&4
-$cat >attrib.c <<'EOCP'
+$cat >try.c <<'EOCP'
 #include <stdio.h>
 void croak (char* pat,...) __attribute__((format(printf,1,2),noreturn));
+int main(void) { return 0; }
 EOCP
-if $cc $ccflags -c attrib.c >attrib.out 2>&1 ; then
-	if $contains 'warning' attrib.out >/dev/null 2>&1; then
-		echo "Your C compiler doesn't fully support __attribute__."
-		val="$undef"
-	else
-		echo "Your C compiler supports __attribute__."
-		val="$define"
-	fi
-else
-	echo "Your C compiler doesn't seem to understand __attribute__ at all."
-	val="$undef"
-fi
 set d_attribut
-eval $setvar
-$rm -f attrib*
+eval $trylink
 
