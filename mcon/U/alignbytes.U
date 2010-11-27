@@ -18,11 +18,11 @@
 ?RCS: Revision 3.0  1993/08/18  12:05:23  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:alignbytes: Myread cat cc ccflags rm
+?MAKE:alignbytes: Myread Trylink cat i_inttypes i_limits i_math
 ?MAKE:	-pick add $@ %<
 ?S:alignbytes:
-?S:	This variable holds the number of bytes required to align a
-?S:	double. Usual values are 2, 4 and 8.
+?S:	This variable holds the number of bytes required to align an
+?S:	arbitrary standard type. Usual values are 2, 4 and 8.
 ?S:.
 ?X: This used to be called ALIGNBYTES, but that conflicts with
 ?X: <machines/param.h> in NetBSD.
@@ -32,33 +32,111 @@
 ?C:.
 ?H:#define MEM_ALIGNBYTES $alignbytes	/**/
 ?H:.
-?F:!try
+?T:alignment result
 : check for alignment requirements
 echo " "
 case "$alignbytes" in
-'') echo "Checking alignment constraints..." >&4
-	$cat >try.c <<'EOCP'
-struct foobar {
-	char foo;
-	double bar;
-} try;
-int main()
+'')
+	echo "Checking alignment constraints..." >&4
+
+	for alignment in 8 4 2 1 16 32 error
+	do
+		$cat >try.c <<EOCP
+#$i_inttypes I_INTTYPES
+#ifdef I_INTTYPES
+#include <inttypes.h>
+#endif
+#$i_limits I_LIMITS
+#ifdef I_LIMITS
+#include <limits.h>
+#endif
+#$i_math I_MATH
+#ifdef I_MATH
+#include <math.h>
+#endif
+
+union u {
+	void *void_ptr;
+	void (*func_ptr)(void);
+	char c;
+	short s;
+	int i;
+	long l;
+	float f;
+	double d;
+#ifdef LLONG_MAX
+	long long ll;
+#else
+#warning "LLONG_MAX undefined"
+#endif
+#if defined(HUGE_VALL)
+	long double ld;
+#else
+#warning "HUGE_VALL undefined"
+#endif
+#ifdef UINT32_MAX
+	uint32_t u32;
+#else
+#warning "UINT32_MAX undefined"
+#endif
+#ifdef UINT16_MAX
+	uint16_t u16;
+#else
+#warning "UINT32_MAX undefined"
+#endif
+#ifdef UINT64_MAX
+	uint64_t u64;
+#else
+#warning "UINT64_MAX undefined"
+#endif
+#ifdef UINTMAX_MAX
+	uintmax_t m;
+#else
+#warning "UINTMAX_MAX undefined"
+#endif
+#ifdef UINTPTR_MAX
+	uintptr_t up;
+#else
+#warning "UINTPTR_MAX undefined"
+#endif
+};
+
+struct s {
+	char a;
+	union u b;
+};
+
+#define STATIC_ASSERT(expr)	\
+	do { switch (0) { case ((expr) ? 1 : 0): case 0: break; } } while(0)
+
+int
+main(void)
 {
-	printf("%d\n", (char *)&try.bar - (char *)&try.foo);
+	STATIC_ASSERT($alignment == ((sizeof (struct s) - (sizeof (union u)))));
+	return 0;
 }
 EOCP
-	if $cc $ccflags try.c -o try >/dev/null 2>&1; then
-		dflt=`./try`
-	else
-		dflt='8'
-		echo "(I can't seem to compile the test program...)"
-	fi
-	;;
+
+		result=''
+		set result
+		eval $trylink
+		case "$result" in
+		"$define") break;;
+		esac
+	done
+
+	case "$alignment" in
+	error)	dflt='8'
+		echo "(I can't seem to compile the test program...)" >&4
+		;;
+	*)	dflt=$alignment
+		;;
+	esac
+;;
 *) dflt="$alignbytes"
 	;;
 esac
-rp="Doubles must be aligned on a how-many-byte boundary?"
+rp="What is the maximum alignment in bytes required for a standard type?"
 . ./myread
 alignbytes="$ans"
-$rm -f try.c try
 
