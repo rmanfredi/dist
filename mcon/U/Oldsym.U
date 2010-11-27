@@ -33,7 +33,7 @@ awk '/^#define/ {printf "%s=%s\n",$2,$3}' $src/patchlevel.h >>config.sh
 ?X: which is supposed to be expanded by the revision control system.
 $test -f $src/revision.h && \
 sed -ne 's/^#define \([A-Za-z0-9_]*\) ".*: \([0-9]*\).*"/\1=\2/p' \
-	< revision.h >>config.sh
+	< $src/revision.h >>config.sh
 echo "CONFIG=true" >>config.sh
 
 : propagate old symbols
