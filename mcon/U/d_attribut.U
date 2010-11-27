@@ -40,13 +40,12 @@
 ?LINT:set d_attribut
 ?LINT:known __attribute__
 : Look for GNU-cc style attribute checking
-echo " "
-echo "Checking whether your compiler can handle __attribute__ ..." >&4
 $cat >try.c <<'EOCP'
 #include <stdio.h>
 void croak (char* pat,...) __attribute__((format(printf,1,2),noreturn));
 int main(void) { return 0; }
 EOCP
+cyn="whether your compiler can handle __attribute__"
 set d_attribut
 eval $trylink
 

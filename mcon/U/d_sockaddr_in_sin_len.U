@@ -1,0 +1,43 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_sockaddr_in_sin_len: Trylink cat i_arpainet
+?MAKE:	-pick add $@ %<
+?S:d_sockaddr_in_sin_len:
+?S:	This variable conditionally defines the HAS_SOCKADDR_IN_SIN_LEN symbol,
+?S:	indicates to the C program that struct sockaddr_in has a member named
+?S:	"sin_len".
+?S:.
+?C:HAS_SOCKADDR_IN_SIN_LEN:
+?C:	This symbol is defined if struct sockaddr_in has sin_len.
+?C:.
+?H:#$d_sockaddr_in_sin_len HAS_SOCKADDR_IN_SIN_LEN
+?H:.
+?LINT: set d_sockaddr_in_sin_len
+: does struct sockaddr_in has sin_len
+$cat >try.c <<EOC
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#$i_arpainet I_ARPA_INET
+#ifdef I_ARPA_INET
+#include <arpa/inet.h>
+#endif
+int main(void)
+{
+	static struct sockaddr_in addr;
+	addr.sin_len = 1;
+	return 0;
+}
+EOC
+cyn="whether 'struct sockaddr_in' has a 'sin_len' member"
+set d_sockaddr_in_sin_len
+eval $trylink
+

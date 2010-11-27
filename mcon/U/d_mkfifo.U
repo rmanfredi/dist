@@ -45,6 +45,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=mkfifo
 set d_mkfifo
 eval $trylink
 

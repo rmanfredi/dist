@@ -40,6 +40,7 @@ int main(void)
 	return p ? 0 : 1;
 }
 EOC
+cyn=memcpy
 set d_memcpy
 eval $trylink
 

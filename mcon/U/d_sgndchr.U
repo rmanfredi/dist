@@ -33,8 +33,6 @@
 ?H:.
 ?LINT:set d_sgndchr
 : check for signed chars
-echo " "
-echo "Checking to see if your C compiler can do signed chars..." >&4
 $cat >try.c <<EOC
 int main(void)
 {
@@ -46,6 +44,7 @@ int main(void)
 	return 0;
 }
 EOC
+cyn="whether your C compiler can do signed chars"
 set d_sgndchr
 eval $trylink
 

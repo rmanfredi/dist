@@ -40,6 +40,7 @@ int main(void)
 	return lc ? 0 : 1;
 }
 EOC
+cyn=localeconv
 set d_locconv
 eval $trylink
 

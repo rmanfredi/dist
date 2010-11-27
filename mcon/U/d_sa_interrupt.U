@@ -1,0 +1,37 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_sa_interrupt: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_sa_interrupt:
+?S:	This variable conditionally defines the HAS_SA_INTERRUPT symbol, which
+?S:	indicates to the C program that SA_INTERRUPT() is available for
+?S:	sigaction().
+?S:.
+?C:HAS_SA_INTERRUPT:
+?C:	This symbol is defined when SA_INTERRUPT can be used in sigaction().
+?C:.
+?H:#$d_sa_interrupt HAS_SA_INTERRUPT
+?H:.
+?LINT: set d_sa_interrupt
+: can we use SA_INTERRUPT?
+$cat >try.c <<'EOC'
+#include <signal.h>
+int main(void)
+{
+  static int ret;
+  ret |= SA_INTERRUPT;
+  return ret ? 0 : 1;
+}
+EOC
+cyn="whether SA_INTERRUPT is available in <signal.h>"
+set d_sa_interrupt
+eval $trylink
+

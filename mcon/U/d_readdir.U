@@ -73,6 +73,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=readdir
 set d_readdir
 eval $trylink
 
@@ -90,6 +91,7 @@ int main(void)
 	return 0;
 }
 EOC
+cyn=seekdir
 set d_seekdir
 eval $trylink
 @end
@@ -109,6 +111,7 @@ int main(void)
 	return 0;
 }
 EOC
+cyn=telldir
 set d_telldir
 eval $trylink
 @end
@@ -125,6 +128,7 @@ int main(void)
 	return 0;
 }
 EOC
+cyn=rewinddir
 set d_rewinddir
 eval $trylink
 @end

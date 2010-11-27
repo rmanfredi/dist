@@ -39,6 +39,7 @@ int main(void)
 	return c ? 0 : 1;
 }
 EOC
+cyn=tzname
 set d_tzname
 eval $trylink
 

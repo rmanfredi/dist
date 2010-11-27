@@ -42,6 +42,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=access
 set d_access
 eval $trylink
 

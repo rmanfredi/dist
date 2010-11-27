@@ -1,0 +1,77 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_ipv6: Trylink cat i_arpainet i_netdb
+?MAKE:	-pick add $@ %<
+?S:d_ipv6:
+?S: This variable conditionally defines HAS_IPV6.
+?S:.
+?C:HAS_IPV6:
+?C:  This symbol is defined when IPv6 can be used
+?C:.
+?H:#$d_ipv6 HAS_IPV6	/**/
+?H:.
+?LINT:set d_ipv6
+: determine whether IPv6 can be used
+case "$d_ipv6" in
+"$undef") 
+	echo "IPv6 support is disabled." >&4
+;;
+*)
+	$cat >try.c <<EOC
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#$i_arpainet I_ARPA_INET
+#ifdef I_ARPA_INET
+#include <arpa/inet.h>
+#endif
+#$i_netdb I_NETDB
+#ifdef I_NETDB
+#include <netdb.h>
+#endif
+#define STATIC_ASSERT(x)	\
+	do { switch (0) { case ((x) ? 1 : 0): case 0: break; } } while(0)
+
+int main(void)
+{
+	struct sockaddr_storage ss;
+	struct sockaddr_in6 sin6;
+	static struct in6_addr in6;
+
+	ss.ss_family = PF_INET6;
+
+	sin6.sin6_family = AF_INET6;
+	sin6.sin6_port = 6346;
+	sin6.sin6_flowinfo = 23UL;
+	sin6.sin6_scope_id = 42UL;
+	sin6.sin6_addr = in6;
+	sin6.sin6_addr.s6_addr[0] = in6.s6_addr[0];
+
+	STATIC_ASSERT(AF_INET6 == PF_INET6);
+	STATIC_ASSERT(sizeof in6 == sizeof sin6.sin6_addr);
+	STATIC_ASSERT(16 == sizeof sin6.sin6_addr.s6_addr);
+	STATIC_ASSERT(2 == sizeof sin6.sin6_port);
+	STATIC_ASSERT(4 == sizeof sin6.sin6_flowinfo);
+	STATIC_ASSERT(4 == sizeof sin6.sin6_scope_id);
+
+	(void) sin6;
+	(void) in6;
+
+	return 0;
+}
+EOC
+
+	cyn="whether IPv6 support is available"
+	set d_ipv6
+	eval $trylink
+	;;
+esac
+

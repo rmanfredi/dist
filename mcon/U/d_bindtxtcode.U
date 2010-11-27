@@ -1,0 +1,38 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_bindtxtcode: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_bindtxtcode:
+?S:	This variable conditionally defines the HAS_BIND_TEXTDOMAIN_CODESET symbol,
+?S:	which indicates to the C program that the bind_textdomain_codeset()
+?S:	routine is available.
+?S:.
+?C:HAS_BIND_TEXTDOMAIN_CODESET:
+?C:	This symbol, if defined, indicates that the bind_textdomain_codeset routine
+?C:	is available.
+?C:.
+?H:#$d_bindtxtcode HAS_BIND_TEXTDOMAIN_CODESET		/**/
+?H:.
+?LINT:set d_bindtxtcode
+: see if bind_textdomain_codeset exists
+$cat >try.c <<EOC
+#include <libintl.h>
+int main(void)
+{
+	static char ret;
+	ret |= *bind_textdomain_codeset("domain", "codeset");
+	return ret ? 0 : 1;
+}
+EOC
+cyn=bind_textdomain_codeset
+set d_bindtxtcode '-lintl'
+eval $trylink
+

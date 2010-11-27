@@ -31,7 +31,7 @@
 ?C:.
 ?C:USE_BSD_GETPGRP:
 ?C:	This symbol, if defined, indicates that getpgrp needs one
-?C:	arguments whereas USG one needs none.
+?C:	arguments whereas the USG one needs none.
 ?C:.
 ?H:#$d_getpgrp HAS_GETPGRP		/**/
 ?H:#$d_bsdgetpgrp USE_BSD_GETPGRP	/**/
@@ -51,6 +51,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn="whether you have a BSD-like getpgrp()"
 set d_bsdgetpgrp
 eval $trylink
 
@@ -74,6 +75,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+	cyn="whether you have a USG-like getpgrp() instead"
 	set d_getpgrp
 	eval $trylink
 	;;

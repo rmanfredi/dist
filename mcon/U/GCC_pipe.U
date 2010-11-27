@@ -1,0 +1,66 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:GCC_pipe: Trylink cat +cc ccflags gccversion optimize
+?MAKE:	-pick add $@ %<
+?T:flag result saved_ccflags
+?LINT:change ccflags
+: check whether -pipe should be used
+flag='-pipe'
+echo " "
+case "$gccversion" in
+'');;
+*)
+	case "$ccflags $optimize" in
+	*-save-temps*);;
+	*-pipe*);;
+	*)
+		$cat >try.c <<'EOC'
+int main(void)
+{
+	return 0;
+}
+EOC
+		saved_ccflags=$ccflags
+		ccflags="$flag $ccflags"
+
+		result=''
+		cyn="whether '$flag' is accepted by $cc" >&4
+		set result
+		eval $trylink
+	
+		case "$result" in
+		"$define")
+			$cat >try.c <<EOC
+main("This is not C")
+{
+	(. || 
+	switch (**1) { case 1: case 1: }
+}
+EOC
+?X: trylink could "Whoa there" if we do not reset this variable
+			result=''
+			set result
+			eval $trylink
+	
+			case "$result" in
+			"$define")
+				echo "However with $flag the compiler seems to see no code." >&4
+				ccflags=$saved_ccflags
+				;;
+			esac
+			;;
+		*) ccflags=$saved_ccflags;;
+		esac
+		;;
+	esac
+	;;
+esac
+

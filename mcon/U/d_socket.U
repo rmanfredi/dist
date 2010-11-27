@@ -126,6 +126,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=socketpair
 set d_sockpair
 eval $trylink
 

@@ -1,0 +1,41 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_sysctl: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_sysctl:
+?S:	This variable conditionally defines the HAS_SYSCTL symbol, which
+?S:	indicates to the C program that the sysctl() routine is available.
+?S:.
+?C:HAS_SYSCTL:
+?C:	This symbol, if defined, indicates that the sysctl routine is
+?C:	available.
+?C:.
+?H:#$d_sysctl HAS_SYSCTL		/**/
+?H:.
+?LINT:set d_sysctl
+: see if sysctl exists
+$cat >try.c <<EOC
+#include <sys/param.h>
+#include <sys/sysctl.h>
+int main(void)
+{
+	static int ret, name;
+	static unsigned int namelen;
+	static void *oldp, *newp;
+	static size_t oldlen, newlen;
+	ret |= sysctl(&name, namelen, oldp, &oldlen, newp, newlen);
+	return ret ? 0 : 1;
+}
+EOC
+cyn=sysctl
+set d_sysctl
+eval $trylink
+

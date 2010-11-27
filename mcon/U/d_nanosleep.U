@@ -1,0 +1,38 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_nanosleep: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_nanosleep:
+?S:	This variable conditionally defines the HAS_NANOSLEEP symbol, which
+?S:	indicates to the C program that the nanosleep() system call is available.
+?S:.
+?C:HAS_NANOSLEEP:
+?C:	This symbol, if defined, indicates that the nanosleep() system call
+?C:	is available.
+?C:.
+?H:#$d_nanosleep HAS_NANOSLEEP		/**/
+?H:.
+?LINT:set d_nanosleep
+: see if nanosleep exists
+$cat >try.c <<EOC
+#include <time.h>
+int main(void)
+{
+	static int ret;
+	static struct timespec request, remain;
+	ret |= nanosleep(&request, &remain);
+	return ret ? 0 : 1;
+}
+EOC
+cyn=nanosleep
+set d_nanosleep 
+eval $trylink
+

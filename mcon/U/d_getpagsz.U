@@ -55,6 +55,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=getpagesize
 set d_getpagsz
 eval $trylink
 

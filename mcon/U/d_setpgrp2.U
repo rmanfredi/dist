@@ -41,6 +41,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=setpgrp2
 set d_setpgrp2
 eval $trylink
 

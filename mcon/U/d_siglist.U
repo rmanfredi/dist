@@ -25,7 +25,7 @@
 ?H:#$d_siglist HAS_SYS_SIGLIST		/**/
 ?H:.
 ?LINT:set d_siglist
-: see if sys_siglist[] exist
+: see if sys_siglist[] exists
 $cat >try.c <<EOC
 #include <signal.h>
 int main(void)
@@ -35,6 +35,7 @@ int main(void)
 	return c ? 0 : 1
 }
 EOC
+cyn="whether sys_siglist[] exists"
 set d_siglist
 eval $trylink
 

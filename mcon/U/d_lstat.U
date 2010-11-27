@@ -39,6 +39,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=lstat
 set d_lstat
 eval $trylink
 

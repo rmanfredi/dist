@@ -50,7 +50,7 @@
 ?H:#$d_htonl HAS_NTOHS		/**/
 ?H:.
 ?LINT:set d_htonl
-: see if htonl --and friends-- exists
+: see if htonl --and friends-- exist
 $cat >try.c <<EOC
 #include <stdio.h>
 #include <sys/types.h>
@@ -74,6 +74,7 @@ int main(int argc, char *argv[])
 	return ret ? 0 : 1;
 }
 EOC
+cyn="whether htonl() and friends exist"
 set d_htonl
 eval $trylink
 

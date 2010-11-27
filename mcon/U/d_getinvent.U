@@ -1,0 +1,37 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_getinvent: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_getinvent:
+?S:    This variable conditionally defines the HAS_GETINVENT symbol, which
+?S:    indicates to the C program that the getinvent() routine is available.
+?S:.
+?C:HAS_GETINVENT:
+?C:    This symbol, if defined, indicates that the getinvent() routine is
+?C:    available.
+?C:.
+?H:#$d_getinvent       HAS_GETINVENT           /**/
+?H:.
+?LINT:set d_getinvent
+: see if getinvent exists
+$cat >try.c <<EOC
+#include <invent.h>
+int main(void)
+{
+	static inventory_t *ret;
+	ret = getinvent();
+	return ret ? 0 : 1;
+}
+EOC
+cyn=getinvent
+set d_getinvent
+eval $trylink
+

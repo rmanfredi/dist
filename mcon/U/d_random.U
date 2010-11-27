@@ -1,0 +1,40 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_random: Trylink cat i_stdlib
+?MAKE:	-pick add $@ %<
+?S:d_random:
+?S:	This variable conditionally defines the HAS_RANDOM symbol, which
+?S:	indicates to the C program that the random() routine is available.
+?S:.
+?C:HAS_RANDOM:
+?C:	This symbol, if defined, indicates that the random routine is
+?C:	available.
+?C:.
+?H:#$d_random HAS_RANDOM		/**/
+?H:.
+?LINT:set d_random
+: see if random exists
+$cat >try.c <<EOC
+#$i_stdlib I_STDLIB
+#ifdef I_STDLIB
+#include <stdlib.h>
+#endif
+int main(void)
+{
+	static long ret;
+	ret |= random();
+	return ret ? 0 : 1;
+}
+EOC
+cyn=random
+set d_random
+eval $trylink
+

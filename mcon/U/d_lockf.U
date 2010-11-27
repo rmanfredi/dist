@@ -45,6 +45,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=lockf
 set d_lockf
 eval $trylink
 

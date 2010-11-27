@@ -39,6 +39,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=rmdir
 set d_rmdir
 eval $trylink
 

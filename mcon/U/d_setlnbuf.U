@@ -39,6 +39,7 @@ int main(void)
 	return 0;
 }
 EOC
+cyn=setlinebuf
 set d_setlinebuf
 eval $trylink
 

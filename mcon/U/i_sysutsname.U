@@ -1,0 +1,27 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:i_sysutsname: Inhdr
+?MAKE:	-pick add $@ %<
+?S:i_sysutsname:
+?S:    This variable conditionally defines the I_SYS_UTSNAME symbol, and
+?S:    indicates whether a C program should include <sys/utsname.h>.
+?S:.
+?C:I_SYS_UTSNAME:
+?C:    This symbol, if defined, indicates to the C program that it should
+?C:    include <sys/utsname.h>.
+?C:.
+?H:#$i_sysutsname I_SYS_UTSNAME         /**/
+?H:.
+?LINT:set i_sysutsname
+: see if this is a sys/utsname system
+set sys/utsname.h i_sysutsname
+eval $inhdr
+

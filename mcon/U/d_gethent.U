@@ -35,6 +35,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=gethostent
 set d_gethent
 eval $trylink
 

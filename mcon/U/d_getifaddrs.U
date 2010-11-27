@@ -1,0 +1,54 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_getifaddrs: Trylink cat i_netif
+?MAKE:	-pick add $@ %<
+?S:d_getifaddrs:
+?S:	This variable conditionally defines the HAS_GETIFADDRS symbol, which
+?S:	indicates to the C program that getifaddrs() support is available.
+?S:.
+?C:HAS_GETIFADDRS:
+?C:	This symbol is defined when getifaddrs() and freeifaddrs() can be used.
+?C:.
+?H:#$d_getifaddrs HAS_GETIFADDRS
+?H:.
+?LINT: set d_getifaddrs
+: can we use getifaddrs?
+$cat >try.c <<EOC
+#include <sys/types.h>
+#include <sys/socket.h>
+#$i_netif I_NET_IF
+#ifdef I_NET_IF
+#include <net/if.h>
+#endif
+#include <ifaddrs.h>
+int main(void)
+{
+  struct ifaddrs *ifa0, *ifa;
+  static int ret;
+
+  ret |= getifaddrs(&ifa0);
+
+  for (ifa = ifa0; ifa; ifa = ifa->ifa_next) {
+    (void) ifa->ifa_flags;
+    (void) ifa->ifa_addr;
+    (void) ifa->ifa_addr->sa_family;
+    (void) ifa->ifa_netmask;
+    if ((IFF_LOOPBACK | IFF_UP | IFF_RUNNING) & ifa->ifa_flags)
+	break;
+  }
+  freeifaddrs(ifa0);
+  return 0;
+}
+EOC
+cyn=getifaddrs
+set d_getifaddrs
+eval $trylink
+

@@ -1,0 +1,37 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_strcasestr: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_strcasestr:
+?S:	This variable conditionally defines the HAS_STRCASESTR symbol, which
+?S:	indicates to the C program that the strcasestr() routine is available.
+?S:.
+?C:HAS_STRCASESTR:
+?C:	This symbol, if defined, indicates that the strcasestr routine is
+?C:	available.
+?C:.
+?H:#$d_strcasestr HAS_STRCASESTR		/**/
+?H:.
+?LINT:set d_strcasestr
+: see if strcasestr exists
+$cat >try.c <<EOC
+#include <string.h>
+int main(void)
+{
+	static char ret;
+	ret |= *strcasestr("big", "little");
+	return ret ? 0 : 1;
+}
+EOC
+cyn=strcasestr
+set d_strcasestr
+eval $trylink
+

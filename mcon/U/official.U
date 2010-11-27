@@ -1,0 +1,47 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:official d_official: Myread Setvar Warn
+?MAKE:	-pick add $@ %<
+?S:official:
+?S:	This variable holds 'true' or 'false' depending on whether we're making
+?S:	an "official" build.  When not official, generated programs may choose
+?S:	to peek within the source directory, for instance via $pkgsrc in the
+?S:	shell and PACKAGE_SOURCE_DIR in C programs.
+?S:.
+?S:d_official:
+?S:	This variable conditionally defines OFFICIAL_BUILD.
+?S:.
+?C:OFFICIAL_BUILD:
+?C: When defined, the build is "official".  Programs generated for an
+?C:	official build MUST NOT peek into the place where the sources lie, via
+?C:	PACKAGE_SOURCE_DIR or any other means.
+?C:.
+?H:#$d_official OFFICIAL_BUILD	/**/
+?H:.
+?Y:TOP
+?LINT:set d_official
+: determine whether this is an official build
+case "$official" in
+false)
+	official=false
+	val="$undef"
+
+	./warn 'This build will not be suitable for distribution.' 4>&4
+
+;;
+*)
+	val="$define"
+	official=true
+	;;
+esac
+set d_official
+eval $setvar
+

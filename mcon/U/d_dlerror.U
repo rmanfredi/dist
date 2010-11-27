@@ -44,6 +44,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=dlerror
 set d_dlerror '-ldl'
 eval $trylink
 

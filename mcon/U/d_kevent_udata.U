@@ -1,0 +1,49 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_kevent_int_udata: Trylink cat d_kqueue
+?MAKE:	-pick add $@ %<
+?S:d_kevent_int_udata:
+?S:	This variable conditionally defines the HAS_KEVENT_INT_UDATA symbol,
+?S:	which indicates to the C program that struct kevent has an
+?S: 	integer member udata.
+?S:.
+?C:HAS_KEVENT_INT_UDATA:
+?C:	This symbol, if defined, indicates that struct kevent has an
+?C:	integer member udata.
+?C:.
+?H:#$d_kevent_int_udata HAS_KEVENT_INT_UDATA		/**/
+?H:.
+?LINT:set d_kevent_int_udata
+: check whether udata in struct kevent is an integer
+case "$d_kqueue" in
+"$define")
+	$cat >try.c <<EOC
+#include <sys/types.h>
+#include <sys/event.h>
+#include <sys/time.h>
+int main(void)
+{
+  static struct kevent ev;
+  ev.udata |= 1;
+  return 0;
+}
+EOC
+
+	cyn="whether member 'udata' of 'struct kevent' is an integer"
+	set d_kevent_int_udata
+	eval $trylink
+	;;
+*)
+	val="$undef"
+	set d_kevent_int_udata
+	eval $setvar
+esac
+

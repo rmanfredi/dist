@@ -43,6 +43,7 @@ main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=strcasecmp
 set d_strccmp
 eval $trylink
 

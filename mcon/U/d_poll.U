@@ -58,6 +58,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=poll
 set d_poll
 eval $trylink
 

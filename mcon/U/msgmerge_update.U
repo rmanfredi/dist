@@ -1,0 +1,29 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:msgmerge_update: msgmerge grep contains rm
+?MAKE:	-pick add $@ %<
+?S:msgmerge_update:
+?S:	The command "msgmerge --update" if supported on your system, else ":".
+?S:.
+?F:!msghelp
+: check whether msgmerge supports --update
+echo " "
+echo "Let's see whether your $msgmerge supports the --update flag..." >&4
+$msgmerge --help | $grep -- --update >msghelp
+if $contains update msghelp >/dev/null 2>&1; then
+	echo "Good, it does."
+	msgmerge_update="$msgmerge --update"
+else
+	echo "Sorry, it does not: we'll try to do without it."
+	msgmerge_update=":"
+fi
+$rm -f msghelp
+

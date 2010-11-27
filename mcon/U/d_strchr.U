@@ -67,6 +67,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=strchr
 set d_strchr
 eval $trylink
 
@@ -80,6 +81,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=index
 set d_index 
 eval $trylink
 

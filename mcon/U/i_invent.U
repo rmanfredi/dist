@@ -1,0 +1,27 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:i_invent: Inhdr
+?MAKE:	-pick add $@ %<
+?S:i_invent:
+?S:    This variable conditionally defines the I_INVENT symbol, and indicates
+?S:    whether a C program should include <invent.h>.
+?S:.
+?C:I_INVENT:
+?C:    This symbol, if defined, indicates to the C program that it should
+?C:    include <invent.h>.
+?C:.
+?H:#$i_invent I_INVENT         /**/
+?H:.
+?LINT:set i_invent
+: see if this is a invent.h system
+set invent.h i_invent
+eval $inhdr
+

@@ -40,6 +40,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=nice
 set d_nice
 eval $trylink
 

@@ -52,6 +52,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=scandir
 set d_scandir
 eval $trylink
 

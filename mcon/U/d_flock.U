@@ -38,6 +38,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=flock
 set d_flock
 eval $trylink
 

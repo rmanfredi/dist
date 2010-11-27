@@ -48,6 +48,7 @@ int main(void)
 	return 0;
 }
 EOC
+cyn=bcopy
 set d_bcopy
 eval $trylink
 

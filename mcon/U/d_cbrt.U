@@ -36,6 +36,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=cbrt
 set d_cbrt '-lm'
 eval $trylink
 

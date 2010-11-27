@@ -39,6 +39,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=drem
 set d_drem '-lm'
 eval $trylink
 

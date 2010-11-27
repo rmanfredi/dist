@@ -39,6 +39,7 @@ int main(void)
 	return p ? 0 : 1;
 }
 EOC
+cyn=memmove
 set d_memmove
 eval $trylink
 

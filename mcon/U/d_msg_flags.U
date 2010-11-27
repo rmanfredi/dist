@@ -1,0 +1,39 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_msghdr_msg_flags: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_msghdr_msg_flags:
+?S:	This variable conditionally defines the HAS_MSGHDR_MSG_FLAGS symbol,
+?S:	which indicates to the C program that struct msghdr has a member
+?S:	msg_flags.
+?S:.
+?C:HAS_MSGHDR_MSG_FLAGS:
+?C:	This symbol, if defined, indicates that struct msghdr has a
+?C:	member msg_flags.
+?C:.
+?H:#$d_msghdr_msg_flags HAS_MSGHDR_MSG_FLAGS		/**/
+?H:.
+?LINT:set d_msghdr_msg_flags
+: check for msg_flags in struct msghdr
+$cat >try.c <<EOC
+#include <sys/types.h>
+#include <sys/socket.h>
+int main(void)
+{
+	struct msghdr msg;
+	msg.msg_flags |= 1;
+	return 0;
+}
+EOC
+cyn="whether 'struct msghdr' has a 'msg_flags' member"
+set d_msghdr_msg_flags
+eval $trylink
+

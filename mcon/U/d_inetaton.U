@@ -42,6 +42,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=inet_aton
 set d_inetaton
 eval $trylink
 

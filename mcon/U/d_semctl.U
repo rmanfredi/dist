@@ -46,6 +46,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=semctl
 set d_semctl
 eval $trylink
 

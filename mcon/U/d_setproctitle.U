@@ -1,0 +1,45 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_setproctitle: Trylink cat i_stdlib i_unistd
+?MAKE:	-pick add $@ %<
+?S:d_setproctitle:
+?S:	This variable conditionally defines the HAS_SETPROCTITLE
+?S:	symbol, which indicates to the C program that setproctitle()
+?S:	is available.
+?S:.
+?C:HAS_SETPROCTITLE:
+?C:	This symbol is defined when setproctitle() can be used and takes a
+?C:	format string.
+?C:.
+?H:#$d_setproctitle HAS_SETPROCTITLE
+?H:.
+?LINT: set d_setproctitle
+: can we use setproctitle?
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_stdlib I_STDLIB
+#ifdef I_STDLIB
+#include <stdlib.h>
+#endif
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+  setproctitle("%s %d %s %c", "blah", 1, "x", 'X');
+  return 0;
+}
+EOC
+cyn=setproctitle
+set d_setproctitle
+eval $trylink
+

@@ -37,6 +37,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=strftime
 set d_strftime
 eval $trylink
 

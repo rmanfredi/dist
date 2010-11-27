@@ -1,0 +1,36 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_herror: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_herror:
+?S:	This variable conditionally defines the HAS_HERROR symbol, which
+?S:	indicates to the C program that the herror() routine is available.
+?S:.
+?C:HAS_HERROR:
+?C:	This symbol, if defined, indicates that the herror routine is
+?C:	available.
+?C:.
+?H:#$d_herror HAS_HERROR		/**/
+?H:.
+?LINT:set d_herror
+: see if herror exists
+$cat >try.c <<EOC
+#include <netdb.h>
+int main(void)
+{
+	herror("string");
+	return 0;
+}
+EOC
+cyn=herror
+set d_herror
+eval $trylink
+

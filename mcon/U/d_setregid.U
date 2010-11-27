@@ -55,6 +55,7 @@ int main(void)
 	return 0;
 }
 EOC
+cyn=setregid
 set d_setregid
 eval $trylink
 
@@ -71,6 +72,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=setresgid
 set d_setresgid
 eval $trylink
 

@@ -41,6 +41,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=setpriority
 set d_setprior
 eval $trylink
 

@@ -36,6 +36,7 @@ int main(void)
 	return pw.pw_name ? 0 : 1;
 }
 EOC
+cyn=getpwent
 set d_getpwent
 eval $trylink
 

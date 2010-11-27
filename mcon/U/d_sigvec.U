@@ -62,6 +62,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=sigvector
 set d_sigvectr
 eval $trylink
 
@@ -75,6 +76,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=sigvec
 set d_sigvec
 eval $trylink
 
@@ -90,6 +92,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=siginterrupt
 set d_sigintrp
 eval $trylink
 

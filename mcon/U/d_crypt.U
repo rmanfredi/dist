@@ -36,7 +36,6 @@
 ?LINT:set d_crypt
 ?T:val
 : see if crypt exists
-
 $cat >try.c <<EOC
 #$i_unistd I_UNISTD
 #ifdef I_UNISTD
@@ -49,6 +48,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=crypt
 set d_crypt -lcrypt
 eval $trylink
 

@@ -38,6 +38,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=fmod
 set d_fmod '-lm'
 eval $trylink
 

@@ -67,6 +67,7 @@ int main(void)
 	return 0;
 }
 EOC
+cyn=shmat
 set d_shmat 
 eval $trylink
 
@@ -77,6 +78,7 @@ case "$d_shmat" in
 extern void shmat(void);
 int main(void) { return 0; }
 EOC
+	cyn="whether <sys/shm.h> contains the shmat() prototype"
 	set val
 	eval $trylink
 	case "$val" in
@@ -89,6 +91,13 @@ esac
 
 set d_shmatprototype
 eval $setvar
+
+case "$d_shmat" in
+"$define")
+	echo " "
+	echo "Looking for the correct shmat prototype..." >&4
+	;;
+esac
 
 case "$d_shmat" in
 "$define")
@@ -130,5 +139,9 @@ EOC
 	"$define") shmattype='char *';;
 	esac
 	;;
+esac
+
+case "$d_shmat" in
+"$define") echo "shmat() returns $shmattype";;
 esac
 

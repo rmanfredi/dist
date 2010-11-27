@@ -1,0 +1,70 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:locale localeexp: Getfile Loc Oldconfig Prefixit Prefixup \
+	cat prefixexp package spackage enablenls
+?MAKE:	-pick add $@ %<
+?Y:TOP
+?S:locale:
+?S:	This variable holds the name of the directory in which the user wants
+?S:	to put locale library files for the package in question.  It is most
+?S:	often a local directory such as /usr/share/locale. Programs using this
+?S:	variable must be prepared to deal with filename expansion.
+?S:	Only meaningful when $enablenls holds true.
+?S:.
+?S:localeexp:
+?S:	This variable is the same as the locale variable, but is filename expanded
+?S:	at configuration time, for convenient use in your makefiles.
+?S:	Only meaningful when $enablenls holds true.
+?S:.
+?C:LOCALE:
+?C:	This symbol holds the place where localization files for the package
+?C:	are expected to be found.  Be prepared to use ~name expansion, or rely
+?C:	on LOCALE_EXP to have an expanded value computed at configuration time.
+?C:	Only meaningful when ENABLE_NLS is defined.
+?C:.
+?C:LOCALE_EXP:
+?C:	This symbol holds the possibly ~name expanded place where localization
+?C:	files for the package are expected to be found.
+?C:	Only meaningful when ENABLE_NLS is defined.
+?C:.
+?H:#define LOCALE "$locale"
+?H:#define LOCALE_EXP "$localeexp"
+?H:.
+: determine where locale files go
+case "$enablenls" in
+false) ;;
+*)
+	set locale locale
+	eval $prefixit
+	case "$locale" in
+	'')
+		dflt=`./loc . "." $prefixexp/share/locale \
+			/usr/share/locale /usr/local/share/locale`
+		set dflt
+		eval $prefixup
+		;;
+	*)  dflt="$locale";;
+	esac
+	fn=d~
+	$cat <<EOM
+
+$spackage comes with a set of files holding translations for various
+languages.  Those need to be installed in order for you to benefit
+from those translations and have $package localized.
+
+EOM
+	rp='Where do you want to put the localization files?'
+	. ./getfile
+	locale="$ans"
+	localeexp="$ansexp"
+	;;
+esac
+

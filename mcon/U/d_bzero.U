@@ -48,6 +48,7 @@ int main(void)
 	return 0;
 }
 EOC
+cyn=bzero
 set d_bzero
 eval $trylink
 

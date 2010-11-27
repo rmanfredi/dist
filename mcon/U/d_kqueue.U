@@ -1,0 +1,57 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_kqueue: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_kqueue:
+?S:	This variable conditionally defines the HAS_KQUEUE symbol, which
+?S:	indicates to the C program that kqueue() support is available.
+?S:.
+?C:HAS_KQUEUE:
+?C:	This symbol is defined when kqueue() can be used.
+?C:.
+?H:#$d_kqueue HAS_KQUEUE
+?H:.
+?LINT: set d_kqueue
+: can we use kqueue?
+$cat >try.c <<'EOC'
+#include <sys/types.h>
+#include <sys/event.h>
+#include <sys/time.h>
+int main(void)
+{
+  static struct kevent changes, events;
+  static struct timespec ts;
+  static unsigned long filter;
+  static int kq, fd;
+  static unsigned long flags;
+  filter |= EVFILT_READ;
+  filter |= EVFILT_WRITE;
+  filter |= EVFILT_SIGNAL;
+  filter |= EVFILT_VNODE;
+  filter |= EVFILT_PROC;
+  flags |= EV_ADD;
+  flags |= EV_ENABLE;
+  flags |= EV_ONESHOT;
+  flags |= EV_CLEAR;
+  flags |= EV_EOF;
+  flags |= EV_ERROR;
+  flags |= EV_DISABLE;
+  flags |= EV_DELETE;
+  EV_SET(&changes, fd, filter, flags, 0, 0, 0);
+  kq |= kqueue();
+  kevent(kq, &changes, 1, &events, 1, &ts);
+  return 0;
+}
+EOC
+cyn=kqueue
+set d_kqueue
+eval $trylink
+

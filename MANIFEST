@@ -76,6 +76,7 @@ mcon/NOTES                 Documents the changes in metaconfig
 mcon/README                Instructions on using metaconfig
 mcon/U/                    Holds Units for metaconfig
 mcon/U/AAAAA.U             Does magic before Head.U
+mcon/U/Alpha_mieee.U       Can -mieee be passed to cc?
 mcon/U/Begin.U             "Beginning of configuration questions"
 mcon/U/Checkcc.U           A unit for checking the C compiler for sanity
 mcon/U/Chk_MANI.U          MANIFEST checks
@@ -93,6 +94,7 @@ mcon/U/Extractall.U        Support for the -S Configure option
 mcon/U/Filexp.U            Makes program to do tilde expansion
 mcon/U/Findhdr.U           Locate header files
 mcon/U/Finish.U            A unit which always goes last
+mcon/U/GCC_pipe.U          Is the -pipe option supported by gcc?
 mcon/U/Getfile.U           Get file/directory name
 mcon/U/Guess.U             Hazard guesses as to overall philosophy
 mcon/U/Head.U              First unit, does "#!/bin/sh" et al
@@ -100,6 +102,7 @@ mcon/U/Inhdr.U             Defines a look-for-header function
 mcon/U/Init.U              Magically gathers ?Init: lines from other units
 mcon/U/Inlibc.U            Defines an is-in-libc? function
 mcon/U/Instruct.U          Prints instructions
+mcon/U/Largefile.U         Which cc flags are required for large file support?
 mcon/U/Loc.U               Look for common programs
 mcon/U/Loc_sed.U           Full path of sed interpreter, even when portable
 mcon/U/Magic_h.U           Makes confmagic.h--bizarrity here
@@ -119,6 +122,7 @@ mcon/U/Options.U           Configure option parsing
 mcon/U/Prefixit.U          Fixes path prefix in variables in case it changed
 mcon/U/Prefixup.U          Fixes vars with path prefix using ~name expansion
 mcon/U/Rcs.U               Some stupid redefinitions to keep RCS happy
+mcon/U/Sendfile64.U        Is sendfile() working with the largefile flags?
 mcon/U/Setvar.U            Set a variable with some sanity checks
 mcon/U/Signal.U            Utilities for sig_name.U
 mcon/U/Tr.U                Builds a tr script to handle lower and upper classes
@@ -158,11 +162,14 @@ mcon/U/d_PORTAR.U          Do we know about portable archives?
 mcon/U/d_SHM_MAC.U         SHMLBA macro stuff
 mcon/U/d_access.U          Do we have access()?
 mcon/U/d_alarm.U           Do we have alarm()?
+mcon/U/d_arc4random.U      Do we have arc4random()?
 mcon/U/d_attribut.U        Checks wether your cc groks __attribute__
 mcon/U/d_bcmp.U            Do we have bcmp() or memcmp()?
 mcon/U/d_bcopy.U           Do we have bcopy() or memcpy()?
+mcon/U/d_bindtxtcode.U     Do we have bind_textdomain_codeset()?
 mcon/U/d_brokstat.U        Check whether stat() macros are broken
 mcon/U/d_bsdjmp.U          Do we have BSD _setjmp() and _longjmp()?
+mcon/U/d_built_popcount.U    Is __builtin_popcount() available?
 mcon/U/d_byacc.U           Is byacc available?
 mcon/U/d_bzero.U           Do we have bzero() or memset()?
 mcon/U/d_casti32.U         Can the compiler cast large flots to 32-bit ints?
@@ -174,6 +181,7 @@ mcon/U/d_chroot.U          Do we have chroot()?
 mcon/U/d_chsize.U          Size of a char
 mcon/U/d_ckeypad.U         Do we have the curses keypad()?
 mcon/U/d_closedir.U        Do we have closedir()?
+mcon/U/d_closefrom.U       Do we have closefrom()?
 mcon/U/d_const.U           Can cc grok the const keyword?
 mcon/U/d_crypt.U           Does crypt() exist?
 mcon/U/d_csh.U             csh path
@@ -181,14 +189,19 @@ mcon/U/d_ctermid.U         Do we have ctermid()?
 mcon/U/d_cuserid.U         Do we have cuserid()?
 mcon/U/d_dbl_dig.U         Is DBL_DIG defined in <limits.h> or <float.h>?
 mcon/U/d_debugging.U       Conditionally defines -DDEBUGGING
+mcon/U/d_deflate.U         Do we have zlib's deflate()?
+mcon/U/d_devpoll.U         Can we use /dev/poll?
 mcon/U/d_difftime.U        Do we have difftime()?
+mcon/U/d_dirent_d_type.U   Does struct dirent has a member d_type?
 mcon/U/d_dlerror.U         Do we have dlerror()?
 mcon/U/d_dlopen.U          Do we have dlopen()?
 mcon/U/d_dosuid.U          Do they want setuid emulation?
 mcon/U/d_drem.U            Do we have drem()?
 mcon/U/d_dup2.U            Do we have dup2()?
 mcon/U/d_eofpipe.U         Will EOF be seen on closed pipes?
+mcon/U/d_epoll.U           Can we use epoll_xxx() routines?
 mcon/U/d_euc2jis.U         Do we have euc2jis()?
+mcon/U/d_fast_assert.U     Can we use fast assertions?
 mcon/U/d_fchmod.U          Do we have fchmod()?
 mcon/U/d_fchown.U          Do we have fchown()?
 mcon/U/d_fcntl.U           Do we have fcntl()?
@@ -203,11 +216,15 @@ mcon/U/d_fsetpos.U         Do we have fsetpos()?
 mcon/U/d_ftime.U           Do we have ftime()?
 mcon/U/d_ftrncate.U        Do we have ftruncate()?
 mcon/U/d_gconvert.U        Do we have gconvert() or gcvt()?
+mcon/U/d_getaddrinfo.U     Do we have etaddrinfo()?
+mcon/U/d_geteuid.U         Do we have geteuid()?
 mcon/U/d_getgrps.U         Do we have getgroups()?
 mcon/U/d_gethbynm.U        Do we have gethostbyname()?
 mcon/U/d_gethent.U         Do we have gethostent()?
 mcon/U/d_gethid.U          Do we have gethostid()?
 mcon/U/d_gethname.U        What is the C function to get host name?
+mcon/U/d_getifaddrs.U      Do we have getifaddrs() and freeifaddrs()?
+mcon/U/d_getinvent.U       Do we have getinvent()?
 mcon/U/d_getlogin.U        Do we have getlogin()?
 mcon/U/d_getopt.U          Do we have getopt()?
 mcon/U/d_getpagsz.U        Computes system's page size
@@ -217,24 +234,38 @@ mcon/U/d_getpgrp2.U        Do we have getpgrp2()? (DG/UX)
 mcon/U/d_getppid.U         Do we have getppid()?
 mcon/U/d_getprior.U        Do we have getpriority()?
 mcon/U/d_getpwent.U        How is passwd info gotten?
+mcon/U/d_gettext.U         Checks whether gettext() is available
+mcon/U/d_getuid.U          Do we have getuid()?
 mcon/U/d_getwd.U           Do we have getwd()?
+mcon/U/d_gnugettext.U      Do we have GNU gettext()?
 mcon/U/d_gnulibc.U         Are we using the GNU C library?
 mcon/U/d_group.U           Do we have group()?
 mcon/U/d_havetlib.U        Where is termlib?
+mcon/U/d_herror.U          Do we have herror()?
 mcon/U/d_hidnet.U          Do hiddennet stuff?
+mcon/U/d_hstrerror.U       Do we have hstrerror()?
 mcon/U/d_htonl.U           Do we have htonl() and friends?
+mcon/U/d_iconv.U           Do we have iconv()?
 mcon/U/d_inetaton.U        Do we have inet_aton()?
 mcon/U/d_inetd.U           Should internet communication be done via inetd?
+mcon/U/d_inflate.U         Do we have zlib's inflate()?
+mcon/U/d_initstate.U       Do we have initstate()?
 mcon/U/d_internet.U        Use internet addresses?
+mcon/U/d_iptos.U           Do we have IP TOS support?
+mcon/U/d_ipv6.U            Do we have IPv6 support?
 mcon/U/d_isascii.U         Do we have isascii()?
 mcon/U/d_itimer.U          Do we have setitimer()?
 mcon/U/d_keepsig.U         Will signal handlers need to be rearmed?
+mcon/U/d_kevent_udata.U    Is udata within struct kevent an integer?
 mcon/U/d_killpg.U          Do we have killpg()?
+mcon/U/d_kqueue.U          Do we have kqueue()?
 mcon/U/d_link.U            Do we have link()?
 mcon/U/d_linuxstd.U        Do we have Linux standard I/O structures?
+mcon/U/d_locale_charset.U  Do we have locale_charset()?
 mcon/U/d_locconv.U         Do we have localeconv()?
 mcon/U/d_lockf.U           Do we have lockf()?
 mcon/U/d_lstat.U           Do we have lstat()?
+mcon/U/d_madvise.U         Do we have madvise()?
 mcon/U/d_mblen.U           Do we have mblen()?
 mcon/U/d_mbstowcs.U        Do we have mbstowcs()?
 mcon/U/d_mbtowc.U          Do we have mbtowc()?
@@ -251,14 +282,17 @@ mcon/U/d_mktime.U          Do we have mktime()?
 mcon/U/d_mmap.U            Do we have mmap()?
 mcon/U/d_msem_lck.U        Do we have msem_lock()?
 mcon/U/d_msg.U             Do we have full msg(2) support?
+mcon/U/d_msg_flags.U       Does struct msghdr have a msg_flags member?
 mcon/U/d_msgctl.U          Do we have msgctl()?
 mcon/U/d_msgget.U          Do we have msgget()?
 mcon/U/d_msgrcv.U          Do we have msgrcv()?
 mcon/U/d_msgsnd.U          Do we have msgsnd()?
 mcon/U/d_msync.U           Do we have msync()?
 mcon/U/d_munmap.U          Do we have munmap()?
+mcon/U/d_nanosleep.U       Do we have nanosleep()?
 mcon/U/d_newsadm.U         Who is news administrator?
 mcon/U/d_nice.U            Do we have nice()?
+mcon/U/d_nls.U             Do we support NLS?
 mcon/U/d_nolnbuf.U         Is stdout line buffered?
 mcon/U/d_normsig.U         signal() vs sigset()
 mcon/U/d_open3.U           Do we have the 3 arguments form for open()?
@@ -271,19 +305,24 @@ mcon/U/d_pipe.U            Do we have pipe()?
 mcon/U/d_poll.U            Do we have poll()?
 mcon/U/d_popen.U           Do we have popen()?
 mcon/U/d_portable.U        How portable do we want to be?
+mcon/U/d_posix_fadvise.U   Do we have posix_fadvise()?
+mcon/U/d_posix_memalign.U  Do we have posix_memalign()?
 mcon/U/d_pread.U           Do we have pread()?
 mcon/U/d_preadv.U          Do we have preadv()?
 mcon/U/d_psignal.U         Do we have psignal()?
 mcon/U/d_pwrite.U          Do we have pwrite()?
 mcon/U/d_pwritev.U         Do we have pwritev()?
+mcon/U/d_random.U          Do we have random()?
 mcon/U/d_raster.U          Is this a Raster Tech machine?
 mcon/U/d_rdchk.U           Is rdchk() there to check for input?
 mcon/U/d_readdir.U         Do we have readdir()?
 mcon/U/d_readlink.U        Do we have readlink()?
 mcon/U/d_regcmp.U          Do we have regcmp()?
+mcon/U/d_regparm.U         Can we use __attribute__((__regparm__(n)))?
 mcon/U/d_rename.U          Do we have rename()?
 mcon/U/d_rmdir.U           Do we have rmdir()?
 mcon/U/d_rusage.U          Do we have getrusage()?
+mcon/U/d_sa_interrupt.U    Can SA_INTERRUPT be used in sigaction()?
 mcon/U/d_safebcpy.U        Can bcopy() handle overlapping blocks?
 mcon/U/d_safemcpy.U        Can memcpy() handle overlapping blocks?
 mcon/U/d_sanemcmp.U        Can we compare 8th bit in chars with memcmp()?
@@ -296,6 +335,7 @@ mcon/U/d_sem.U             Do we have full sem(2) support?
 mcon/U/d_semctl.U          Do we have d_semctl()?
 mcon/U/d_semget.U          Do we have semget()?
 mcon/U/d_semop.U           Do we have semop()?
+mcon/U/d_sendfile.U        Do we have sendfile()?
 mcon/U/d_setegid.U         Do we have setegid()?
 mcon/U/d_seteuid.U         Do we have seteuid()?
 mcon/U/d_setgrps.U         Do we have setgroups()?
@@ -305,6 +345,7 @@ mcon/U/d_setpgid.U         Do we have setpgid()?
 mcon/U/d_setpgrp.U         Do we have setpgrp()?
 mcon/U/d_setpgrp2.U        Do we have setpgrp2()? (DG/UX)
 mcon/U/d_setprior.U        Do we have setpriority()?
+mcon/U/d_setproctitle.U    Do we have setproctitle()?
 mcon/U/d_setregid.U        Do we have setregid()?
 mcon/U/d_setreuid.U        Do we have setreuid()?
 mcon/U/d_setrgid.U         Do we have setrgid()?
@@ -324,11 +365,17 @@ mcon/U/d_sigsetjmp.U       Do we have sigsetjmp()?
 mcon/U/d_sigsetmk.U        Do we have sigsetmask()?
 mcon/U/d_sigvec.U          BSD reliable signals supported?
 mcon/U/d_sjis2jis.U        Do we have sjis2jis()?
+mcon/U/d_sockaddr_in_sin_len.U   Is there a sin_len within struct sockaddr_in?
+mcon/U/d_socker_get.U      Has socker_get() to listen to privileged ports?
 mcon/U/d_socket.U          BSD socket interface supported?
 mcon/U/d_speedopt.U        Optimize speed vs memory?
+mcon/U/d_srandom.U         Do we have srandom()?
 mcon/U/d_stat.U            Do we have stat()?
 mcon/U/d_statblks.U        Does stat know about blksize and blocks?
+mcon/U/d_statfs.U          Do we have statfs()?
+mcon/U/d_statvfs.U         Do we have statvfs()?
 mcon/U/d_stdstdio.U        How standard is stdio?
+mcon/U/d_strcasestr.U      Do we have strcasestr()?
 mcon/U/d_strccmp.U         Do we have strcasecmp()?
 mcon/U/d_strchr.U          Use strchr() or index()?
 mcon/U/d_strcoll.U         Do we have strcoll()?
@@ -337,6 +384,8 @@ mcon/U/d_strctcpy.U        Do we do struct copies?
 mcon/U/d_strdup.U          Do we have strdup()?
 mcon/U/d_strerror.U        Do we have strerror()?
 mcon/U/d_strftime.U        Do we have strftime()?
+mcon/U/d_strlcat.U         Do we have strlcat()?
+mcon/U/d_strlcpy.U         Do we have strlcpy()?
 mcon/U/d_strstr.U          Do we have strtr()?
 mcon/U/d_strtod.U          Do we have strtod()?
 mcon/U/d_strtok.U          Do we have strtok()?
@@ -347,6 +396,7 @@ mcon/U/d_su_chown.U        Do we need to be root to do a chown?
 mcon/U/d_symlink.U         Does symlink() exist?
 mcon/U/d_syscall.U         Do we have syscall()?
 mcon/U/d_sysconf.U         Do we have sysconf()?
+mcon/U/d_sysctl.U          Do we have sysctl()?
 mcon/U/d_syslog.U          Do we have syslog()?
 mcon/U/d_system.U          Do we have system()?
 mcon/U/d_table.U           De we have table()?
@@ -367,6 +417,7 @@ mcon/U/d_vfork.U           vfork() vs fork()
 mcon/U/d_voidsig.U         How is signal() declared?
 mcon/U/d_volatile.U        Does our C compiler support "volatile"?
 mcon/U/d_vprintf.U         Do we have vprintf()?
+mcon/U/d_vsnprintf.U       Do we have vsnprintf()?
 mcon/U/d_wait3.U           Do we have wait3()?
 mcon/U/d_wait4.U           Do we have wait4()?
 mcon/U/d_waitpid.U         Do we have waitpid() system call?
@@ -377,6 +428,7 @@ mcon/U/d_xdrs.U            Do we have XDR serialization routines?
 mcon/U/defeditor.U         Find default editor
 mcon/U/doublesize.U        What is the size of "double"?
 mcon/U/ebcdic.U            Check for an EBCDIC system
+mcon/U/enablenls.U         Shall we enable NLS?
 mcon/U/errnolist.U         See if we need our own .c to get sys_errnolist[]
 mcon/U/etc.U               Where administrative executable should go
 mcon/U/filexp.U            Finds location of filexp made by Filexp.U
@@ -398,15 +450,24 @@ mcon/U/i_fcntl.U           Shall we include <fcntl.h>?
 mcon/U/i_float.U           Shall we include <float.h>?
 mcon/U/i_gdbm.U            Shall we include <gdbm.h>?
 mcon/U/i_grp.U             Shall we include <grp.h>?
+mcon/U/i_iconv.U           Shall we include <iconv.h>?
+mcon/U/i_ifaddrs.U         Shall we include <ifaddrs.h>?
 mcon/U/i_inttypes.U        Shall we include <inttypes.h>?
+mcon/U/i_invent.U          Shall we include <invent.h>?
+mcon/U/i_langinfo.U        Shall we include <langinfo.h>?
+mcon/U/i_libcharset.U      Shall we include <libcharset.h>?
+mcon/U/i_libintl.U         Shall we include <libintl.h>?
 mcon/U/i_limits.U          Shall we include <limits.h>?
 mcon/U/i_locale.U          Shall we include <locale.h>?
 mcon/U/i_malloc.U          Shall we include <malloc.h>?
 mcon/U/i_math.U            Shall we include <math.h>?
 mcon/U/i_memory.U          Shall we include <memory.h>?
 mcon/U/i_ndbm.U            Shall we include <ndbm.h>?
+mcon/U/i_netdb.U           Shall we include <netdb.h>?
 mcon/U/i_neterrno.U        Shall we include <net/errno.h>?
+mcon/U/i_netif.U           Shall we include <net/if.h>?
 mcon/U/i_niin.U            Shall we include <netinet/in.h>?
+mcon/U/i_niip.U            Shall we include <netinet/ip.h>?
 mcon/U/i_poll.U            Shall we include <poll.h>?
 mcon/U/i_pwd.U             Shall we include <pwd.h>?
 mcon/U/i_regex.U           Shall we include <regex.h>?
@@ -418,19 +479,25 @@ mcon/U/i_sysdir.U          Shall we include <sys/dir.h>?
 mcon/U/i_sysfile.U         Do we need <sys/file.h>?
 mcon/U/i_sysioctl.U        Include <sys/ioctl.h> or <sgtty.h>?
 mcon/U/i_sysmman.U         Do we have to include <sys/mman.h>?
+mcon/U/i_sysmount.U        Shall we include <sys/mount.h>?
 mcon/U/i_sysndir.U         Shall we include <sys/ndir.h>?
 mcon/U/i_sysparam.U        Shall we include <sys/param.h>?
 mcon/U/i_syspoll.U         Shall we include <sys/poll.h>?
 mcon/U/i_sysresrc.U        Shall we include <sys/resource.h>?
 mcon/U/i_sysselct.U        Shall we include <sys/select.h>?
+mcon/U/i_syssendfile.U     Shall we include <sys/sendfile.h>?
 mcon/U/i_syssock.U         Shall we include <sys/socket.h>?
 mcon/U/i_sysstat.U         Shall we include <sys/stat.h>
+mcon/U/i_sysstatvfs.U      Shall we include <sys/statvfs.h>?
+mcon/U/i_syssysctl.U       Shall we include <sys/sysctl.h>?
 mcon/U/i_systable.U        De we have to include <sys/table.h>?
 mcon/U/i_systimeb.U        Is struct timeb defined in <sys/timeb.h>?
 mcon/U/i_systimes.U        Shall we include <sys/times.h>?
 mcon/U/i_systwgcf.U        Shall we include <sys/twg_config.h>?
 mcon/U/i_systypes.U        Do we have to include <sys/types.h>?
 mcon/U/i_sysun.U           Shall we include <sys/un.h>?
+mcon/U/i_sysutsname.U      Shall we include <sys/utsname.h>?
+mcon/U/i_sysvfs.U          Shall we include <sys/vfs.h>?
 mcon/U/i_syswait.U 	       Is there a <sys/wait.h>?
 mcon/U/i_termio.U          Include <termio.h> or <sgtty.h>?
 mcon/U/i_time.U            Which time.h should we include?
@@ -440,6 +507,7 @@ mcon/U/i_values.U          Shall we include <values.h>
 mcon/U/i_varhdr.U          Choose between <varargs.h> and <stdarg.h>
 mcon/U/i_vfork.U           Include <vfork.h>?
 mcon/U/i_whoami.U          Include <whoami.h>?
+mcon/U/i_zlib.U            Shall we include <zlib.h>?
 mcon/U/inc.U               Where to put public include files?
 mcon/U/install.U           Look for a BSD-compatible install
 mcon/U/intsize.U           What is the size of "int"?
@@ -458,6 +526,7 @@ mcon/U/libs.U              Optional libraries?
 mcon/U/libyacc.U           Locate yacc library
 mcon/U/lintlib.U           Where lint library should be placed
 mcon/U/lns.U               Are symbolic links supported by ln?
+mcon/U/locale.U            Configuration of I18N files
 mcon/U/locdist.U           Find distribution names for news
 mcon/U/longsize.U          What is the size of "long"?
 mcon/U/lseektype.U         What is the type of lseek()?
@@ -474,6 +543,7 @@ mcon/U/mboxchar.U          How to determine if file is mailbox
 mcon/U/mkdep.U             How to generate makefile dependencies?
 mcon/U/models.U            Large vs small, split I&D, etc
 mcon/U/modetype.U          What is the type for file modes?
+mcon/U/msgmerge_update.U   Does msgmerge --update work?
 mcon/U/myhostname.U        How to determine hostname from shell
 mcon/U/n.U                 How to suppress newline with echo
 mcon/U/nametype.U          How to get user's fullname
@@ -483,6 +553,7 @@ mcon/U/newslib.U           Where is the news library?
 mcon/U/newsspool.U         Where is news spooled?
 mcon/U/nis.U               Do we have to deal with NIS (former YP)?
 mcon/U/nlist_pfx.U         nlist() related stuff
+mcon/U/official.U          Are we making an official build with no local ref?
 mcon/U/orderlib.U          Shall we order components libraries?
 mcon/U/orgname.U           What is the organizaton name?
 mcon/U/packadmin.U         E-mail address of the package administrator

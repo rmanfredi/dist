@@ -41,6 +41,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=fchmod
 set d_fchmod
 eval $trylink
 

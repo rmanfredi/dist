@@ -38,6 +38,7 @@ int main(void)
 	return id ? 0 : 1;
 }
 EOC
+cyn=gethostid
 set d_gethid
 eval $trylink
 

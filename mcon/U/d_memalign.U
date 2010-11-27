@@ -37,6 +37,7 @@ int main(void)
 	return p ? 0 : 1;
 }
 EOC
+cyn=memalign
 set d_memalign
 eval $trylink
 

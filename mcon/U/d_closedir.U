@@ -59,9 +59,9 @@ int main(void)
 	return 0;
 }
 EOC
+cyn=closedir
 set d_closedir
 eval $trylink
-
 
 @if VOID_CLOSEDIR || d_void_closedir
 ?X: The following contortions are designed so we can call closedir()

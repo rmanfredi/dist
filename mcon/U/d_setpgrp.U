@@ -62,6 +62,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn="whether you have the BSD flavour of setpgrp()"
 set d_bsdsetpgrp
 eval $trylink
 
@@ -87,6 +88,7 @@ int main(void)
 	return 0;
 }
 EOC
+	cyn="whether you have the USG flavour of setpgrp() then"
 	set d_setpgrp
 	eval $trylink
 	;;

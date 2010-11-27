@@ -42,6 +42,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=mkdir
 set d_mkdir
 eval $trylink
 

@@ -38,6 +38,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=msgsnd
 set d_msgsnd
 eval $trylink
 

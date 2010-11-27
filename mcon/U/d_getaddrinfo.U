@@ -1,0 +1,63 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_getaddrinfo: Trylink cat i_arpainet i_netdb
+?MAKE:	-pick add $@ %<
+?S:d_getaddrinfo:
+?S:	This variable conditionally defines the HAS_GETADDRINFO symbol, which
+?S:	indicates to the C program that the getaddrinfo() routine is available.
+?S:.
+?C:HAS_GETADDRINFO:
+?C:	This symbol is defined when getaddrinfo() can be used.
+?C:.
+?H:#$d_getaddrinfo HAS_GETADDRINFO
+?H:.
+?LINT: set d_getaddrinfo
+: can we use getaddrinfo?
+$cat >try.c <<EOC
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#$i_arpainet I_ARPA_INET
+#ifdef I_ARPA_INET
+#include <arpa/inet.h>
+#endif
+#$i_netdb I_NETDB
+#ifdef I_NETDB
+#include <netdb.h>
+#endif
+int main(void)
+{
+	struct addrinfo hints, *res;
+	int ret;
+
+	hints.ai_flags = 1;
+	hints.ai_family = PF_UNSPEC;
+	hints.ai_socktype = 1;
+	hints.ai_protocol = 1;
+	hints.ai_addrlen = (socklen_t) 1;
+	hints.ai_canonname = "canonname";
+	hints.ai_addr = (struct sockaddr *) 0;
+	hints.ai_next = (struct addrinfo *) 0;
+	ret = getaddrinfo("localhost", "www", &hints, &res);
+	if (0 != ret) {
+		const char *s;
+		s = gai_strerror(ret);
+		(void) s;
+	}
+	if (res)
+		freeaddrinfo(res);
+	return 0;
+}
+EOC
+cyn=getaddrinfo
+set d_getaddrinfo
+eval $trylink
+

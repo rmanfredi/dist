@@ -1,0 +1,42 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_inflate: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_inflate:
+?S:	This variable conditionally defines the HAS_INFLATE symbol, which
+?S:	indicates to the C program that the inflate() routine from zlib is
+?S: available.
+?S:.
+?C:HAS_INFLATE:
+?C:	This symbol, if defined, indicates that the zlib inflate() routine is
+?C:	available.
+?C:.
+?H:#$d_inflate HAS_INFLATE		/**/
+?H:.
+?LINT:set d_inflate
+: see if inflate exists
+$cat >try.c <<EOC
+#include <zlib.h>
+int main(void)
+{
+	static int ret, flush;
+	static z_stream zs;
+	flush |= Z_SYNC_FLUSH;
+	flush |= Z_FULL_FLUSH;
+	flush |= Z_FINISH;
+	ret |= inflate(&zs, flush);
+	return ret ? 0 : 1;
+}
+EOC
+cyn=inflate
+set d_inflate '-lz'
+eval $trylink
+

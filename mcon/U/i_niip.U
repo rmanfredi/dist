@@ -1,0 +1,30 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?X:
+?X: This unit looks whether <netinet/ip.h> is available or not
+?X:
+?MAKE:i_niip: Inhdr
+?MAKE:	-pick add $@ %<
+?S:i_niip:
+?S:	This variable conditionally defines I_NETINET_IP, which indicates
+?S:	to the C program that it should include <netinet/ip.h>.
+?S:.
+?C:I_NETINET_IP:
+?C:	This symbol, if defined, indicates to the C program that it should
+?C:	include <netinet/ip.h>.
+?C:.
+?H:#$i_niip I_NETINET_IP	/**/
+?H:.
+?LINT:set i_niip
+: see if this is a netinet/ip.h system
+set netinet/ip.h i_niip
+eval $inhdr
+

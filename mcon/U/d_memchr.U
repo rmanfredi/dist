@@ -38,6 +38,7 @@ int main(void)
 	return p ? 0 : 1;
 }
 EOC
+cyn=memchr
 set d_memchr
 eval $trylink
 

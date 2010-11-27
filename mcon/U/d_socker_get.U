@@ -1,0 +1,62 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_socker_get sockercflags sockerldflags: Trylink cat ccflags ldflags
+?MAKE:	-pick add $@ %<
+?S:d_socker_get:
+?S:	This variable conditionally defines the HAS_SOCKER_GET symbol, which
+?S:	indicates to the C program that socker_get() support is available.
+?S:.
+?S:sockercflags:
+?S:	This variable holds the compiler flags required to compile with socker.
+?S:.
+?S:sockerldflags:
+?S:	This variable holds the linker flags required to link against socker.
+?S:.
+?C:HAS_SOCKER_GET:
+?C:	This symbol is defined when socker_get() can be used to get sockets
+?C:	bound to privileged ports.
+?C:.
+?H:#$d_socker_get HAS_SOCKER_GET
+?H:.
+?T:saved_ccflags saved_ldflags
+?LINT:change ccflags ldflags
+?LINT:set d_socker_get
+: determine whether socker_get is available
+case "$d_socker_get" in
+"$undef") echo " "; echo "socker support is disabled." >&4;;
+*)
+$cat >try.c <<'EOC'
+#include <sys/types.h>
+#include <socker.h>
+int main(void)
+{
+  static int ret;
+  ret |= socker_get(1, 2, 3, "", 5);
+  return ret ? 0 : 1;
+}
+EOC
+
+sockercflags=`socker-config --cflags 2>/dev/null`
+sockerldflags=`socker-config --libs 2>/dev/null`
+
+saved_ccflags=$ccflags
+saved_ldflags=$ldflags
+ccflags="$ccflags $sockercflags"
+ldflags="$ldflags $sockerldflags"
+cyn="whether socket_get() allows binding to privileged ports"
+set d_socker_get
+eval $trylink
+
+ccflags=$saved_ccflags
+ldflags=$saved_ldflags
+;;
+esac
+

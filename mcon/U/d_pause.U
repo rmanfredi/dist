@@ -41,6 +41,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=pause
 set d_pause
 eval $trylink
 

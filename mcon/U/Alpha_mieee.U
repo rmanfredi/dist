@@ -1,0 +1,42 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:Alpha_mieee: Trylink cat ccflags gccversion
+?MAKE:	-pick add $@ %<
+?T:flag result saved_ccflags
+?LINT:change ccflags
+: check whether -mieee should be used
+flag='-mieee'
+echo " "
+case "$gccversion" in
+'');;
+*)
+	$cat >try.c <<EOC
+int main(void)
+{
+#if !(defined(__GNUC__) && (defined(_alpha) || defined(__alpha__)))
+	switch (sizeof(int[-23])) { case 1: case 1: }
+#endif
+	return 0;
+}
+EOC
+	saved_ccflags=$ccflags
+	ccflags="$flag $ccflags"
+	cyn="whether '$flag' should be used" >&4
+	result=''
+	set result
+	eval $trylink
+	case "$result" in
+	"$define") ;;
+	*) ccflags=$saved_ccflags;;
+	esac
+	;;
+esac
+

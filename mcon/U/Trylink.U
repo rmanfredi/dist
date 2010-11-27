@@ -17,12 +17,28 @@
 ?X: A log of all attempts is kept in the trylink.log file, within the UU
 ?X: directory (where Configure runs).  This directory is only cleaned-up
 ?X: at the end of the Configure run, so do not supply -e to Configure in order
-?X: to stop after the production of the config.sh file.
+?X: to stop after the production of the config.sh file and be able to
+?X: inspect the UU/trylink.log file.
 ?X:
-?MAKE:Trylink: Setvar Oldconfig cat rm test +cc +ccflags +ldflags
+?X: Before calling $trylink, on can also set the $cyn variable (check yes/no)
+?X: with a message that will be printed before the test is made and which
+?X: will indicate whether the test was successful or not.  The string
+?X: "Checking $cyn..." is emitted and will be followed by "yes." if the
+?X: compilation succeeds, and "no." otherwise.
+?X:
+?X: If there are no space in the $cyn variable, then it is expected to hold
+?X: the name of a routine if the variable to test starts with d_, or
+?X: the name of an include file if the variable to test starts with i_.
+?X: In which case the message for success are changed to "found." and
+?X: "missing." on failure.
+?X:
+?X: The "$cyn" variable is explicitly reset at the end, and nothing is
+?X: printed if it is empty upon entry.
+?X:
+?MAKE:Trylink: Setvar Oldconfig cat rm test +cc +ccflags +ldflags echo c n
 ?MAKE:	-pick add $@ %<
 ?LINT:define trylink
-?V:trylink
+?V:trylink:cyn
 ?S:trylink:
 ?S:	This shell variable is used internally by Configure to check
 ?S:	wether a given function is defined or not. A typical use is:
@@ -32,7 +48,7 @@
 ?S:	That will print a message, saying wether function was found or
 ?S:	not and set d_func accordingly.
 ?S:.
-?T:var file val nparams
+?T:var file val nparams msg yes no
 : see whether the try.c file compiles and links
 trylink='
 var=$1;
@@ -40,7 +56,25 @@ shift;
 val=$undef;
 file=trylink.log;
 nparams=$#;
-echo "--- $var ---" >> "$file";
+?X: If they supplied a $cyn, display it now.
+case "$cyn" in
+"") msg="";;
+*" "*) msg="$cyn"; yes=yes; no=no;;
+*)
+	case "$var" in
+	d_*) msg="for $cyn()"; yes=found; no=missing;;
+	i_*) msg="for <$cyn>"; yes=found; no=missing;;
+	*) msg="$cyn"; yes=yes; no=no;;
+	esac
+	;;
+esac;
+case "$cyn" in
+"") echo "--- $var ---" >> "$file";;
+*)
+	echo " "; $echo $n "Checking $msg...$c" >&4;
+	echo "--- $var --- ($msg)" >>"$file"
+	;;
+esac;
 $cat try.c >> "$file";
 while :; do
 	if $cc $ccflags -o try try.c $ldflags $1 >> "$file" 2>&1; then
@@ -56,6 +90,18 @@ while :; do
 done;
 $rm -rf try try.*;
 echo "==> $var=$val" >> "$file";
+?X: Show feedback if they supplied a $cyn
+case "$cyn" in
+"") ;;
+*)
+	case "$val" in
+	"$define") echo " $yes." >&4;;
+	*) echo " $no." >&4;;
+	esac
+	;;
+esac;
 set $var; eval $setvar;
+?X: Cleanup so that next unit using $trylink does not have to do that
+cyn=""
 '
 

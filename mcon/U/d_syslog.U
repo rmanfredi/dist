@@ -39,6 +39,7 @@ int main(void)
 	return 0;
 }
 EOC
+cyn=syslog
 set d_syslog
 eval $trylink
 

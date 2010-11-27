@@ -36,6 +36,7 @@ int main(void)
 	return f ? 0 : 1;
 }
 EOC
+cyn=popen
 set d_popen
 eval $trylink
 

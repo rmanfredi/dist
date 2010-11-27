@@ -40,6 +40,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=ftruncate
 set d_ftrncate
 eval $trylink
 

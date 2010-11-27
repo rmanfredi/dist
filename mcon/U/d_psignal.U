@@ -35,6 +35,7 @@ int main(void)
 	return 0;
 }
 EOC
+cyn=psignal
 set d_psignal
 eval $trylink
 

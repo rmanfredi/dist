@@ -1,0 +1,36 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:Sendfile64: Largefile Trylink d_sendfile i_syssendfile cat
+?MAKE:	-pick add $@ %<
+?T:result
+?LINT:change i_syssendfile d_sendfile
+: determine whether sendfile works with 64-bit file support
+$cat >try.c <<EOC
+#$i_syssendfile I_SYS_SENDFILE
+#ifdef I_SYS_SENDFILE
+#include <sys/sendfile.h>
+#endif
+int main(void)
+{
+	return 0;
+}
+EOC
+cyn="whether sendfile() works with current compiling flags"
+result=''
+set result
+eval $trylink
+case "$result" in
+"$undef")
+	i_syssendfile="$undef"
+	d_sendfile="$undef"
+	;;
+esac
+

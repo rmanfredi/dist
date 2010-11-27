@@ -47,6 +47,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=wait3
 set d_wait3
 eval $trylink
 

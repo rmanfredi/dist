@@ -54,6 +54,7 @@ main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=setreuid
 set d_setreuid
 eval $trylink
 
@@ -71,6 +72,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=setresuid
 set d_setresuid
 eval $trylink
 

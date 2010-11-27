@@ -1,0 +1,40 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_getuid: Trylink cat i_unistd
+?MAKE:	-pick add $@ %<
+?S:d_getuid:
+?S:	This variable conditionally defines the HAS_GETUID symbol, which
+?S:	indicates to the C program that getuid() is available.
+?S:.
+?C:HAS_GETUID:
+?C:	This symbol is defined when getuid() can be used.
+?C:.
+?H:#$d_getuid HAS_GETUID
+?H:.
+?LINT: set d_getuid
+: can we use getuid?
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static uid_t ret;
+	ret |= getuid();
+	return ret ? 0 : 1;
+}
+EOC
+cyn=getuid
+set d_getuid
+eval $trylink
+

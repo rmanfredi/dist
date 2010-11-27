@@ -42,6 +42,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=getwd
 set d_getwd
 eval $trylink
 

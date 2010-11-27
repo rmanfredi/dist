@@ -39,6 +39,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=sigaction
 set d_sigaction
 eval $trylink
 

@@ -69,6 +69,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=gettimeofday
 set d_gettimeod
 eval $trylink
 
@@ -86,6 +87,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=ftime
 set d_ftime
 eval $trylink
 

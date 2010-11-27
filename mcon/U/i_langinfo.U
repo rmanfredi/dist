@@ -1,0 +1,27 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2006, Christian Biere
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:i_langinfo: Inhdr
+?MAKE:	-pick add $@ %<
+?S:i_langinfo:
+?S:	This variable conditionally defines the I_LANGINFO symbol, and indicates
+?S:	whether a C program should include <langinfo.h>.
+?S:.
+?C:I_LANGINFO:
+?C:	This symbol, if defined, indicates to the C program that it should
+?C:	include <langinfo.h>.
+?C:.
+?H:#$i_langinfo I_LANGINFO		/**/
+?H:.
+?LINT:set i_langinfo
+: see if this is a langinfo system
+set langinfo.h i_langinfo
+eval $inhdr
+

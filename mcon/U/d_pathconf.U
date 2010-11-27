@@ -57,6 +57,7 @@ int main(void)
 	return ret ? 0 : 1;
 }
 EOC
+cyn=pathconf
 set d_pathconf
 eval $trylink
 
