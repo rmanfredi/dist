@@ -52,8 +52,9 @@ EOF
 if [ "x$revnum" = x ]; then
 	echo '/* Subversion information not available */'
 else
+	XRev='$Revision'
 	cat <<EOF
-#define REVISION $revnum
+#define REVISION "$XRev: $revnum \$"
 EOF
 fi
 
