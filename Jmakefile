@@ -26,7 +26,7 @@
 all::		/* So that default target is not clobber! */
 
 SetSubdirs(bin mcon jmake pat kit lib)
-DependDirs(bin mcon pat jmake kit)
+DependSubdirs()
 AddedByConfigure(install)
 
 InstallManPage(dist,$(MANSRC))

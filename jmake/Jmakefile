@@ -40,7 +40,8 @@ InstallMultipleFlags(files/Jmake*,$(PRIVLIB)/files,-m 444)
 
 BINSH = jmake.SH fixcpp.SH
 
-depend::
+depend:: local_depend
+local_depend::
 	($(SED) '/^# DO NOT DELETE/q' Makefile && \
 	grep '^\$$grep' $(BINSH) | \
 	$(SED) -e "s/^.*' \([^ ]*\) >>\([^ ]*\)/\2: \1/" \

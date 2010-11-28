@@ -1,5 +1,5 @@
 : Makefile.SH generated from Jmake.tmpl and Jmakefile [jmake 3.5-43]
-: $X-Id: Jmake.tmpl 30 2009-10-28 07:45:28Z rmanfredi $
+: $X-Id: Jmake.tmpl 47 2010-11-28 22:23:13Z rmanfredi $
 
 case $CONFIG in
 '')
@@ -210,7 +210,8 @@ local_deinstall::
 
 BINSH = jmake.SH fixcpp.SH
 
-depend::
+depend:: local_depend
+local_depend::
 	($(SED) '/^# DO NOT DELETE/q' Makefile && \
 	grep '^\$$grep' $(BINSH) | \
 	$(SED) -e "s/^.*' \([^ ]*\) >>\([^ ]*\)/\2: \1/" \
@@ -279,6 +280,8 @@ tags::
 
 local_clobber::
 	$(RM) tags
+
+depend::
 
 ########################################################################
 # Empty rules for directories with no sub-directories -- do not edit

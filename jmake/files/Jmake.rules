@@ -554,7 +554,7 @@ DeinstallMultipleDest(local_deinstall.man,list,dest)
  *	Generate rules to build the makedepend program.
  */
 #define DependDependency() 			@!\
-depend:: TOPDIR/mkdep				@!\
+local_depend:: TOPDIR/mkdep			@!\
 									@!\
 TOPDIR/mkdep:						@!\
 ?TOP: @echo "You have to run Configure first."; exit 1	@!\
@@ -571,7 +571,8 @@ TOPDIR/mkdep:						@!\
 |once _DependTarget_				@!\
 DependDependency()					@!\
 									@!\
-depend::							@@\
+depend:: local_depend				@!\
+local_depend::						@@\
 	($(SED) '/^# DO NOT DELETE/q' Makefile && \ @@\
 	$(MKDEP) $(SOURCES) | \			@@\
 	$(SED) -e 's:/usr/lib[^ ]*::g; s:$(USRINC)[^ ]*::g; ' \ @@\
@@ -1168,6 +1169,22 @@ name::									@@\
 	
 	
 /*
+ * NamedTargetSubdirsAsRule:
+ *	Recursively make a series of steps in the specified directories,
+ *	where the name of the local rule is different from the recursive
+ *	actions.
+ */
+#define NamedTargetSubdirsAsRule(dirs,localname,name,verb,flags)	@!\
+localname::								@@\
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \		@@\
+	for i in dirs ;\					@@\
+	do \								@@\
+		(cd $$i ; echo verb "in $(DIR)$$i..."; \	@@\
+			$(MAKE) $(MFLAGS) flags name) || exit 1; \	@@\
+	done
+
+
+/*
  * NamedTargetSubdirs:
  *	Recursively make a series of steps.
  */
@@ -1211,7 +1228,8 @@ NamedTargetSubdirs(all,"Making all",^^)
  *	make depend step.
  */
 #define DependDirs(dirs) \
-NamedTargetSubdirsRule(dirs,depend,"Depending",^^)
+depend:: sub_depend		@!\
+NamedTargetSubdirsAsRule(dirs,sub_depend,depend,"Depending",^^)
 
 
 /*

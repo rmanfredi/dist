@@ -1,5 +1,5 @@
-: Makefile.SH generated from Jmake.tmpl and Jmakefile [jmake 3.5-17]
-: $X-Id: Jmake.tmpl 8 2006-08-25 22:27:18Z rmanfredi $
+: Makefile.SH generated from Jmake.tmpl and Jmakefile [jmake 3.5-43]
+: $X-Id: Jmake.tmpl 47 2010-11-28 22:23:13Z rmanfredi $
 
 case $CONFIG in
 '')
@@ -84,9 +84,11 @@ $spitshell >>Makefile <<'!NO!SUBS!'
 
 all::
 
-depend::
+depend:: sub_depend
+
+sub_depend::
 	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
-	for i in bin mcon pat jmake kit ;\
+	for i in $(SUBDIRS) ;\
 	do \
 		(cd $$i ; echo "Depending" "in $(DIR)$$i..."; \
 			$(MAKE) $(MFLAGS)  depend) || exit 1; \
@@ -172,6 +174,8 @@ tags::
 
 local_clobber::
 	$(RM) tags
+
+depend::
 
 ########################################################################
 # Rules for building in sub-directories -- do not edit

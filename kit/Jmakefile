@@ -34,7 +34,8 @@ SCRIPTSH = \
 	!f.SH \
 -expand \\
 
-depend::
+depend:: local_depend
+local_depend::
 	($(SED) '/^# DO NOT DELETE/q' Makefile && \
 	grep '^\$$grep' $(SCRIPTSH) | \
 	$(SED) -e "s/^.*' \([^ ]*\) >>[ ]*\([^ ]*\)/\2: \1/" \
