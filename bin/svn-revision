@@ -25,7 +25,7 @@ if [ "x$FILE" = x ]; then
 	FILE="&1"
 	oldrev=''
 else
-	oldrev=`grep REVISION "$FILE" 2>/dev/null | head -n1 | cut -d' ' -f3`
+	oldrev=`grep REVISION "$FILE" 2>/dev/null | head -n1 | cut -d' ' -f4`
 fi
 
 if test -d "$TOP/.svn"; then

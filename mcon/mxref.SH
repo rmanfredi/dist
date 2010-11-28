@@ -11,6 +11,7 @@ case $CONFIG in
 	. $TOP/config.sh
 	;;
 esac
+REVISION=`grep REVISION $TOP/revision.h | head -n1 | cut -d' ' -f4`
 case "$0" in
 */*) cd `expr X$0 : 'X\(.*\)/'` ;;
 esac
