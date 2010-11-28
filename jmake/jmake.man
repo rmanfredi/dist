@@ -152,6 +152,33 @@ To implement a logical OR, see below.
 .RE
 .sp
 .IP 3)
+Makefile target tests:
+.sp
+.RS
+.IP \(bu
+?\fItarget\fR?:<text>: keeps <test> iff \fItarget\fR is defined.
+.IP \(bu
+%\fItarget\fR%:<text>: keeps <test> iff \fItarget\fR is not defined.
+.sp
+A makefile \fItarget\fR is defined as a standalone target, for instance
+the
+.B depend.local
+target, which would be defined as:
+.sp
+.in +5
+.nf
+depend.local:
+.sp
+.in -5
+.fi
+Also note that it is only valid for targets defined
+.I so far
+in the generated makefile.  It is not a predicate that can be used
+to test for targets that will eventually be defined later on in the
+generation.
+.RE
+.sp
+.IP 4)
 Commands:
 .sp
 .RS
@@ -217,9 +244,9 @@ Here is a way to implement a logical OR:
 .in -5
 .sp
 Actually, this is ugly, because the text has to appear twice.
-Fortunately, I did not use it. :-)
+Fortunately, I did not use that construct. :-)
 .sp
-But actually, as you have surely already guessed, the best way to
+Indeed, as you have surely already guessed, the best way to
 implement a logical OR is to use De Morgan's Law:
 .sp
 .in +5
@@ -233,7 +260,7 @@ text					/* If SYMBOL or not TOKEN */
 .sp
 .in -5
 .fi
-Who said they didn't care ? ;-)
+Who said they didn't care about logic? ;-)
 .sp
 .PP
 Expansion is done with the \fIexpand\fR command.  It has been provided to
@@ -440,7 +467,7 @@ therefore depend on the configuration options chosen when \fIConfigure\fR
 was run.
 .RE
 .sp
-.IP 4)
+.IP 5)
 Initializations:
 .sp
 .RS
@@ -450,7 +477,7 @@ Initializations:
 ++SYMBOL <value>: Adds <value> to the SYMBOL macro.
 .RE
 .sp
-.IP 5)
+.IP 6)
 User-defined variables:
 .sp
 The user may define CFLAGS, LDFLAGS or DPFLAGS as additional flags to be used

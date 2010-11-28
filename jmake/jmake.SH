@@ -219,6 +219,8 @@ $SPIT_END = "!NO!SUBS!\n";
 $GROK_START = "\$spitshell >>Makefile <<!GROK!THIS!\n";
 $GROK_END = "!GROK!THIS!\n";
 
+%target = ();			# Will record seen targets (actually generated)
+
 open(MAKEFILE, ">Makefile.SH");
 # We have to use for instead of foreach to handle 'skip' easily
 line: for ($i = 0; $i <= $#makefile; $i++) {
@@ -309,6 +311,20 @@ line: for ($i = 0; $i <= $#makefile; $i++) {
 
 	s/<TAG>/[jmake $version-$revision]/;
 
+	# Lines starting with ?target?: (resp. %target%:) are to be processd
+	# only when target is used (resp. unused) in the generated makefile.
+
+	# Apply in sequence
+	while (/^\s*\?|\s*%/) {
+		if (s/^\s*\?([\w-.]+)\?://) {			# Wanted target ?
+			next line unless $target{$1};
+		} elsif (s/^\s*%([\w-.]+)%://) {		# Unwanted target ?
+			next line if $target{$1};
+		} else {
+			last;
+		}
+	}
+
 	# Lines starting with ?SYMBOL: (resp. %SYMBOL:) are to be processed
 	# only if SYMBOL is defined (resp. undefined).
 
@@ -397,6 +413,11 @@ line: for ($i = 0; $i <= $#makefile; $i++) {
 			print MAKEFILE "$_\n";
 		}
 	} else {
+		# Keep track of the targets we generate for ?target? and %target% type
+		# of tests in the templates, which can generate specific code when
+		# a target is indeed present.
+		$target{$1}++ if /^([\w.-]+):/;
+
 		&print_makefile($_);
 	}
 }
