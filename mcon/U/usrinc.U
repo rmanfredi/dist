@@ -21,28 +21,30 @@
 ?RCS: Revision 3.0  1993/08/18  12:09:58  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:usrinc: cat Getfile Guess Oldconfig cppstdin cppminus \
-	fieldn grep sed awk tr
+?MAKE:usrinc: Getfile Oldconfig incpath
 ?MAKE:	-pick add $@ %<
 ?S:usrinc:
 ?S:	This variable holds the path of the include files, which is
 ?S:	usually /usr/include. It is mainly used by other Configure units.
 ?S:.
 ?D:usrinc='/usr/include'
-?F:!usr.c
 : What should the include directory be ?
 echo " "
 dflt='/usr/include'
 case "$usrinc" in
-'')
-	$cat >usr.c <<EOC
-	#include <stdio.h>
-EOC
-	dflt=`$cppstdin $cppminus < usr.c 2>/dev/null | \
-		$grep "^[    ]*#.*stdio.h" | $tr -d '"' | \
-		$sed -ne "1s,\(.*\)[/\\]stdio.h.*,\1,p" | \
-		$awk "{ print \\$$fieldn }"`
-	;;
+'') dflt="$incpath/usr/include";;
+?X: This is nice, but it does not work on some systems because gcc redirects
+?X: the include to things like ..../gcc45/gcc/4.5.2/include-fixed/stdio.h
+?X: and it does not contain all the files.
+?X:
+?X:	$cat >usr.c <<EOC
+?X:	#include <stdio.h>
+?X:EOC
+?X:	dflt=`$cppstdin $cppminus < usr.c 2>/dev/null | \
+?X:		$grep "^[    ]*#.*stdio.h" | $tr -d '"' | \
+?X:		$sed -ne "1s,\(.*\)[/\\]stdio.h.*,\1,p" | \
+?X:		$awk "{ print \\$$fieldn }"`
+?X:	;;
 *) dflt="$usrinc";;
 esac
 fn=d/
