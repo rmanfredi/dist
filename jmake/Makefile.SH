@@ -1,5 +1,5 @@
-: Makefile.SH generated from Jmake.tmpl and Jmakefile [jmake 3.5 PL0]
-: $X-Id: Jmake.tmpl 8 2006-08-25 22:27:18Z rmanfredi $
+: Makefile.SH generated from Jmake.tmpl and Jmakefile [jmake 3.5-43]
+: $X-Id: Jmake.tmpl 30 2009-10-28 07:45:28Z rmanfredi $
 
 case $CONFIG in
 '')
@@ -59,12 +59,12 @@ SCRIPTS =  jmake jmkmf
 $spitshell >>Makefile <<'!NO!SUBS!'
 ########################################################################
 # Jmake rules for building libraries, programs, scripts, and data files
-# $X-Id: Jmake.rules 8 2006-08-25 22:27:18Z rmanfredi $
+# $X-Id: Jmake.rules 18 2006-12-27 10:35:09Z rmanfredi $
 
 ########################################################################
 # Start of Jmakefile
 
-# $X-Id: Jmakefile 3 2006-08-25 21:39:07Z rmanfredi $
+# $X-Id: Jmakefile 44 2010-11-28 19:03:51Z rmanfredi $
 #
 #  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
 #
@@ -218,6 +218,8 @@ depend::
 	cp Makefile Makefile.bak
 	cp Makefile.new Makefile
 	$(RM) Makefile.new
+
+fixcpp jmake: $(TOP)/revision.h
 
 ########################################################################
 # Common rules for all Makefiles -- do not edit
