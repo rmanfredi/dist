@@ -139,7 +139,7 @@ if test -d c:/. ; then
 		OS2_SHELL=`cmd /c "echo %OS2_SHELL%" | tr '\\\\' / | tr '[A-Z]' '[a-z]'`
 	elif test -n "$DJGPP"; then
 		case "X${MACHTYPE:-nonesuchmach}" in
-		*cygwin) ;;
+		*cygwin|*msys) ;;
 		*) p_=\; ;;
 		esac
 	fi

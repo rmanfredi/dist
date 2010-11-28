@@ -17,7 +17,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:09:00  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:libnlist: Loc libpth Guess usrinc _a
+?MAKE:libnlist: Loc libpth Guess Mips usrinc _a
 ?MAKE:	-pick add $@ %<
 ?S:libnlist (libmld):
 ?S:	This variable contains the name of the library required to get the

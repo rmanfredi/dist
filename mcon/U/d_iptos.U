@@ -45,7 +45,7 @@ $cat >iptos <<EOM
 YES
 #endif
 EOM
-$cppstdin $cppflags $cppminus <iptos >iptos.h
+$cppstdin $cppflags $cppminus <iptos >iptos.h 2>/dev/null
 val="$undef"
 if $contains 'YES' iptos.h >/dev/null 2>&1; then
 	val="$define"
@@ -59,7 +59,7 @@ elif $test "x$i_niip" = "x$define"; then
 	YES
 	#endif
 EOM
-	$cppstdin $cppflags $cppminus <iptos >iptos.h
+	$cppstdin $cppflags $cppminus <iptos >iptos.h 2>/dev/null
 	if $contains 'YES' iptos.h >/dev/null 2>&1; then
 		val="$define"
 		echo "You have IP TOS support in <netinet/ip.h>." >&4

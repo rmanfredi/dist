@@ -40,7 +40,7 @@
 ?X: This unit is then used by sig_name.U.
 ?X:
 ?MAKE:Signal: test tr rm awk cat grep startsh eunicefix sed sort uniq \
-	Findhdr cppstdin +cppflags cppminus Compile trnl run
+	Findhdr cppstdin +cppflags cppminus Compile trnl run fieldn
 ?MAKE:	-pick add $@ %<
 ?X:all files declared as "public" since they're used from other units
 ?F:signal.c signal_cmd signal.lst signal signal.awk

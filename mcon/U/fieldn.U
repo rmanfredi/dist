@@ -1,0 +1,82 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?RCS: $Log: Findhdr.U,v $
+?RCS: Revision 3.0.1.2  1994/10/29  15:53:08  ram
+?RCS: patch36: added ?F: line for metalint file checking
+?RCS:
+?RCS: Revision 3.0.1.1  1994/05/06  14:03:56  ram
+?RCS: patch23: cppminus must be after other cppflags, not before
+?RCS:
+?RCS: Revision 3.0  1993/08/18  12:04:54  ram
+?RCS: Baseline for dist 3.0 netwide release.
+?RCS:
+?MAKE:fieldn cppfilter: grep test tr rm cat startsh \
+	cppstdin cppminus osname
+?MAKE:	-pick add $@ %<
+?S:fieldn:
+?S:	This variable is used internally by Configure. It contains the position
+?S:	of the included file name in cpp output. That is to say, when cpp
+?S:	pre-processes a #include <file> line, it replaces it by a # line which
+?S:	contains the original position in the input file and the full name of
+?S:	included file, between "quotes".
+?S:.
+?S:cppfilter:
+?S: This variable is used internally by Configure.  It either contains
+?S:	nothing or a shell piping stage to translate path components into "/".
+?S:	It is meant to be used as "... | $cppfilter $grep ..." i.e. without any
+?S:	explicit "|" character following it.
+?S:.
+?F:!fieldn
+?T:pos testaccess cline
+: determine filename position in cpp output
+echo " "
+echo "Computing filename position in cpp output for #include directives..." >&4
+echo '#include <stdio.h>' > foo.c
+case "$osname" in
+vos)
+	testaccess=-e
+?X: VOS: path component separator is >
+	cppfilter="tr '\\\\>' '/' |"
+	;;
+*)
+	testaccess=-r
+	cppfilter=''
+	;;
+esac
+$cat >fieldn <<EOF
+$startsh
+$cppstdin $cppminus <foo.c 2>/dev/null | \
+$grep '^[ 	]*#.*stdio\.h' | \
+while read cline; do
+	pos=1
+	set \$cline
+	while $test \$# -gt 0; do
+		if $test $testaccess \`echo \$1 | $tr -d '"'\`; then
+			echo "\$pos"
+			exit 0
+		fi
+		shift
+		pos=\`expr \$pos + 1\`
+	done
+done
+EOF
+chmod +x fieldn
+fieldn=`./fieldn`
+$rm -f foo.c fieldn
+case $fieldn in
+'') pos='???';;
+1) pos=first;;
+2) pos=second;;
+3) pos=third;;
+*) pos="${fieldn}th";;
+esac
+echo "Your cpp writes the filename in the $pos field of the line."
+

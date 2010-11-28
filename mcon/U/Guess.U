@@ -34,8 +34,8 @@
 ?X: is.  The information it collects here is used primarily to establish default
 ?X: answers to other questions.
 ?X: 
-?MAKE:Guess d_eunice d_xenix d_bsd d_linux d_dos d_os2: cat test echo n c \
-	contains rm tr Loc eunicefix
+?MAKE:Guess d_eunice d_xenix d_bsd d_linux d_dos d_os2 d_windows: cat test \
+	echo n c contains rm tr Loc eunicefix
 ?MAKE:	-pick add $@ %<
 ?S:d_eunice:
 ?S:	This variable conditionally defines the symbols EUNICE_SYSTEM, which
@@ -60,6 +60,10 @@
 ?S:d_linux:
 ?S:	This symbol conditionally defines the symbol LINUX_SYSTEM when running
 ?S:	on a Linux system.
+?S:.
+?S:d_windows:
+?S:	This symbol conditionally defines the symbol WINDOWS_SYSTEM when running
+?S:	on a Windows system.
 ?S:.
 ?C:EUNICE_SYSTEM (EUNICE):
 ?C:	This symbol, if defined, indicates that the program is being compiled
@@ -92,6 +96,10 @@
 ?C:	This symbol, if defined, indicates that the program is running under
 ?C:	a Linux system.
 ?C:.
+?C:WINDOWS_SYSTEM:
+?C:	This symbol, if defined, indicates that the program is running under
+?C:	a Windows system.
+?C:.
 ?H:#$d_eunice EUNICE_SYSTEM		/**/
 ?H:#$d_eunice VMS_SYSTEM		/**/
 ?H:#$d_xenix XENIX_SYSTEM		/**/
@@ -99,8 +107,10 @@
 ?H:#$d_os2 OS2_SYSTEM		/**/
 ?H:#$d_bsd BSD_SYSTEM		/**/
 ?H:#$d_linux LINUX_SYSTEM		/**/
+?H:#$d_windows WINDOWS_SYSTEM		/**/
 ?H:.
-?F:./bsd ./usg ./v7 ./osf1 ./eunice ./xenix ./venix ./dos ./os2 ./gnu ./linux
+?F:./bsd ./usg ./v7 ./osf1 ./eunice ./xenix ./venix ./dos ./os2 ./gnu
+?F:./windows ./linux
 ?T:xxx DJGPP MACHTYPE
 : make some quick guesses about what we are up against
 echo " "
@@ -116,10 +126,12 @@ echo exit 1 >os2
 echo exit 1 >gnu
 echo exit 1 >linux
 echo exit 1 >dos
+echo exit 1 >windows
 d_bsd="$undef"
 d_linux="$undef"
 d_dos="$undef"
 d_os2="$undef"
+d_windows="$undef"
 ?X:
 ?X: Do not use 'usrinc', or we get a circular dependency. because
 ?X: usrinc is defined in usrinc.U, which relies on us...
@@ -178,6 +190,18 @@ EOI
 	d_eunice="$undef"
 	;;
 esac
+if test -d c:/.; then
+	case "X${MACHTYPE:-nonesuchmach}" in
+	*cygwin) echo " "; echo "Hah!... you're running under Cygwin!";;
+	*msys) echo " "; echo "Hah!... you're running under MinGW!";;
+	esac
+	case "X${MACHTYPE:-nonesuchmach}" in
+	*cygwin|*msys)
+		echo exit 0 >windows
+		d_windows="$define"
+		;;
+	esac
+fi
 case "$p_" in
 :) ;;
 *)
@@ -185,10 +209,6 @@ case "$p_" in
 I have the feeling something is not exactly right, however...don't tell me...
 EOI
 	if test -n "$DJGPP"; then
-		case "X${MACHTYPE:-nonesuchmach}" in
-		cygwin) echo "hah!... you're running under Cygwin!";;
-		*) echo "got it... you're running DOS with DJGPP!";;
-		esac
 		echo exit 0 >dos
 		d_dos="$define"
 	else
@@ -222,7 +242,7 @@ else
 		echo "Nor is it Venix..."
 	fi
 fi
-chmod +x bsd usg v7 osf1 eunice xenix venix dos os2 gnu linux
-$eunicefix bsd usg v7 osf1 eunice xenix venix dos os2 gnu linux
+chmod +x bsd usg v7 osf1 eunice xenix venix dos os2 gnu linux windows
+$eunicefix bsd usg v7 osf1 eunice xenix venix dos os2 gnu linux windows
 $rm -f foo
 

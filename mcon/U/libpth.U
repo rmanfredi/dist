@@ -35,7 +35,7 @@
 ?X:	This unit initializes the path for C library lookup.
 ?X:
 ?MAKE:libpth glibpth xlibpth plibpth loclibpth: \
-	usrinc incpath test cat Myread Oldconfig
+	usrinc incpath test cat Myread Oldconfig Mips
 ?MAKE:	-pick add $@ %<
 ?S:libpth:
 ?S:	This variable holds the general path (space-separated) used to find

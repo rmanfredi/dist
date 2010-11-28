@@ -27,64 +27,11 @@
 ?X: and it returns the full path of the include file and a zero status or an
 ?X: empty string with an error status if the file could not be located.
 ?X:
-?MAKE:Findhdr: grep test tr rm +usrinc awk cat startsh \
-	cppstdin cppminus +cppflags eunicefix osname
+?MAKE:Findhdr: grep tr rm +usrinc awk cat startsh \
+	cppstdin cppminus +cppflags eunicefix fieldn cppfilter
 ?MAKE:	-pick add $@ %<
-?LINT:define fieldn
-?S:fieldn:
-?S:	This variable is used internally by Configure. It contains the position
-?S:	of the included file name in cpp output. That is to say, when cpp
-?S:	pre-processes a #include <file> line, it replaces it by a # line which
-?S:	contains the original position in the input file and the full name of
-?S:	included file, between "quotes".
-?S:.
-?V:fieldn
-?F:./findhdr !fieldn
-?T:cline pos wanted name awkprg cppfilter testaccess status usrincdir
-: determine filename position in cpp output
-echo " "
-echo "Computing filename position in cpp output for #include directives..." >&4
-echo '#include <stdio.h>' > foo.c
-case "$osname" in
-vos)
-	testaccess=-e
-?X: VOS: path component separator is >
-	cppfilter="tr '\\\\>' '/' |"
-	;;
-*)
-	testaccess=-r
-	cppfilter=''
-	;;
-esac
-$cat >fieldn <<EOF
-$startsh
-$cppstdin $cppflags $cppminus <foo.c 2>/dev/null | \
-$grep '^[ 	]*#.*stdio\.h' | \
-while read cline; do
-	pos=1
-	set \$cline
-	while $test \$# -gt 0; do
-		if $test $testaccess \`echo \$1 | $tr -d '"'\`; then
-			echo "\$pos"
-			exit 0
-		fi
-		shift
-		pos=\`expr \$pos + 1\`
-	done
-done
-EOF
-chmod +x fieldn
-fieldn=`./fieldn`
-$rm -f foo.c fieldn
-case $fieldn in
-'') pos='???';;
-1) pos=first;;
-2) pos=second;;
-3) pos=third;;
-*) pos="${fieldn}th";;
-esac
-echo "Your cpp writes the filename in the $pos field of the line."
-
+?F:./findhdr
+?T:cline wanted name awkprg status usrincdir
 ?X: To locate a header file, we cannot simply check for $usrinc/file.h, since
 ?X: some machine have the headers in weird places and our only hope is that
 ?X: the C pre-processor will know how to find those headers. Thank you NexT!

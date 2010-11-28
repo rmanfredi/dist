@@ -108,6 +108,7 @@ mcon/U/Loc_sed.U           Full path of sed interpreter, even when portable
 mcon/U/Magic_h.U           Makes confmagic.h--bizarrity here
 mcon/U/MailAuthor.U        Offers user to register himself
 mcon/U/MailList.U          Offers user to subscribe to users list
+mcon/U/Mips.U              Are we on a MIPS system?
 mcon/U/Mkdirp.U            Unit producing shell script to "mkdir -p"
 mcon/U/Mksymlinks.U        Unit to generate symlink to source tree
 mcon/U/Myinit.U            For copying to private U directories
@@ -431,6 +432,7 @@ mcon/U/ebcdic.U            Check for an EBCDIC system
 mcon/U/enablenls.U         Shall we enable NLS?
 mcon/U/errnolist.U         See if we need our own .c to get sys_errnolist[]
 mcon/U/etc.U               Where administrative executable should go
+mcon/U/fieldn.U            Compute included filename position in cpp output
 mcon/U/filexp.U            Finds location of filexp made by Filexp.U
 mcon/U/floatsize.U         What is the size of "float"?
 mcon/U/fpostype.U          What is the type for file positions?
