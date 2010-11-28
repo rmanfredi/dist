@@ -49,3 +49,4 @@ depend::
 	cp Makefile.new Makefile
 	$(RM) Makefile.new
 
+fixcpp jmake: $(TOP)/revision.h

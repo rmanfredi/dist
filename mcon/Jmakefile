@@ -84,3 +84,4 @@ depend::
 	cp Makefile.new Makefile
 	$(RM) Makefile.new
 
+mconfig mlint mxref: $(TOP)/revision.h
