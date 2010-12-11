@@ -1,0 +1,27 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 1991-1997, 2004-2006, 2010, Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:i_ws2tcpip: Inhdr
+?MAKE:	-pick add $@ %<
+?S:i_ws2tcpip:
+?S:	This variable conditionally defines the I_WS2TCPIP symbol, and indicates
+?S:	whether a C program may include <Ws2tcpip.h>.
+?S:.
+?C:I_WS2TCPIP:
+?C:	This symbol, if defined, indicates to the C program that it should
+?C:	include <Ws2tcpip.h>.
+?C:.
+?H:#$i_ws2tcpip I_WS2TCPIP		/**/
+?H:.
+?LINT:set i_ws2tcpip
+: see if this is a ws2tcpip.h system
+set ws2tcpip.h i_ws2tcpip
+eval $inhdr
+

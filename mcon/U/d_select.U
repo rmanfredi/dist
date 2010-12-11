@@ -56,6 +56,6 @@ int main(void)
 }
 EOC
 cyn=select
-set d_select '-lWs_32'
+set d_select '-lWs2_32'
 eval $trylink
 

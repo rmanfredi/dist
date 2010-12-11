@@ -161,6 +161,7 @@ mcon/U/d_NOFILE.U          Maximum # of file descriptors
 mcon/U/d_NeWS.U            Old NeWS stuff
 mcon/U/d_PORTAR.U          Do we know about portable archives?
 mcon/U/d_SHM_MAC.U         SHMLBA macro stuff
+mcon/U/d_WSAPoll.U         Do we have WSAPoll()?
 mcon/U/d_access.U          Do we have access()?
 mcon/U/d_alarm.U           Do we have alarm()?
 mcon/U/d_arc4random.U      Do we have arc4random()?
@@ -170,7 +171,7 @@ mcon/U/d_bcopy.U           Do we have bcopy() or memcpy()?
 mcon/U/d_bindtxtcode.U     Do we have bind_textdomain_codeset()?
 mcon/U/d_brokstat.U        Check whether stat() macros are broken
 mcon/U/d_bsdjmp.U          Do we have BSD _setjmp() and _longjmp()?
-mcon/U/d_built_popcount.U    Is __builtin_popcount() available?
+mcon/U/d_built_popcount.U  Is __builtin_popcount() available?
 mcon/U/d_byacc.U           Is byacc available?
 mcon/U/d_bzero.U           Do we have bzero() or memset()?
 mcon/U/d_casti32.U         Can the compiler cast large flots to 32-bit ints?
@@ -465,6 +466,7 @@ mcon/U/i_locale.U          Shall we include <locale.h>?
 mcon/U/i_malloc.U          Shall we include <malloc.h>?
 mcon/U/i_math.U            Shall we include <math.h>?
 mcon/U/i_memory.U          Shall we include <memory.h>?
+mcon/U/i_mswsock.U         Shall we include <Mswsock.h>?
 mcon/U/i_ndbm.U            Shall we include <ndbm.h>?
 mcon/U/i_netdb.U           Shall we include <netdb.h>?
 mcon/U/i_neterrno.U        Shall we include <net/errno.h>?
@@ -510,6 +512,8 @@ mcon/U/i_values.U          Shall we include <values.h>
 mcon/U/i_varhdr.U          Choose between <varargs.h> and <stdarg.h>
 mcon/U/i_vfork.U           Include <vfork.h>?
 mcon/U/i_whoami.U          Include <whoami.h>?
+mcon/U/i_winsock2.U        Shall we include <Winsock2.h>?
+mcon/U/i_ws2tcpip.U        Shall we include <Ws2tcpip.h>?
 mcon/U/i_zlib.U            Shall we include <zlib.h>?
 mcon/U/inc.U               Where to put public include files?
 mcon/U/install.U           Look for a BSD-compatible install

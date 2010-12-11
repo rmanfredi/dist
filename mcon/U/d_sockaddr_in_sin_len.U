@@ -8,7 +8,7 @@
 ?RCS: that same Artistic Licence; a copy of which may be found at the root
 ?RCS: of the source tree for dist 4.0.
 ?RCS:
-?MAKE:d_sockaddr_in_sin_len: Trylink cat i_arpainet
+?MAKE:d_sockaddr_in_sin_len: Trylink cat i_arpainet i_syssock i_winsock2 i_niin
 ?MAKE:	-pick add $@ %<
 ?S:d_sockaddr_in_sin_len:
 ?S:	This variable conditionally defines the HAS_SOCKADDR_IN_SIN_LEN symbol,
@@ -23,12 +23,22 @@
 ?LINT: set d_sockaddr_in_sin_len
 : does struct sockaddr_in has sin_len
 $cat >try.c <<EOC
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
+#$i_syssock I_SYS_SOCKET
+#$i_niin I_NETINET_IN
+#$i_winsock2 I_WINSOCK2
 #$i_arpainet I_ARPA_INET
+#include <sys/types.h>
+#ifdef I_SYS_SOCKET
+#include <sys/socket.h>
+#endif
+#ifdef I_NETINET_IN
+#include <netinet/in.h>
+#endif
 #ifdef I_ARPA_INET
 #include <arpa/inet.h>
+#endif
+#ifdef I_WINSOCK2
+#include <Winsock2.h>
 #endif
 int main(void)
 {

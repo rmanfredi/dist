@@ -8,7 +8,7 @@
 ?RCS: that same Artistic Licence; a copy of which may be found at the root
 ?RCS: of the source tree for dist 4.0.
 ?RCS:
-?MAKE:d_ipv6: Trylink cat i_arpainet i_netdb
+?MAKE:d_ipv6: Trylink cat i_arpainet i_netdb i_syssock i_niin i_winsock2
 ?MAKE:	-pick add $@ %<
 ?S:d_ipv6:
 ?S: This variable conditionally defines HAS_IPV6.
@@ -26,14 +26,21 @@ case "$d_ipv6" in
 ;;
 *)
 	$cat >try.c <<EOC
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
+#$i_syssock I_SYS_SOCKET
+#$i_winsock2 I_WINSOCK2
+#$i_niin I_NETINET_IN
 #$i_arpainet I_ARPA_INET
+#$i_netdb I_NETDB
+#include <sys/types.h>
+#ifdef I_SYS_SOCKET
+#include <sys/socket.h>
+#endif
+#ifdef I_NETINET_IN
+#include <netinet/in.h>
+#endif
 #ifdef I_ARPA_INET
 #include <arpa/inet.h>
 #endif
-#$i_netdb I_NETDB
 #ifdef I_NETDB
 #include <netdb.h>
 #endif

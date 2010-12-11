@@ -8,7 +8,8 @@
 ?RCS: that same Artistic Licence; a copy of which may be found at the root
 ?RCS: of the source tree for dist 4.0.
 ?RCS:
-?MAKE:d_msghdr_msg_flags: Trylink cat
+?MAKE:d_msghdr_msg_flags: Trylink cat i_systypes i_sysselct \
+	i_winsock2 i_mswsock
 ?MAKE:	-pick add $@ %<
 ?S:d_msghdr_msg_flags:
 ?S:	This variable conditionally defines the HAS_MSGHDR_MSG_FLAGS symbol,
@@ -24,8 +25,22 @@
 ?LINT:set d_msghdr_msg_flags
 : check for msg_flags in struct msghdr
 $cat >try.c <<EOC
+#$i_systypes I_SYS_TYPES
+#$i_sysselct I_SYS_SELECT
+#$i_winsock2 I_WINSOCK2
+#$i_mswsock I_MSWSOCK
+#ifdef I_SYS_TYPES
 #include <sys/types.h>
+#endif
+#ifdef I_SYS_SOCKET
 #include <sys/socket.h>
+#endif
+#ifdef I_WINSOCK2
+#include <Winsock2.h>
+#endif
+#ifdef I_MSWSOCK
+#include <Mswsock.h>
+#endif
 int main(void)
 {
 	struct msghdr msg;
