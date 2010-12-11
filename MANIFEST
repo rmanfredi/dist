@@ -236,6 +236,7 @@ mcon/U/d_getppid.U         Do we have getppid()?
 mcon/U/d_getprior.U        Do we have getpriority()?
 mcon/U/d_getpwent.U        How is passwd info gotten?
 mcon/U/d_gettext.U         Checks whether gettext() is available
+mcon/U/d_gettext.U         Do we have gettext()?
 mcon/U/d_getuid.U          Do we have getuid()?
 mcon/U/d_getwd.U           Do we have getwd()?
 mcon/U/d_gnugettext.U      Do we have GNU gettext()?
