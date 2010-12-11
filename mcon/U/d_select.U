@@ -12,7 +12,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:02  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_select: Trylink cat i_unistd i_systypes
+?MAKE:d_select: Trylink cat i_unistd i_systypes i_sysselct i_winsock2
 ?MAKE:	-pick add $@ %<
 ?S:d_select:
 ?S:	This variable conditionally defines HAS_SELECT if select() is
@@ -31,6 +31,8 @@
 $cat >try.c <<EOC
 #$i_unistd I_UNISTD
 #$i_systypes I_SYS_TYPES
+#$i_sysselct I_SYS_SELECT
+#$i_winsock2 I_WINSOCK2
 ?X: This is still required on some systems
 #ifdef I_SYS_TYPES
 #include <sys/types.h>
@@ -38,8 +40,12 @@ $cat >try.c <<EOC
 #ifdef I_UNISTD
 #include <unistd.h>
 #endif
-?X: This is the new standard
+#ifdef I_SYS_SELECT
 #include <sys/select.h>
+#endif
+#ifdef I_WINSOCK2
+#include <Winsock2.h>
+#endif
 int main(void)
 {
 	static int ret, n;

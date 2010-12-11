@@ -21,7 +21,7 @@
 ?RCS: patch30: created by ADO
 ?RCS:
 ?MAKE:selecttype: cat +cc +ccflags rm Oldconfig Myread \
-	d_fd_set d_select d_socket i_systime i_sysselct
+	d_fd_set d_select d_socket i_systime i_sysselct i_winsock2
 ?MAKE:	-pick add $@ %<
 ?S:selecttype:
 ?S:	This variable holds the type used for the 2nd, 3rd, and 4th
@@ -67,6 +67,7 @@ EOM
 	$cat >try.c <<EOCP
 #$i_systime I_SYS_TIME
 #$i_sysselct I_SYS_SELECT
+#$i_winsock2 I_WINSOCK2
 #$d_socket HAS_SOCKET
 #include <sys/types.h>
 #ifdef HAS_SOCKET
@@ -77,6 +78,9 @@ EOM
 #endif
 #ifdef I_SYS_SELECT
 #include <sys/select.h>
+#endif
+#ifdef I_WINSOCK2
+#include <Winsock2.h>
 #endif
 int main()
 {
