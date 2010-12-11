@@ -1,0 +1,27 @@
+?RCS: $Id: i_limits.U 1 2006-08-24 12:32:52Z rmanfredi $
+?RCS:
+?RCS: Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:i_winsock2: Inhdr
+?MAKE:	-pick add $@ %<
+?S:i_winsock2:
+?S:	This variable conditionally defines the I_WINSOCK2 symbol, and indicates
+?S:	whether a C program may include <Winsock2.h>.
+?S:.
+?C:I_WINSOCK2:
+?C:	This symbol, if defined, indicates to the C program that it should
+?C:	include <Winsock2.h>.
+?C:.
+?H:#$i_winsock2 I_WINSOCK2		/**/
+?H:.
+?LINT:set i_winsock2
+: see if this is a winsock2.h system
+set winsock2.h i_winsock2
+eval $inhdr
+
