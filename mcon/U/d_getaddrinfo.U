@@ -9,7 +9,7 @@
 ?RCS: of the source tree for dist 4.0.
 ?RCS:
 ?MAKE:d_getaddrinfo: Trylink cat i_arpainet i_netdb i_syssock \
-	i_winsock2 i_ws2tcpip i_niin
+	i_winsock2 i_ws2tcpip i_niin d_windows
 ?MAKE:	-pick add $@ %<
 ?S:d_getaddrinfo:
 ?S:	This variable conditionally defines the HAS_GETADDRINFO symbol, which
@@ -29,6 +29,7 @@ $cat >try.c <<EOC
 #$i_niin I_NETINET_IN
 #$i_arpainet I_ARPA_INET
 #$i_netdb I_NETDB
+#$d_windows WINDOWS_SYSTEM
 #include <sys/types.h>
 #ifdef I_SYS_SOCKET
 #include <sys/socket.h>
@@ -41,6 +42,9 @@ $cat >try.c <<EOC
 #endif
 #ifdef I_NETDB
 #include <netdb.h>
+#endif
+#ifdef WINDOWS_SYSTEM
+#define WINVER 0x0501
 #endif
 #ifdef I_WINSOCK2
 #include <Winsock2.h>

@@ -8,7 +8,7 @@
 ?RCS: that same Artistic Licence; a copy of which may be found at the root
 ?RCS: of the source tree for dist 4.0.
 ?RCS:
-?MAKE:d_iptos: cat rm contains cppstdin cppflags cppminus \
+?MAKE:d_iptos: cat rm contains cppstdin cppflags cppminus d_windows \
 	i_niin i_sysin i_niip i_syssock i_winsock2 i_ws2tcpip test Setvar
 ?MAKE:	-pick add $@ %<
 ?S:d_iptos:
@@ -46,8 +46,12 @@ esac
 $cat >iptos <<EOM
 #$i_syssock I_SYS_SOCKET
 #$i_winsock2 I_WINSOCK2
+#$d_windows WINDOWS_SYSTEM
 #ifdef I_SYS_SOCKET
 #include <sys/socket.h>
+#endif
+#ifdef WINDOWS_SYSTEM
+#define WINVER 0x0501
 #endif
 #ifdef I_WINSOCK2
 #include <Winsock2.h>
@@ -59,7 +63,7 @@ YES
 EOM
 $cppstdin $cppflags $cppminus <iptos >iptos.h 2>/dev/null
 val="$undef"
-if $contains 'YES' iptos.h >/dev/null 2>&1; then
+if $contains YES iptos.h >/dev/null 2>&1; then
 	val="$define"
 	echo "You have IP TOS support in <$inh>." >&4
 elif $test "x$i_niip" = "x$define"; then
@@ -75,13 +79,15 @@ YES
 #endif
 EOM
 	$cppstdin $cppflags $cppminus <iptos >iptos.h 2>/dev/null
-	if $contains 'YES' iptos.h >/dev/null 2>&1; then
+	if $contains YES iptos.h >/dev/null 2>&1; then
 		val="$define"
 		echo "You have IP TOS support in <netinet/ip.h>." >&4
-	else
-		echo "Sorry, you seem to be lacking IP TOS support." >&4
 	fi
 fi
+case "$val" in
+"$define") ;;
+*) echo "Sorry, you seem to be lacking IP TOS support." >&4;;
+esac
 set d_iptos
 eval $setvar
 $rm -f iptos iptos.h
