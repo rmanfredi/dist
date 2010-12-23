@@ -161,7 +161,6 @@ mcon/U/d_NOFILE.U          Maximum # of file descriptors
 mcon/U/d_NeWS.U            Old NeWS stuff
 mcon/U/d_PORTAR.U          Do we know about portable archives?
 mcon/U/d_SHM_MAC.U         SHMLBA macro stuff
-mcon/U/d_WSAPoll.U         Do we have WSAPoll()?
 mcon/U/d_access.U          Do we have access()?
 mcon/U/d_alarm.U           Do we have alarm()?
 mcon/U/d_arc4random.U      Do we have arc4random()?
