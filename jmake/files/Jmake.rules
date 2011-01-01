@@ -78,6 +78,18 @@ local_realclean::			@@\
 	$(RM) depends
 
 /*
+ * AllTargetProgram:
+ *	Generate rules to build necessary things during make all.
+ *	This target is specific to executable.  Use AllTarget() for
+ *	other type of files.
+ */
+#define AllTargetProgram(program)	@!\
+all:: program						@!\
+									@!\
+local_realclean::					@@\
+	$(RM) program^^$(_EXE)
+
+/*
  * RemoveTargetProgram:
  *	This is used in some other macros in order to remove the target
  *	before starting its building (saves disk space).  There should be
@@ -85,7 +97,7 @@ local_realclean::			@@\
  *	used *inside* building rules.
  */
 #define RemoveTargetProgram(program) \
-	$(RM) program @@\
+	$(RM) program^^$(_EXE) @@\
 	if test -f program^^^$(_EXE); then \ @@\
 		$(MV) program^^^$(_EXE) program^^~^^^$(_EXE); fi
 
@@ -99,7 +111,7 @@ local_realclean::			@@\
 ++OBJECTS objects @!\
 ++SOURCES sources @!\
 NormalObjectRule()				@!\
-AllTarget(program)				@!\
+AllTargetProgram(program)		@!\
 								@!\
 program: objects				@@\
 	RemoveTargetProgram($@)		@@\
@@ -136,7 +148,7 @@ NormalProgramTarget(program,program.c,program.o)
 ++OBJECTS $(OBJS) @!\
 ++SOURCES $(SRCS) @!\
 NormalObjectRule()					@!\
-AllTarget(program)					@!\
+AllTargetProgram(program)			@!\
 									@!\
 program: $(OBJS)					@@\
 	RemoveTargetProgram($@)			@@\
@@ -160,7 +172,7 @@ LintTarget()
 ++OBJECTS $(OBJS1) @!\
 ++SOURCES $(SRCS1) @!\
 NormalObjectRule()					@!\
-AllTarget(program)					@!\
+AllTargetProgram(program)			@!\
 									@!\
 program: $(OBJS1)					@@\
 	RemoveTargetProgram($@)			@@\
@@ -184,7 +196,7 @@ LintTarget()
 ++OBJECTS $(OBJS2) @!\
 ++SOURCES $(SRCS2) @!\
 NormalObjectRule()					@!\
-AllTarget(program)					@!\
+AllTargetProgram(program)			@!\
 									@!\
 program: $(OBJS2)					@@\
 	RemoveTargetProgram($@)			@@\
@@ -205,7 +217,7 @@ InstallManPage(program,$(MANSRC))
 ++OBJECTS $(OBJS3) @!\
 ++SOURCES $(SRCS3) @!\
 NormalObjectRule()					@!\
-AllTarget(program)					@!\
+AllTargetProgram(program)			@!\
 									@!\
 program: $(OBJS3)					@@\
 	RemoveTargetProgram($@)			@@\
