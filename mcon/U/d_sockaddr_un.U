@@ -45,6 +45,9 @@ $cat >try.c <<EOC
 #ifdef I_WINSOCK2
 #include <Winsock2.h>
 #endif
+#if !defined(AF_LOCAL) && defined(AF_UNIX)
+#define AF_LOCAL AF_UNIX
+#endif
 int main(void)
 {
 	static struct sockaddr_un addr;
