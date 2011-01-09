@@ -30,6 +30,7 @@ $cat >try.c <<EOC
 #include <signal.h>
 int main(void)
 {
+	static int ret;
 	sigset_t oset;
 	ret |= sigprocmask(SIG_BLOCK, NULL, &oset);
 	return ret ? 0 : 1;
