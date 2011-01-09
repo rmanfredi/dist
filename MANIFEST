@@ -365,6 +365,7 @@ mcon/U/d_sigaction.U       Do we have sigaction()?
 mcon/U/d_sigblock.U        Do we have sigblock()?
 mcon/U/d_sighold.U         Do we have sighold()?
 mcon/U/d_siglist.U         Do we have sys_siglist[]?
+mcon/U/d_sigprocmask.U     Do we have sigprocmask()?
 mcon/U/d_sigsetjmp.U       Do we have sigsetjmp()?
 mcon/U/d_sigsetmk.U        Do we have sigsetmask()?
 mcon/U/d_sigvec.U          BSD reliable signals supported?
