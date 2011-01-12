@@ -453,6 +453,7 @@ mcon/U/i_dbm.U             Shall we include <dbm.h>?
 mcon/U/i_dirent.U          Shall we include <dirent.h>
 mcon/U/i_dld.U             Shall we include <dld.h>?
 mcon/U/i_dlfcn.U           Shall we include <dlfcn.h>?
+mcon/U/i_execinfo.U        Shall we include <execinfo.h>?
 mcon/U/i_fcntl.U           Shall we include <fcntl.h>?
 mcon/U/i_float.U           Shall we include <float.h>?
 mcon/U/i_gdbm.U            Shall we include <gdbm.h>?
