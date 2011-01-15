@@ -10,7 +10,7 @@
 ?RCS:
 ?RCS: $Log: d_semget.U,v $
 ?RCS:
-?MAKE:d_backtrace: Trylink cat
+?MAKE:d_backtrace: Trylink cat i_execinfo
 ?MAKE:	-pick add $@ %<
 ?S:d_backtrace:
 ?S:	This variable conditionally defines the HAS_BACKTRACE symbol, which
@@ -27,7 +27,10 @@
 ?LINT:set d_backtrace
 : see if backtrace exists
 $cat >try.c <<EOC
+#$i_execinfo I_EXECINFO
+#ifdef I_EXECINFO
 #include <execinfo.h>
+#endif
 int main(void)
 {
 	void *buf[2];

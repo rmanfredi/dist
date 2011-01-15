@@ -438,7 +438,7 @@ mcon/U/enablenls.U         Shall we enable NLS?
 mcon/U/errnolist.U         See if we need our own .c to get sys_errnolist[]
 mcon/U/etc.U               Where administrative executable should go
 mcon/U/fieldn.U            Compute included filename position in cpp output
-mcon/U/filexp.U            Finds location of filexp made by Filexp.U
+mcon/U/filexp_path.U       Finds location of filexp made by Filexp.U
 mcon/U/floatsize.U         What is the size of "float"?
 mcon/U/fpostype.U          What is the type for file positions?
 mcon/U/fpu.U               What kind of Sun fpu is in use?
