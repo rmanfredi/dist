@@ -1,0 +1,47 @@
+?RCS: $Id: d_backtrace.U 65 2011-01-01 22:01:00Z rmanfredi $
+?RCS:
+?RCS: Copyright (c) 2011, Raphael Manfredi
+?RCS: Copyright (c) 2011, Christian Biere
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?RCS: $Log: d_semget.U,v $
+?RCS:
+?MAKE:d_ttyname: Trylink cat i_unistd
+?MAKE:	-pick add $@ %<
+?S:d_ttyname:
+?S:	This variable conditionally defines the HAS_TTYNAME symbol, which
+?S:	indicates to the C program that the ttyname() routine is available
+?S:	to determine the pathname of the terminal associated with
+?S:     a file descriptor.
+?S:.
+?C:HAS_TTYNAME:
+?C:	This symbol, if defined, indicates that the ttyname() routine is
+?C:	available to determine the pathname of the terminal associated with
+?C:	a file descriptor.  The <unistd.h> header must be included to use
+?C:	this routine.
+?C:.
+?H:#$d_ttyname HAS_TTYNAME	/**/
+?H:.
+?LINT:set d_ttyname
+: see if ttyname exists
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	char *name = ttyname(1);
+	char c = *ttyname(2);
+	return name[0] == c ? 0 : 1;
+}
+EOC
+cyn=ttyname
+set d_ttyname
+eval $trylink
+
