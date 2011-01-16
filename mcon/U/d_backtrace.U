@@ -34,7 +34,7 @@ $cat >try.c <<EOC
 int main(void)
 {
 	void *buf[2];
-	int ret = backtrace(buf, 2);
+	static int ret |= backtrace(buf, 2);
 	return ret ? 0 : 1;
 }
 EOC
