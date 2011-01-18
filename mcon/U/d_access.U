@@ -61,8 +61,13 @@ case "$d_access" in
 #ifdef I_UNISTD
 #include <unistd.h>
 #endif
-int main() {
-	exit(R_OK);
+int main(void) {
+	static int mode;
+	mode |= R_OK;
+	mode |= W_OK;
+	mode |= X_OK;
+	mode |= F_OK;
+	return mode ? 0 : 1;
 }
 EOCP
 	: check sys/file.h first, no particular reason here

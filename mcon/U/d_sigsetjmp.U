@@ -65,16 +65,16 @@ case "$d_sigsetjmp" in
 #include <setjmp.h>
 sigjmp_buf env;
 int set = 1;
-int main()
+int main(void)
 {
 	if (sigsetjmp(env,1))
-		exit(set);
+		return set;
 	set = 0;
 	siglongjmp(env, 1);
-	exit(1);
+	return 1;
 }
 EOP
-	if $cc $ccflags $ldflags -o set set.c $libs > /dev/null 2>&1 ; then
+	if $cc $ccflags $ldflags -o set set.c $libs; then
 		if ./set >/dev/null 2>&1; then
 			echo "POSIX sigsetjmp found." >&4
 			val="$define"

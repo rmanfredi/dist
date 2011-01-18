@@ -102,10 +102,9 @@
 echo " "
 echo "Checking out function prototypes..." >&4
 $cat >prototype.c <<'EOCP'
-int main(int argc, char *argv[]) {
-	exit(0);}
+int main(int argc, char *argv[]) { (void) argc; (void) argv; return 0; }
 EOCP
-if $cc $ccflags -c prototype.c >prototype.out 2>&1 ; then
+if $cc $ccflags -c prototype.c; then
 	echo "Your C compiler appears to support function prototypes."
 	val="$define"
 else

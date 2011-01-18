@@ -73,7 +73,7 @@ $cat >try.c <<'EOCP'
 #ifdef I_SYSSELECT
 #include <sys/select.h>
 #endif
-int main()
+int main(void)
 {
 	struct tm foo;
 #ifdef S_TIMEVAL
@@ -83,12 +83,12 @@ int main()
 	struct timezone tzp;
 #endif
 	if (foo.tm_sec == foo.tm_sec)
-		exit(0);
+		return 0;
 #ifdef S_TIMEVAL
 	if (bar.tv_sec == bar.tv_sec)
-		exit(0);
+		return 0;
 #endif
-	exit(1);
+	return 1;
 }
 EOCP
 flags=''

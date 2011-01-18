@@ -48,12 +48,12 @@ $cat >open3.c <<'EOCP'
 #ifdef I_SYS_FILE
 #include <sys/file.h>
 #endif
-int main() {
+int main(void) {
 	if(O_RDONLY);
 #ifdef O_TRUNC
-	exit(0);
+	return 0;
 #else
-	exit(1);
+	return 1;
 #endif
 }
 EOCP

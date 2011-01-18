@@ -41,7 +41,7 @@
 echo " "
 echo 'Checking to see if your C compiler knows about "volatile"...' >&4
 $cat >try.c <<'EOCP'
-int main()
+int main(void)
 {
 ?X:
 ?X: The following seven lines added by Bill Campbell <billc@sierra.com>
@@ -55,13 +55,18 @@ int main()
 		char char_var;
 	};
 	typedef unsigned short foo_t;
-	char *volatile foo;
-	volatile int bar;
-	volatile foo_t blech;
+	static char *volatile foo;
+	static volatile int bar;
+	static volatile foo_t blech;
 	foo = foo;
+	(void) goo;
+	(void) foo;
+	(void) bar;
+	(void) blech;
+	return 0;
 }
 EOCP
-if $cc -c $ccflags try.c >/dev/null 2>&1 ; then
+if $cc -c $ccflags try.c; then
 	val="$define"
 	echo "Yup, it does."
 else

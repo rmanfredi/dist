@@ -64,11 +64,11 @@ case "$models" in
 ?X: We may not use Cppsym or we get a circular dependency through cc.
 ?X: But this should work regardless of which cc we eventually use.
 	$cat >pdp11.c <<'EOP'
-int main() {
+int main(void) {
 #ifdef pdp11
-	exit(0);
+	return 0;
 #else
-	exit(1);
+	return 1;
 #endif
 }
 EOP

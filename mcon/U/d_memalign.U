@@ -10,7 +10,7 @@
 ?RCS:
 ?RCS: $Log: d_memalign.U,v $
 ?RCS:
-?MAKE:d_memalign: Trylink cat i_stdlib
+?MAKE:d_memalign: Trylink cat i_stdlib i_malloc
 ?MAKE:	-pick add $@ %<
 ?S:d_memalign:
 ?S:	This variable conditionally defines the HAS_MEMALIGN symbol, which
@@ -25,9 +25,14 @@
 ?LINT:set d_memalign
 : see if memalign exists
 $cat >try.c <<EOC
+#define _GNU_SOURCE
 #$i_stdlib I_STDLIB
 #ifdef I_STDLIB
 #include <stdlib.h>
+#endif
+#$i_malloc I_MALLOC
+#ifdef I_MALLOC
+#include <malloc.h>
 #endif
 int main(void)
 {

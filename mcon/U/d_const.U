@@ -47,13 +47,16 @@ $cat >const.c <<'EOCP'
 ?X: handle typedefs properly if they're declared const. To guard
 ?X: against this, boost up the test by using an explicit typedef...
 typedef struct spug { int drokk; } spug;
-int main()
+int main(void)
 {
-	const char *foo;
-	const spug y;
+	static const char *foo;
+	static const spug y;
+	(void) foo;
+	(void) y;
+	return 0;
 }
 EOCP
-if $cc -c $ccflags const.c >/dev/null 2>&1 ; then
+if $cc -c $ccflags const.c; then
 	val="$define"
 	echo "Yup, it does."
 else

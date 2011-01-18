@@ -25,6 +25,7 @@
 ?LINT:set d_pwrite
 : see if pwrite exists
 $cat >try.c <<EOC
+#define _GNU_SOURCE
 #include <sys/types.h>
 #$i_unistd I_UNISTD
 #ifdef I_UNISTD

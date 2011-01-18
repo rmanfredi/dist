@@ -109,11 +109,12 @@ va_dcl
 	p = va_arg(ap, char *);
 #endif
 	va_end(ap);
+	return 0;
 }
 EOP
 $cat > varargs <<EOP
 $startsh
-if $cc -c $ccflags -D\$1 varargs.c >/dev/null 2>&1; then
+if $cc -c $ccflags -D\$1 varargs.c; then
 	echo "true"
 else
 	echo "false"

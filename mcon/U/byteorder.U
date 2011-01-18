@@ -63,7 +63,7 @@ int main()
 	for (i = 0; i < sizeof(long); i++)
 		printf("%c", u.c[i]+'0');
 	printf("\n");
-	exit(0);
+	return 0;
 }
 EOCP
 	xxx_prompt=y

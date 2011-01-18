@@ -55,6 +55,12 @@
 ?C:VAL_EAGAIN:
 ?C:	This symbol holds the errno error code set by read() when no data was
 ?C:	present on the non-blocking file descriptor.
+?C:
+?C: FIXME: And who guarantees this isn't e.g. device-dependent?
+?C:	   If EAGAIN is defined one should expect it.
+?C:	   If EWOULDBLOCK is defined one should expect it.
+?C:	   If both are defined one should expect both.
+?C: 	   -- cbiere, 2011-01-18
 ?C:.
 ?C:RD_NODATA:
 ?C:	This symbol holds the return code from read() when no data is present
@@ -91,22 +97,22 @@ case "$o_nonblock" in
 '')
 	$cat head.c > try.c
 	$cat >>try.c <<'EOCP'
-int main() {
+#include <stdio.h>
+int main(void) {
 #ifdef O_NONBLOCK
 	printf("O_NONBLOCK\n");
-	exit(0);
+	return 0;
 #endif
 #ifdef O_NDELAY
 	printf("O_NDELAY\n");
-	exit(0);
+	return 0;
 #endif
 ?X: Stevens "Advanced Programming in the UNIX Environment" page 364 mentions
 ?X: the FNDELAY symbol, used in 4.33BSD (source: Paul Marquess).
 #ifdef FNDELAY
 	printf("FNDELAY\n");
-	exit(0);
 #endif
-	exit(0);
+	return 0;
 }
 EOCP
 	if $cc $ccflags $ldflags -o try try.c >/dev/null 2>&1; then
@@ -132,6 +138,7 @@ case "$eagain" in
 #include <errno.h>
 #include <sys/types.h>
 #include <signal.h>
+#include <stdlib.h>
 #define MY_O_NONBLOCK $o_nonblock
 extern int errno;
 $signal_t blech(x) int x; { exit(3); }
@@ -184,7 +191,7 @@ int main()
 	close(pu[1]);			/* We read from pu[0] */
 	read(pu[0], buf, 1);	/* Wait for parent to signal us we may continue */
 	close(pd[1]);			/* Pipe pd is now fully closed! */
-	exit(0);				/* Bye bye, thank you for playing! */
+	return 0;			/* Bye bye, thank you for playing! */
 }
 EOCP
 	if $cc $ccflags $ldflags -o try try.c >/dev/null 2>&1; then
