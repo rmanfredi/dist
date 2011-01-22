@@ -103,7 +103,7 @@
 ?T:tmp tmp_n tmp_c tmp_sh file
 ?T:xxxxfile xxxfile xxfile xfile hintfile newmyuname
 ?T:tans _ isesix INITPROG DJGPP has_uname
-?T:saved_myuname saved_osname saved_osvers
+?T:saved_osname saved_osvers
 ?D:osname=''
 ?LINT:change n c sh
 ?LINT:extern hostarch
@@ -445,7 +445,6 @@ esac
 
 ?X: Before loading a previous config.sh, save the variables we've
 ?X: just computed above so that we can propagate these new values.
-saved_myuname="$myuname"
 saved_osname="$osname"
 saved_osvers="$osvers"
 
@@ -503,7 +502,6 @@ for file in $loclist $trylist; do
 	eval $file="\$_$file"
 done
 ?X: Restore computed OS name / version
-myuname="$saved_myuname"
 osname="$saved_osname"
 osvers="$saved_osvers"
 
