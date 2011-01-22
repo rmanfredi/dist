@@ -63,16 +63,18 @@
 ?X:
 ?MAKE:Loc awk ar bash bison byacc cat chgrp chmod chown \
 	comm compress cp cpio cpp csh date echo egrep emacs expr find flex \
-	gmake gzip grep inews ksh less line lint ln lp lpr ls mail mailx \
+	gcc gmake gzip grep inews ksh less line lint ln lp lpr ls mail mailx \
 	make mkdir more mv nawk nm nroff perl pg pmake pr rm rmail sed sendmail \
 	shar sleep smail sort submit tail tar tbl tee test touch tr troff \
+	gmsgfmt msgfmt msgmerge xgettext \
 	uname uniq uuname vi zcat zip:  eunicefix n c startsh Instruct Warn
 ?MAKE:	-pick weed $@ %<
 ?LINT: describe awk ar bash bison byacc cat chgrp chmod chown \
 	comm compress cp cpio cpp csh date echo egrep emacs expr find flex \
-	gmake gzip grep inews ksh less line lint ln lp lpr ls mail mailx \
+	gcc gmake gzip grep inews ksh less line lint ln lp lpr ls mail mailx \
 	make mkdir more mv nawk nm nroff perl pg pmake pr rm rmail sed sendmail \
 	shar sleep smail sort submit tail tar tbl tee test touch tr troff \
+	gmsgfmt msgfmt msgmerge xgettext \
 	uname uniq uuname vi zcat zip
 ?V::pth loclist trylist
 ?F:./loc
@@ -147,6 +149,7 @@ loclist="
 ?find:find
 ?grep:grep
 ?ls:ls
+?make:make
 ?mkdir:mkdir
 ?mv:mv
 ?rm:rm
@@ -173,6 +176,8 @@ trylist="
 ?emacs:emacs
 ?flex:flex
 ?gmake:gmake
+?gcc:gcc
+?gmsgfmt:gmsgfmt
 ?gzip:gzip
 ?inews:inews
 ?ksh:ksh
@@ -184,8 +189,9 @@ trylist="
 ?lpr:lpr
 ?mail:mail
 ?mailx:mailx
-?make:make
 ?more:more
+?msgfmt:msgfmt
+?msgmerge:msgmerge
 ?nawk:nawk
 ?nm:nm
 ?nroff:nroff
@@ -206,14 +212,16 @@ trylist="
 ?uname:uname
 ?uuname:uuname
 ?vi:vi
+?xgettext:xgettext
 ?zcat:zcat
 ?zip:zip
 "
 ?LINT: set awk ar bash bison byacc cat chgrp chmod chown \
 	comm compress cp cpio cpp csh date echo emacs expr find flex \
-	gmake gzip grep inews ksh less line lint lp lpr ls mail mailx \
+	gcc gmake gzip grep inews ksh less line lint lp lpr ls mail mailx \
 	mkdir more mv nawk nm nroff perl pg pmake pr rm rmail sed sendmail \
 	shar sleep smail sort submit tail tar tbl tee touch tr troff \
+	msgfmt msgmerge \
 	uname uniq uuname vi zcat zip
 pth=`echo $PATH | sed -e "s/$p_/ /g"`
 pth="$pth /sbin /usr/sbin /lib /usr/lib /etc"
@@ -250,7 +258,7 @@ for file in $loclist; do
 		;;
 	*)
 		echo "I don't know where '$file' is, and my life depends on it." >&4
-		echo "Go find a public domain implementation or fix your PATH setting!" >&4
+		echo "Go find a public domain implementation or fix your PATH!" >&4
 		exit 1
 		;;
 	esac
@@ -319,13 +327,62 @@ make)
 esac	
 case "$gmake" in
 gmake)	;;
-*)	# We can't have osname yet.
-	if test -f "/system/gnu_library/bin/ar.pm"; then # Stratus VOS
-		# Assume that gmake, if found, is definitely GNU make
-		# and prefer it over the system make.
+*)
+?X: We can't have osname yet.
+?X: On Stratus VOS, assume that gmake, if found, is definitely GNU make
+?X: and prefer it over the system make.
+	if test -f "/system/gnu_library/bin/ar.pm"; then
+		: Stratus VOS
 		echo "Substituting gmake for make."
 		make=$gmake
 		_make=$_gmake
+	fi
+	;;
+esac
+@end
+@if gmsgfmt && msgfmt
+?LINT: extern _msgfmt
+?LINT: change _gmsgfmt
+case "$gmsgfmt" in
+gmsgfmt)
+	echo "Substituting msgfmt for gmsgfmt."
+	gmsgfmt=$msgfmt
+	_gmsgfmt=$_msgfmt
+	;;
+*)
+	if $gmsgfmt --statistics /dev/null >/dev/null 2>&1 &&
+		(if $gmsgfmt --statistics /dev/null 2>&1 >/dev/null | \
+			grep usage >/dev/null; then exit 0; else exit 1; fi)
+	then
+		echo "Your $gmsgfmt is not GNU msgfmt; substituting msgfmt."
+		gmsgfmt=$msgfmt
+		_gmsgfmt=$_msgfmt
+	fi
+	;;
+esac
+@end
+@if xgettext
+?LINT: change _xgettext
+case "$xgettext" in
+xgettext)
+	xgettext=":"
+	_xgettext=":"
+	;;
+*)
+	if $xgettext --omit-header --copyright-holder= /dev/null >/dev/null 2>&1 &&
+		(if $xgettext --omit-header --copyright-holder= \
+			/dev/null 2>&1 >/dev/null | \
+			grep usage >/dev/null; then exit 0; else exit 1; fi)
+	then
+		echo "Your $xgettext is not GNU xgettext; ignoring it."
+		xgettext=":"
+		_xgettext=":"
+	elif $xgettext --from-code=UTF-8 /dev/null >/dev/null 2>&1; then
+		: ok
+	else
+		 echo "Your $xgettext does not support --from-code; ignoring it."
+		 xgettext=":"
+		 _xgettext=":"
 	fi
 	;;
 esac
