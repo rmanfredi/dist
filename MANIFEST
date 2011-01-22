@@ -466,6 +466,8 @@ mcon/U/i_langinfo.U        Shall we include <langinfo.h>?
 mcon/U/i_libcharset.U      Shall we include <libcharset.h>?
 mcon/U/i_libintl.U         Shall we include <libintl.h>?
 mcon/U/i_limits.U          Shall we include <limits.h>?
+mcon/U/i_linux_netlink.U   Shall we include <linux/netlink.h>?
+mcon/U/i_linux_rtnetlink.U Shall we include <linux/rtnetlink.h>?
 mcon/U/i_locale.U          Shall we include <locale.h>?
 mcon/U/i_malloc.U          Shall we include <malloc.h>?
 mcon/U/i_math.U            Shall we include <math.h>?

@@ -1,0 +1,29 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2011, Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:i_linux_rtnetlink: Inhdr
+?MAKE:	-pick add $@ %<
+?S:i_linux_rtnetlink:
+?S:	This variable conditionally defines the I_LINUX_RTNETLINK symbol, and
+?S:	indicates whether a C program may include <linux/rtnetlink.h> to define
+?S:	the RTA_DATA() and other RTA_NEXT() macros.
+?S:.
+?C:I_LINUX_RTNETLINK:
+?C:	This symbol, if defined, indicates to the C program that it should
+?C:	include <linux/rtnetlink.h> to get definitions for the RTA_DATA() and
+?C:	other RTA_NEXT() macros.
+?C:.
+?H:#$i_linux_rtnetlink I_LINUX_RTNETLINK		/**/
+?H:.
+?LINT:set i_linux_rtnetlink
+: see if this is a linux/rtnetlink.h system
+set linux/rtnetlink.h i_linux_rtnetlink
+eval $inhdr
+

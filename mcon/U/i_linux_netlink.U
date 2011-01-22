@@ -1,0 +1,29 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2011, Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:i_linux_netlink: Inhdr
+?MAKE:	-pick add $@ %<
+?S:i_linux_netlink:
+?S:	This variable conditionally defines the I_LINUX_NETLINK symbol, and
+?S:	indicates whether a C program may include <linux/netlink.h> to define
+?S:	the NLMSG_DATA() and other NLMSG_NEXT() macros.
+?S:.
+?C:I_LINUX_NETLINK:
+?C:	This symbol, if defined, indicates to the C program that it should
+?C:	include <linux/netlink.h> to get definitions for the NLMSG_DATA() and
+?C:	other NLMSG_NEXT() macros.
+?C:.
+?H:#$i_linux_netlink I_LINUX_NETLINK		/**/
+?H:.
+?LINT:set i_linux_netlink
+: see if this is a linux/netlink.h system
+set linux/netlink.h i_linux_netlink
+eval $inhdr
+
