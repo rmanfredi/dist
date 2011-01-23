@@ -413,7 +413,7 @@ echo)
 '') ;;
 *)
 	echo " "
-echo "Checking compatibility between $echo and builtin echo (if any)..." >&4
+echo "Checking compatibility between $_echo and builtin echo (if any)..." >&4
 	$echo $n "hi there$c" >foo1
 	echo $n "hi there$c" >foo2
 	if cmp foo1 foo2 >/dev/null 2>&1; then

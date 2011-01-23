@@ -507,7 +507,7 @@ $test "$override" && . ./optdef.sh
 
 : Restore computed paths
 for file in $loclist $trylist; do
-	eval $file="\$_$file"
+	eval $file="\$_$file"$_exe
 done
 
 ?X: Restore saved variables
