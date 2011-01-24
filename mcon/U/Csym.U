@@ -98,7 +98,6 @@ yes)
 		then tval=true;
 		else tval=false;
 		fi;
-		echo "==> HAS $1$tdc is $tval" >>"$file";
 		$rm -f t t.c;;
 	esac;;
 *)
@@ -107,6 +106,6 @@ yes)
 	*) tval=false;;
 	esac;;
 esac;
-echo "==> SET $2=$tval" >>"$file";
+echo "==> HAS $1$tdc is $tval ($4)" >>"$file";
 eval "$2=$tval"'
 
