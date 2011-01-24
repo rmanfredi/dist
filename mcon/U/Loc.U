@@ -79,7 +79,7 @@
 ?V::pth loclist trylist
 ?F:./loc
 ?T:thisthing thing xxx dir file say DJGPP
-?T:_test _grep _cp _gmake _egrep _ln _make dflt
+?T:_echo _test _grep _cp _gmake _egrep _ln _make dflt
 ?LINT: change PATH
 : find out where common programs are
 echo " "

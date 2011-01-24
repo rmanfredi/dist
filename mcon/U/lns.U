@@ -19,7 +19,7 @@
 ?X: We can't rely on d_symlink because that may be listed in the
 ?X: C library but unimplemented.
 ?X:
-?MAKE:lns: ln rm touch test
+?MAKE:lns: ln rm test
 ?MAKE:	-pick add $@ %<
 ?S:lns:
 ?S:	This variable holds the name of the command to make 
