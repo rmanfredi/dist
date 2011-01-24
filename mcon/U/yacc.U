@@ -29,20 +29,20 @@
 : determine compiler compiler
 echo " "
 comp='yacc'
-if $test -f "$byacc$_exe"; then
+if $test -f "$byacc"; then
 	comp="byacc or $comp"
 fi
-if $test -f "$bison$_exe"; then
+if $test -f "$bison"; then
 	comp="$comp or bison -y"
 fi
 case "$yacc" in
 '')
 	yacc=`./loc yacc yacc $pth`
-	if $test -f "$yacc$_exe"; then
+	if $test -f "$yacc"; then
 		dflt='yacc'
-	elif $test -f "$byacc$_exe"; then
+	elif $test -f "$byacc"; then
 		dflt='byacc'
-	elif $test -f "$bison$_exe"; then
+	elif $test -f "$bison"; then
 		dflt='bison'
 	else
 		dflt=''

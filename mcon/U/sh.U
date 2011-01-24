@@ -66,10 +66,10 @@ case "$sh" in
 				sh="$xxx"
 				break
 			elif test -f "$xxx$_exe"; then
-				sh="$xxx"
+				sh="$xxx$_exe"
 				break
 			elif test -f "$xxx.exe"; then
-				sh="$xxx"
+				sh="$xxx.exe"
 				break
 			fi
 		done
