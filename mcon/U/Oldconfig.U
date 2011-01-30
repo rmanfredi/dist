@@ -122,7 +122,7 @@ myuname=`echo $myuname | $sed -e 's/^[^=]*=//' -e 's/\///g' | \
 ?X: Save the value we just computed to reset myuname after we get done here.
 newmyuname="$myuname"
 has_uname=
-$test -f "$uname$_exe" && has_uname=y
+$test -f "$uname" && has_uname=y
 
 : Guessing of the OS name -- half the following guesses are probably wrong...
 : If you have better tests or hints, please send them to the metaconfig
