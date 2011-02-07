@@ -74,26 +74,27 @@ int main(void)
 	return 1;
 }
 EOP
-	if $cc $ccflags $ldflags -o set set.c $libs; then
+	if $cc $ccflags $ldflags -o set set.c $libs >/dev/null 2>&1; then
 		if ./set >/dev/null 2>&1; then
-			echo "POSIX sigsetjmp found." >&4
+			echo "POSIX sigsetjmp() found." >&4
 			val="$define"
 		else
 			$cat >&4 <<EOM
-Uh-Oh! You have POSIX sigsetjmp and siglongjmp, but they do not work properly!!
+Uh-Oh!
+You have POSIX sigsetjmp() and siglongjmp(), but they do not work properly!!
 I'll ignore them.
 EOM
 			val="$undef"
 		fi
 	else
-		echo "sigsetjmp not found." >&4
+		echo "sigsetjmp() not found." >&4
 		val="$undef"
 	fi
 	;;
 *) val="$d_sigsetjmp"
 	case "$d_sigsetjmp" in
-	$define) echo "POSIX sigsetjmp found." >&4;;
-	$undef) echo "sigsetjmp not found." >&4;;
+	$define) echo "POSIX sigsetjmp() found." >&4;;
+	$undef) echo "sigsetjmp() not found." >&4;;
 	esac
 	;;
 esac
