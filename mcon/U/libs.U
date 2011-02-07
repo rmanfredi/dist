@@ -127,7 +127,7 @@ case "$usesocks" in
 "$define") libswanted="$libswanted socks5 socks5_sh" ;;
 esac
 ?X: Used later for link checks
-echo "extern char printf(); int main() { printf(); return 0; }" > lt.c
+echo "extern void abort(void); int main(void) { abort(); return 0; }" > lt.c
 libsfound=''
 libsfiles=''
 libsdirs=''
