@@ -97,7 +97,7 @@ local_realclean::					@@\
  *	used *inside* building rules.
  */
 #define RemoveTargetProgram(program) \
-	$(RM) program^^$(_EXE) @@\
+	-$(RM) program^^$(_EXE) @@\
 	if test -f program^^^$(_EXE); then \ @@\
 		$(MV) program^^^$(_EXE) program^^~^^^$(_EXE); fi
 
@@ -115,7 +115,7 @@ AllTargetProgram(program)		@!\
 								@!\
 program: objects				@@\
 	RemoveTargetProgram($@)		@@\
-	$(CC) -o $@ objects $(JLDFLAGS) $(LIBS) @!\
+	$(CC) -o $@$(_EXE) objects $(JLDFLAGS) $(LIBS) @!\
 
 
 /*
@@ -152,7 +152,7 @@ AllTargetProgram(program)			@!\
 									@!\
 program: $(OBJS)					@@\
 	RemoveTargetProgram($@)			@@\
-	$(CC) -o $@ $(OBJS) $(JLDFLAGS) $(LIBS) @!\
+	$(CC) -o $@$(_EXE) $(OBJS) $(JLDFLAGS) $(LIBS) @!\
 									@!\
 InstallProgram(program,$(BINDIR))	@!\
 InstallManPage(program,$(MANSRC))	@!\
@@ -176,7 +176,7 @@ AllTargetProgram(program)			@!\
 									@!\
 program: $(OBJS1)					@@\
 	RemoveTargetProgram($@)			@@\
-	$(CC) -o $@ $(OBJS1) $(JLDFLAGS) $(LIBS) @!\
+	$(CC) -o $@$(_EXE) $(OBJS1) $(JLDFLAGS) $(LIBS) @!\
 									@!\
 InstallProgram(program,$(BINDIR))	@!\
 InstallManPage(program,$(MANSRC))	@!\
@@ -200,7 +200,7 @@ AllTargetProgram(program)			@!\
 									@!\
 program: $(OBJS2)					@@\
 	RemoveTargetProgram($@)			@@\
-	$(CC) -o $@ $(OBJS2) $(JLDFLAGS) $(LIBS) @!\
+	$(CC) -o $@$(_EXE) $(OBJS2) $(JLDFLAGS) $(LIBS) @!\
 									@!\
 InstallProgram(program,$(BINDIR))	@!\
 InstallManPage(program,$(MANSRC))
@@ -221,7 +221,7 @@ AllTargetProgram(program)			@!\
 									@!\
 program: $(OBJS3)					@@\
 	RemoveTargetProgram($@)			@@\
-	$(CC) -o $@ $(OBJS3) $(JLDFLAGS) $(LIBS) @!\
+	$(CC) -o $@$(_EXE) $(OBJS3) $(JLDFLAGS) $(LIBS) @!\
 									@!\
 InstallProgram(program,$(BINDIR))	@!\
 InstallManPage(program,$(MANSRC))
