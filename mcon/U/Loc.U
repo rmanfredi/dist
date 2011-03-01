@@ -298,7 +298,7 @@ for file in $trylist; do
 	esac
 done
 case "$egrep" in
-egrep)
+egrep$_exe)
 	echo "Substituting grep for egrep."
 	egrep=$grep
 	_egrep=$_grep
@@ -306,7 +306,7 @@ egrep)
 esac
 @if ln
 case "$ln" in
-ln)
+ln$_exe)
 	echo "Substituting cp for ln."
 	ln=$cp
 	_ln=$_cp
@@ -315,7 +315,7 @@ esac
 @end
 @if make || gmake
 case "$make" in
-make)	
+make$_exe)	
 	case "$gmake" in
 	gmake)
 	echo "I can't find make or gmake, and my life depends on it." >&4
@@ -326,7 +326,7 @@ make)
 	;;
 esac	
 case "$gmake" in
-gmake)	;;
+gmake$_exe)	;;
 *)
 ?X: We can't have osname yet.
 ?X: On Stratus VOS, assume that gmake, if found, is definitely GNU make
@@ -344,7 +344,7 @@ esac
 ?LINT: extern _msgfmt
 ?LINT: change _gmsgfmt
 case "$gmsgfmt" in
-gmsgfmt)
+gmsgfmt$_exe)
 	echo "Substituting msgfmt for gmsgfmt."
 	gmsgfmt=$msgfmt
 	_gmsgfmt=$_msgfmt
@@ -364,7 +364,7 @@ esac
 @if xgettext
 ?LINT: change _xgettext
 case "$xgettext" in
-xgettext)
+xgettext$_exe)
 	xgettext=":"
 	_xgettext=":"
 	;;
@@ -388,8 +388,9 @@ xgettext)
 esac
 @end
 case "$test" in
-test)
+test|test$_exe)
 	echo "Hopefully test is built into your sh."
+	test=test
 	;;
 *)
 	if `sh -c "PATH= test true" >/dev/null 2>&1`; then
@@ -406,8 +407,9 @@ test)
 esac
 ?LINT:change n c
 case "$echo" in
-echo)
+echo|echo$_exe)
 	echo "Hopefully echo is built into your sh."
+	echo=echo
 	;;
 ?X: For those rare cases where we don't need $echo...
 '') ;;
