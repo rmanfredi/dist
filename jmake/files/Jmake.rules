@@ -101,6 +101,7 @@ local_realclean::					@@\
 	if test -f program^^^$(_EXE); then \ @@\
 		$(MV) program^^^$(_EXE) program^^~^^^$(_EXE); fi
 
+
 /*
  * NormalProgramTarget:
  *	Generate rules to compile and link the indicated program; since
@@ -119,12 +120,23 @@ program: objects				@@\
 
 
 /*
- * SingleProgramTarget:
- *	Obsolete version of NormalProgramTarget that doesn't have
- *	deplibs.
+ * NormalProgramLibTarget:
+ *	Generate rules to compile and link the indicated program; since
+ *	it does not use any default object files, it may be used for
+ *	multiple programs in the same Jmakefile.
+ *	The ``libs'' argument is used to depend on locally built libraries,
+ *	in te same Jmakefile.
  */
-#define	SingleProgramTarget(program,objects,libs)		\
-NormalProgramTarget(program,objects,libs)
+#define	NormalProgramLibTarget(program,sources,objects,libs)	@!\
+++OBJECTS objects @!\
+++SOURCES sources @!\
+NormalObjectRule()				@!\
+AllTargetProgram(program)		@!\
+								@!\
+program: objects libs			@@\
+	RemoveTargetProgram($@)		@@\
+	$(CC) -o $@$(_EXE) objects $(JLDFLAGS) libs $(LIBS) @!\
+
 
 /*
  * SimpleProgramTarget:
@@ -134,7 +146,6 @@ NormalProgramTarget(program,objects,libs)
  */
 #define	SimpleProgramTarget(program)	@!\
 NormalProgramTarget(program,program.c,program.o)
-
 
 
 /*
