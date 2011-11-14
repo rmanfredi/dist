@@ -201,8 +201,10 @@ mcon/U/d_dlopen.U          Do we have dlopen()?
 mcon/U/d_dosuid.U          Do they want setuid emulation?
 mcon/U/d_drem.U            Do we have drem()?
 mcon/U/d_dup2.U            Do we have dup2()?
+mcon/U/d_end_symbol.U      Whether linker defines the "end" symbol
 mcon/U/d_eofpipe.U         Will EOF be seen on closed pipes?
 mcon/U/d_epoll.U           Can we use epoll_xxx() routines?
+mcon/U/d_etext_symbol.U    Whether linker defines the "etext" symbol
 mcon/U/d_euc2jis.U         Do we have euc2jis()?
 mcon/U/d_fast_assert.U     Can we use fast assertions?
 mcon/U/d_fchmod.U          Do we have fchmod()?
