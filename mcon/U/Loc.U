@@ -217,7 +217,7 @@ trylist="
 ?zip:zip
 "
 ?LINT: set awk ar bash bison byacc cat chgrp chmod chown \
-	comm compress cp cpio cpp csh date echo emacs expr find flex \
+	comm compress cp cpio cpp csh date emacs expr find flex \
 	gcc gmake gzip grep inews ksh less line lint lp lpr ls mail mailx \
 	mkdir more mv nawk nm nroff perl pg pmake pr rm rmail sed sendmail \
 	shar sleep smail sort submit tail tar tbl tee touch tr troff \
