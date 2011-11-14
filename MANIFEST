@@ -324,7 +324,8 @@ mcon/U/d_rdchk.U           Is rdchk() there to check for input?
 mcon/U/d_readdir.U         Do we have readdir()?
 mcon/U/d_readlink.U        Do we have readlink()?
 mcon/U/d_recvmsg.U         Do we have recvmsg()?
-mcon/U/d_regcmp.U          Do we have regcmp()?
+mcon/U/d_regcmp.U          Do we have regcmp() or re_comp()?
+mcon/U/d_regcomp.U         Do we have POSIX regcomp()?
 mcon/U/d_regparm.U         Can we use __attribute__((__regparm__(n)))?
 mcon/U/d_rename.U          Do we have rename()?
 mcon/U/d_rmdir.U           Do we have rmdir()?

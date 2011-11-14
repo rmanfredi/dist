@@ -1,0 +1,44 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2011, Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?RCS: $Log$
+?MAKE:d_regcomp: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_regcomp:
+?S:	This variable conditionally defines the HAS_REGCOMP symbol, which
+?S:	indicates to the C program that the regcomp() routine is available
+?S:	for regular patern matching (usally on POSIX.2 conforming systems).
+?S:.
+?C:HAS_REGCOMP (REGCOMP):
+?C:	This symbol, if defined, indicates that the regcomp() routine is
+?C:	available to do some regular patern matching (usually on POSIX.2
+?C:	conforming systems).
+?C:	When regcomp() exists, it is safe to assume regexec() and regfree()
+?C:	are also available.
+?C:.
+?H:#$d_regcomp HAS_REGCOMP	/**/
+?H:.
+?LINT:set d_regcomp
+: see if regcomp exists
+$cat >try.c <<EOC
+#include <regex.h>
+int main(void)
+{
+	int ret = 0;
+	regex_t re;
+	ret |= regcomp(&re, ".",
+		REG_EXTENDED | REG_NOSUB | REG_ICASE | REG_NEWLINE);
+	return ret ? 0 : 1;
+}
+EOC
+cyn=regcomp
+set d_regcomp
+eval $trylink
+
