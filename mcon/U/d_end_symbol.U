@@ -1,0 +1,41 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2011, Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?RCS: $Log: d_select.U,v $
+?RCS: Revision 3.0  1993/08/18  12:07:02  ram
+?RCS: Baseline for dist 3.0 netwide release.
+?RCS:
+?MAKE:d_end_symbol: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_end_symbol:
+?S:	This variable conditionally defines HAS_END_SYMBOL if the
+?S:	linker-defined symbol "end" is available to compute the end
+?S:	address of the program's BSS segment.
+?S:.
+?C:HAS_END_SYMBOL:
+?C:	This symbol, if defined, indicates that the C program can declare
+?C:		extern const int end;
+?C:	and then use &end to know the end of the BSS segment.
+?C:.
+?H:#$d_end_symbol HAS_END_SYMBOL	/**/
+?H:.
+?LINT:set d_end_symbol
+: see if the end symbol exists
+$cat >try.c <<EOC
+int main(void)
+{
+	extern int end;
+	return (int) &end >> 12;
+}
+EOC
+cyn="whether your linker defines the end symbol"
+set d_end_symbol
+eval $trylink
+

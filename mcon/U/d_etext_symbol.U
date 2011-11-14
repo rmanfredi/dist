@@ -1,0 +1,41 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2011, Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?RCS: $Log: d_select.U,v $
+?RCS: Revision 3.0  1993/08/18  12:07:02  ram
+?RCS: Baseline for dist 3.0 netwide release.
+?RCS:
+?MAKE:d_etext_symbol: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_etext_symbol:
+?S:	This variable conditionally defines HAS_ETEXT_SYMBOL if the
+?S:	linker-defined symbol "etext" is available to compute the end
+?S:	address of the program's text segment.
+?S:.
+?C:HAS_ETEXT_SYMBOL:
+?C:	This symbol, if defined, indicates that the C program can declare
+?C:		extern const int etext;
+?C:	and then use &etext to know the end of the text segment.
+?C:.
+?H:#$d_etext_symbol HAS_ETEXT_SYMBOL	/**/
+?H:.
+?LINT:set d_etext_symbol
+: see if the etext symbol exists
+$cat >try.c <<EOC
+int main(void)
+{
+	extern int etext;
+	return (int) &etext >> 12;
+}
+EOC
+cyn="whether your linker defines the etext symbol"
+set d_etext_symbol
+eval $trylink
+
