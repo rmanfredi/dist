@@ -450,6 +450,7 @@ mcon/U/gidtype.U           What is the type of gids?
 mcon/U/groupstype.U        What is the type for groups in getgroups()?
 mcon/U/h_fcntl.U           Do we need to include fcntl.h?
 mcon/U/h_sysfile.U         Do we need to include sys/file.h?
+mcon/U/i_alloca.U          Shall we include <alloca.h>?
 mcon/U/i_arpainet.U        Shall we include <arpa/inet.h>?
 mcon/U/i_db.U              Shall we include <db.h>?
 mcon/U/i_dbm.U             Shall we include <dbm.h>?
