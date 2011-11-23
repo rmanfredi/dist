@@ -39,15 +39,15 @@
 ?S:sockethdr:
 ?S:	This variable has any cpp -I flags needed for socket support.
 ?S:.
-?C:HAS_SOCKET (SOCKET):
+?C:HAS_SOCKET:
 ?C:	This symbol, if defined, indicates that the BSD socket interface is
 ?C:	supported.
 ?C:.
-?C:HAS_SOCKETPAIR (SOCKETPAIR):
+?C:HAS_SOCKETPAIR:
 ?C:	This symbol, if defined, indicates that the BSD socketpair() call is
 ?C:	supported.
 ?C:.
-?C:USE_OLDSOCKET (OLDSOCKET):
+?C:USE_OLDSOCKET:
 ?C:	This symbol, if defined, indicates that the 4.1c BSD socket interface
 ?C:	is supported instead of the 4.2/4.3 BSD socket interface. For instance,
 ?C:	there is no setsockopt() call.
