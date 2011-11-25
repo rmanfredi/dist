@@ -641,7 +641,9 @@ local_clobber:: local_realclean		@!\
  */
 #define	InstallTarget()											@!\
 ?SUBDIRS:install:: local_install sub_install					@!\
-%SUBDIRS:install:: local_install								@!\
+%SUBDIRS:install:: local_install								@@\
+	@exit 0														@!\
+																@!\
 ?SUBDIRS:install.man:: maybe_install.man sub_install.man		@!\
 %SUBDIRS:install.man:: maybe_install.man						@!\
 ?SUBDIRS:deinstall:: sub_deinstall local_deinstall				@!\
