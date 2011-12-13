@@ -76,7 +76,8 @@
 ?INIT:test -f /usr/shlib/libc.so && glibpth="/usr/shlib $glibpth"
 ?INIT:test -f /shlib/libc.so     && glibpth="/shlib $glibpth"
 ?X:	/lib32 and /lib64 are for Linux systems running both 32- and 64-bit programs
-?INIT:glibpth="$glibpth /lib32 /lib64"
+?X:	/usr/lib/i386-linux-gnu/ is used on Debian by the libc6-dev package
+?INIT:glibpth="$glibpth /lib32 /lib64 "`ls -1d /usr/lib/*-gnu 2>/dev/null`
 ?INIT:: Private path used by Configure to find libraries.  Its value
 ?INIT:: is prepended to libpth. This variable takes care of special
 ?INIT:: machines, like the mips.  Usually, it should be empty.
