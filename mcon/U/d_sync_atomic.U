@@ -1,0 +1,42 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2011, Raphael Manfredi
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_sync_atomic: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_sync_atomic:
+?S:	This variable conditionally defines the HAS_SYNC_ATOMIC symbol, which
+?S:	indicates to the C program that __sync_xxx() atomic operations are
+?S:	made available by the compiler.
+?S:.
+?C:HAS_SYNC_ATOMIC:
+?C:	This symbol, if defined, indicates that __sync_xxx() atomic operations
+?C:	are made available by the compiler, namely __sync_synchronize() to
+?C:	issue a memory barrieer, __sync_bool_compare_and_swap() for issuing a
+?C:	test-and-set and __sync_fetch_and_add() for atomic increases of values.
+?C:.
+?H:#$d_sync_atomic HAS_SYNC_ATOMIC	/**/
+?H:.
+?LINT:set d_sync_atomic
+: check for __sync_synchronize and friends
+$cat >try.c <<EOC
+int main(void)
+{
+	static int ret;
+	int i;
+	__sync_synchronize();
+	ret |= __sync_bool_compare_and_swap(&i, 0, 1);
+	ret += __sync_fetch_and_add(&i, 1);
+	return ret;
+}
+EOC
+cyn="whether atomic memory operations are possible"
+set d_sync_atomic
+eval $trylink
+
