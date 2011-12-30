@@ -39,13 +39,27 @@
 ?M:.
 ?LINT:set d_bcopy
 : see if bcopy exists
+?X: Test is over-complex to avoid gcc optimizing bcopy() away.
 $cat >try.c <<EOC
 #include <strings.h>
+static void
+init_data(char *a, unsigned len)
+{
+	unsigned i;
+	for (i = 0; i < len; i++)
+		a[i] = i * 2 + 1;
+}
+static void
+recopy_data(char *src, char *dst, unsigned len)
+{
+	bcopy(&src[3], &dst[0], len - 3);
+}
 int main(void)
 {
-	static int src, dst;
-	bcopy(&src, &dst, sizeof(dst));
-	return 0;
+	static char src[20], dst[20];
+	init_data(src, sizeof src);
+	recopy_data(src, dst, sizeof src);
+	return dst[0] + dst[1];
 }
 EOC
 cyn=bcopy
