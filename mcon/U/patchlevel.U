@@ -36,10 +36,23 @@ if $test -r $rsrc/patchlevel.h;then
 else
 	patchlevel=0
 fi
+?X:
+?X: Can handle either one of:
+?X:
+?X:	#define REVISION word
+?X: #define REVISION "$Revision$"
+?X:
 if $test -r $rsrc/revision.h;then
 	revision=`awk \
 		'/^#[ 	]*define[ 	][ 	]*REVISION/ {print $3}' \
 		< $rsrc/revision.h`
+	case "$revision" in
+	'"$Revision:')
+		revision=`awk \
+			'/^#[ 	]*define[ 	][ 	]*REVISION/ {print $4}' \
+			< $rsrc/revision.h`
+		;;
+	esac
 else
 	revision=0
 fi
