@@ -1,0 +1,39 @@
+?RCS:
+?RCS: Copyright (c) 2012 Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_mempcpy: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_mempcpy:
+?S:	This variable conditionally defines the HAS_MEMPCPY symbol, which
+?S:	indicates to the C program that the mempcpy() routine is available
+?S:	to copy blocks of memory and returns a pointer past the last written
+?S:	byte.
+?S:.
+?C:HAS_MEMPCPY
+?C:	This symbol, if defined, indicates that the mempcpy routine is available
+?C:	to copy blocks of memory, returning a pointer past the last written byte.
+?C:.
+?H:#$d_mempcpy HAS_MEMPCPY	/**/
+?H:.
+?LINT:set d_mempcpy
+: see if mempcpy exists
+$cat >try.c <<EOC
+#include <string.h>
+int main(void)
+{
+	static char src, dst;
+	void *p;
+	p = mempcpy(&dst, &src, sizeof(dst));
+	return p ? 0 : 1;
+}
+EOC
+cyn=mempcpy
+set d_mempcpy
+eval $trylink
+

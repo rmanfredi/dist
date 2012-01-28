@@ -172,7 +172,6 @@ mcon/U/d_bindtxtcode.U     Do we have bind_textdomain_codeset()?
 mcon/U/d_brokstat.U        Check whether stat() macros are broken
 mcon/U/d_bsdjmp.U          Do we have BSD _setjmp() and _longjmp()?
 mcon/U/d_built_memcmp.U    Is __builtin_memcmp() available?
-mcon/U/d_sync_atomic.U     Are __sync_synchronize() and friends available?
 mcon/U/d_built_popcount.U  Is __builtin_popcount() available?
 mcon/U/d_byacc.U           Is byacc available?
 mcon/U/d_bzero.U           Do we have bzero() or memset()?
@@ -282,6 +281,7 @@ mcon/U/d_memchr.U          Do we have memchr()?
 mcon/U/d_memcmp.U          Do we have memcmp()?
 mcon/U/d_memcpy.U          Do we have memcpy()?
 mcon/U/d_memmove.U         Do we have memmove()?
+mcon/U/d_mempcpy.U         Do we have mempcpy()?
 mcon/U/d_memset.U          Do we have memset()?
 mcon/U/d_mkdir.U           Do we have mkdir()?
 mcon/U/d_mkfifo.U          Do we have mkfifo()?
@@ -338,6 +338,7 @@ mcon/U/d_sanemcmp.U        Can we compare 8th bit in chars with memcmp()?
 mcon/U/d_sbrk.U            Do we have sbrk()?
 mcon/U/d_scandir.U         Do we have scandir()?
 mcon/U/d_scannl.U          Does scanf() groks '\n' correctly?
+mcon/U/d_sched_yield.U     Do we have sched_yield()?
 mcon/U/d_scorfl.U          Keep scoreboards by full name?
 mcon/U/d_select.U          Do we have select()?
 mcon/U/d_sem.U             Do we have full sem(2) support?
@@ -405,6 +406,7 @@ mcon/U/d_strtoul.U         Do we have strtoul()?
 mcon/U/d_strxfrm.U         Do we have strxfrm()?
 mcon/U/d_su_chown.U        Do we need to be root to do a chown?
 mcon/U/d_symlink.U         Does symlink() exist?
+mcon/U/d_sync_atomic.U     Are __sync_synchronize() and friends available?
 mcon/U/d_syscall.U         Do we have syscall()?
 mcon/U/d_sysconf.U         Do we have sysconf()?
 mcon/U/d_sysctl.U          Do we have sysctl()?
@@ -460,7 +462,6 @@ mcon/U/i_dirent.U          Shall we include <dirent.h>
 mcon/U/i_dld.U             Shall we include <dld.h>?
 mcon/U/i_dlfcn.U           Shall we include <dlfcn.h>?
 mcon/U/i_execinfo.U        Shall we include <execinfo.h>?
-mcon/U/i_pthread.U         Shall we include <pthread.h>?
 mcon/U/i_fcntl.U           Shall we include <fcntl.h>?
 mcon/U/i_float.U           Shall we include <float.h>?
 mcon/U/i_gdbm.U            Shall we include <gdbm.h>?
@@ -488,8 +489,10 @@ mcon/U/i_netroute.U        Can we include <net/route.h>?
 mcon/U/i_niin.U            Shall we include <netinet/in.h>?
 mcon/U/i_niip.U            Shall we include <netinet/ip.h>?
 mcon/U/i_poll.U            Shall we include <poll.h>?
+mcon/U/i_pthread.U         Shall we include <pthread.h>?
 mcon/U/i_pwd.U             Shall we include <pwd.h>?
 mcon/U/i_regex.U           Shall we include <regex.h>?
+mcon/U/i_sched.U           Shall we include <sched.h>?
 mcon/U/i_sfio.U            Shall we include <sfio.h>?
 mcon/U/i_stddef.U          Shall we include <stddef.h>?
 mcon/U/i_stdlib.U          Shall we include <stdlib.h>?
