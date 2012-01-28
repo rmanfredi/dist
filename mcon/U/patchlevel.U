@@ -17,6 +17,7 @@
 ?RCS:
 ?MAKE:patchlevel revision: package baserev test rsrc
 ?MAKE:	-pick add $@ %<
+?T:Revision
 ?S:patchlevel:
 ?S:	The patchlevel level of this package.
 ?S:	The value of patchlevel comes from the patchlevel.h file.

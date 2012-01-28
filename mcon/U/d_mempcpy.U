@@ -15,7 +15,7 @@
 ?S:	to copy blocks of memory and returns a pointer past the last written
 ?S:	byte.
 ?S:.
-?C:HAS_MEMPCPY
+?C:HAS_MEMPCPY:
 ?C:	This symbol, if defined, indicates that the mempcpy routine is available
 ?C:	to copy blocks of memory, returning a pointer past the last written byte.
 ?C:.
