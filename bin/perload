@@ -37,8 +37,8 @@ $current_package = 'main';		# Current package
 $init_emitted = 0;				# True when dataloading stamp was emitted
 $in_function = 0;
 
-require 'getopt.pl';
-&Getopt;
+use Getopt::Std;
+getopts("ot");
 
 while (<>) {
 	if ($. == 1 && /^(:|#).*perl/) {	# Invocation stub
