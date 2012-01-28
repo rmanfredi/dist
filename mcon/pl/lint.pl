@@ -812,8 +812,10 @@ sub p_body {
 		# Record file as used. Later on, we will make sure we had the right
 		# to use that file: either we are in the unit that defines it, or we
 		# include the unit that creates it in our dependencies, relying on ?F:.
-		$fileused{$unit} .= "$file " unless
-			$filetmp{$file} || $fileused{$unit} =~ /\b$file\b/;
+		if ($file =~ /^\w/) {
+			$fileused{$unit} .= "$file " unless
+				$filetmp{$file} || $fileused{$unit} =~ /\b$file\b/;
+		}
 		# Mark temporary file as being used, to spot useless local declarations
 		$filetmp{$file} .= ' used'
 			if defined $filetmp{$file} && $filetmp{$file} !~ /\bused/;
@@ -827,8 +829,10 @@ sub p_body {
 		s!(if|\|\||&&)\s+([^\$/`\s;]+)\s*!: !	# if prog, || prog, && prog
 	) {
 		$file = $2;
-		$filemisused{$unit} .= "$file " unless
-			$filetmp{$file} || $filemisused{$unit} =~ /\b$file\b/;
+		if ($file =~ /^\w/) {
+			$filemisused{$unit} .= "$file " unless
+				$filetmp{$file} || $filemisused{$unit} =~ /\b$file\b/;
+		}
 		# Temporary files should be used with ./ anyway
 		$filetmp{$file} .= ' misused'
 			if defined $filetmp{$file} && $filetmp{$file} !~ /\bmisused/;
