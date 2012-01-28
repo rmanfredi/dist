@@ -58,8 +58,9 @@ $startperl
 
 $spitshell >>mlint <<'!NO!SUBS!'
 &profile;						# Read ~/.dist_profile
-require 'getopts.pl';
-&usage unless &Getopts("hklVL:");
+
+use Getopt::Std;
+&usage unless getopts("hklVL:");
 
 if ($opt_V) {
 	print STDERR "metalint $version-$revision\n";

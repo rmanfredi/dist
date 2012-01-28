@@ -58,8 +58,9 @@ $startperl
 
 $spitshell >>mxref <<'!NO!SUBS!'
 &profile;						# Read ~/.dist_profile
-require 'getopts.pl';
-&usage unless &Getopts("df:hkmsVL:");
+
+use Getopt::Std;
+&usage unless getopts("df:hkmsVL:");
 
 chop($date = `date`);
 chop($WD = `pwd`);				# Working directory

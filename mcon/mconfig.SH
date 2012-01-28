@@ -66,8 +66,9 @@ $startperl
 $spitshell >>mconfig <<'!NO!SUBS!'
 chop($date = `date`);
 &profile;						# Read ~/.dist_profile
-require 'getopts.pl';
-&usage unless &Getopts("dhkmostvwGMVL:");
+
+use Getopt::Std;
+&usage unless getopts("dhkmostvwGMVL:");
 
 $MC = $opt_L if $opt_L;			# May override public library path
 $MC = &tilda_expand($MC);		# ~name expansion
