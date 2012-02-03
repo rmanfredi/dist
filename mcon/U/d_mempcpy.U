@@ -23,13 +23,25 @@
 ?H:.
 ?LINT:set d_mempcpy
 : see if mempcpy exists
+?X:
+?X: Need some extra code convolutions to avoid gcc's optimizing the mempcpy()
+?X: call with its built-in implementation.
+?X:
 $cat >try.c <<EOC
 #include <string.h>
+
+void *copy(void *d, const void *s, unsigned n)
+{
+	char *q = d;
+	const char *r = s;
+	return mempcpy(q + 4, r + 2, n - 1);
+}
+
 int main(void)
 {
 	static char src, dst;
 	void *p;
-	p = mempcpy(&dst, &src, sizeof(dst));
+	p = copy(&dst, &src, sizeof(dst));
 	return p ? 0 : 1;
 }
 EOC
