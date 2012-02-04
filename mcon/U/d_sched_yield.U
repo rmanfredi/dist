@@ -1,0 +1,36 @@
+?RCS: Copyright (c) 2012, Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_sched_yield: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_sched_yield:
+?S:	This variable conditionally defines the HAS_SCHED_YIELD symbol, which
+?S:	indicates to the C program that the sched_yield() routine is available
+?S:	to yield the CPU.
+?S:.
+?C:HAS_SCHED_YIELD :
+?C:	This symbol, if defined, indicates that the sched_yield() routine is
+?C:	available to yield the CPU.
+?C:.
+?H:#$d_sched_yield HAS_SCHED_YIELD		/**/
+?H:.
+?LINT:set d_sched_yield
+: see if sched_yield exists
+$cat >try.c <<EOC
+#include <sched.h>
+int main(void)
+{
+	static int ret;
+	ret |= sched_yield();
+	return ret ? 0 : 1;
+}
+EOC
+cyn=sched_yield
+set d_sched_yield
+eval $trylink
+

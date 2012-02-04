@@ -1,0 +1,25 @@
+?RCS: Copyright (c) 2012, Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:i_sched: Inhdr
+?MAKE:	-pick add $@ %<
+?S:i_sched:
+?S:	This variable conditionally defines the I_SCHED symbol, and indicates
+?S:	whether a C program may include <sched.h> to get sched_yield().
+?S:.
+?C:I_SCHED:
+?C:	This symbol, if defined, indicates to the C program that it should
+?C:	include <sched.h> to get the definition of sched_yield().
+?C:.
+?H:#$i_sched I_SCHED		/**/
+?H:.
+?LINT:set i_sched
+: see if this is a sched.h system
+set sched.h i_sched
+eval $inhdr
+
