@@ -91,10 +91,10 @@ EOS
 		fi
 @end
 		(ls -l d/try >try.ls; ls -l d/try.ns >tryno.ls) 2>/dev/null
-		try_wc=`$wc -c try | $awk '{ print $1}' 2>/dev/null`
-		tryns_wc=`$wc -c try.ns | $awk '{ print $1}' 2>/dev/null`
-		d_try_wc=`$wc -c d/try | $awk '{ print $1}' 2>/dev/null`
-		d_tryns_wc=`$wc -c d/try.ns | $awk '{ print $1}' 2>/dev/null`
+		try_wc=`($wc -c try | $awk '{ print $1}') 2>/dev/null`
+		tryns_wc=`($wc -c try.ns | $awk '{ print $1}') 2>/dev/null`
+		d_try_wc=`($wc -c d/try | $awk '{ print $1}') 2>/dev/null`
+		d_tryns_wc=`($wc -c d/try.ns | $awk '{ print $1}') 2>/dev/null`
 		if ($test "X$try_wc" = "X$d_try_wc" && \
 			$test "X$tryns_wc" = "X$d_tryns_wc" && \
 			$contains 'rwxrw-r--' tryno.ls && \
