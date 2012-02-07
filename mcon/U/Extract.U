@@ -28,11 +28,12 @@
 ?MAKE:Extract: Mkdirp src
 ?MAKE:	-pick add $@ %<
 ?F:./extract
-?T:CONFIG SRC dir file
+?T:CONFIG SRC TOP dir file
 : script used to extract .SH files with variable substitutions
 cat >extract <<EOS
 CONFIG=true
 SRC="$src"
+TOP=`cd ..; pwd 2>/dev/null`
 EOS
 cat >>extract <<'EOS'
 echo "Doing variable substitutions on .SH files..."
