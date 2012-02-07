@@ -67,7 +67,7 @@
 	make mkdir more mv nawk nm nroff perl pg pmake pr rm rmail sed sendmail \
 	shar sleep smail sort submit tail tar tbl tee test touch tr troff \
 	gmsgfmt msgfmt msgmerge xgettext \
-	uname uniq uuname vi zcat zip:  eunicefix n c startsh Instruct Warn
+	uname uniq uuname vi wc zcat zip:  eunicefix n c startsh Instruct Warn
 ?MAKE:	-pick weed $@ %<
 ?LINT: describe awk ar bash bison byacc cat chgrp chmod chown \
 	comm compress cp cpio cpp csh date echo egrep emacs expr find flex \
@@ -75,7 +75,7 @@
 	make mkdir more mv nawk nm nroff perl pg pmake pr rm rmail sed sendmail \
 	shar sleep smail sort submit tail tar tbl tee test touch tr troff \
 	gmsgfmt msgfmt msgmerge xgettext \
-	uname uniq uuname vi zcat zip
+	uname uniq uuname vi wc zcat zip
 ?V::pth loclist trylist
 ?F:./loc
 ?T:thisthing thing xxx dir file say DJGPP
@@ -212,6 +212,7 @@ trylist="
 ?uname:uname
 ?uuname:uuname
 ?vi:vi
+?wc:wc
 ?xgettext:xgettext
 ?zcat:zcat
 ?zip:zip
@@ -222,7 +223,7 @@ trylist="
 	mkdir more mv nawk nm nroff perl pg pmake pr rm rmail sed sendmail \
 	shar sleep smail sort submit tail tar tbl tee touch tr troff \
 	msgfmt msgmerge \
-	uname uniq uuname vi zcat zip
+	uname uniq uuname vi wc zcat zip
 pth=`echo $PATH | sed -e "s/$p_/ /g"`
 pth="$pth /sbin /usr/sbin /lib /usr/lib /etc"
 for file in $loclist; do
@@ -246,7 +247,7 @@ for file in $loclist; do
 	'') xxx=`./loc $file $file $pth`;;
 	*) xxx=`./loc $xxx $xxx $pth`;;
 	esac
-	eval $file=$xxx$_exe
+	eval $file=$xxx
 	eval _$file=$xxx
 	case "$xxx" in
 	/*)
@@ -281,7 +282,7 @@ for file in $trylist; do
 	'') xxx=`./loc $file $file $pth`;;
 	*) xxx=`./loc $xxx $xxx $pth`;;
 	esac
-	eval $file=$xxx$_exe
+	eval $file=$xxx
 	eval _$file=$xxx
 	case "$xxx" in
 	/*)
@@ -298,7 +299,7 @@ for file in $trylist; do
 	esac
 done
 case "$egrep" in
-egrep$_exe)
+egrep$_exe|egrep)
 	echo "Substituting grep for egrep."
 	egrep=$grep
 	_egrep=$_grep
@@ -306,7 +307,7 @@ egrep$_exe)
 esac
 @if ln
 case "$ln" in
-ln$_exe)
+ln$_exe|ln)
 	echo "Substituting cp for ln."
 	ln=$cp
 	_ln=$_cp
@@ -315,7 +316,7 @@ esac
 @end
 @if make || gmake
 case "$make" in
-make$_exe)	
+make$_exe|make)	
 	case "$gmake" in
 	gmake)
 	echo "I can't find make or gmake, and my life depends on it." >&4
@@ -326,7 +327,7 @@ make$_exe)
 	;;
 esac	
 case "$gmake" in
-gmake$_exe)	;;
+gmake$_exe|gmake)	;;
 *)
 ?X: We can't have osname yet.
 ?X: On Stratus VOS, assume that gmake, if found, is definitely GNU make
@@ -344,7 +345,7 @@ esac
 ?LINT: extern _msgfmt
 ?LINT: change _gmsgfmt
 case "$gmsgfmt" in
-gmsgfmt$_exe)
+gmsgfmt$_exe|gmsgfmt)
 	echo "Substituting msgfmt for gmsgfmt."
 	gmsgfmt=$msgfmt
 	_gmsgfmt=$_msgfmt
@@ -364,7 +365,7 @@ esac
 @if xgettext
 ?LINT: change _xgettext
 case "$xgettext" in
-xgettext$_exe)
+xgettext$_exe|xgettext)
 	xgettext=":"
 	_xgettext=":"
 	;;
