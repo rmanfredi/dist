@@ -1,5 +1,5 @@
-: Makefile.SH generated from Jmake.tmpl and Jmakefile [jmake 3.5-43]
-: $X-Id: Jmake.tmpl 47 2010-11-28 22:23:13Z rmanfredi $
+: Makefile.SH generated from Jmake.tmpl and Jmakefile [jmake 3.5-119]
+: $X-Id: Jmake.tmpl 69 2011-01-09 13:57:07Z rmanfredi $
 
 case $CONFIG in
 '')
@@ -56,7 +56,7 @@ SUBDIRS = bin mcon jmake pat kit lib
 $spitshell >>Makefile <<'!NO!SUBS!'
 ########################################################################
 # Jmake rules for building libraries, programs, scripts, and data files
-# $X-Id: Jmake.rules 18 2006-12-27 10:35:09Z rmanfredi $
+# $X-Id: Jmake.rules 106 2011-11-25 20:36:12Z rmanfredi $
 
 ########################################################################
 # Start of Jmakefile
@@ -135,6 +135,8 @@ local_clobber:: local_realclean
 	$(RM) Makefile
 
 install:: local_install sub_install
+	@exit 0
+
 install.man:: maybe_install.man sub_install.man
 deinstall:: sub_deinstall local_deinstall
 deinstall.man:: sub_deinstall.man maybe_deinstall.man
