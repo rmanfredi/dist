@@ -16,7 +16,7 @@
 ?S:	cannot figure it out.
 ?S:.
 ?C:BYTEORDER:
-?C:	This symbol hold the hexadecimal constant defined in byteorder,
+?C:	This symbol holds the hexadecimal constant defined in byteorder,
 ?C:	i.e. 1234 for little-endian or 4321 for big-ending.
 ?C:.
 ?H:#define BYTEORDER 0x$byteorder	/* large digits for MSB */
@@ -28,7 +28,7 @@
 ?X: without actually executing code, which allows cross-compiling.
 ?X:
 echo " "
-$echo $n "Checking byte-ordering...$c" >&4
+$echo $n "Checking integer byte-ordering...$c" >&4
 $cat >try.c <<'EOCP'
 short ascii_be[] = { 0x4249, 0x4765, 0x6E44, 0x6961, 0x6E53, 0x7953, 0 };
 short ascii_le[] = { 0x694C, 0x5454, 0x656C, 0x6E45, 0x6944, 0x6E61, 0 };
@@ -49,8 +49,11 @@ fi
 case "$order" in
 '')
 	echo " cannot compute it." >&4
-	rp="Is byte-order big-endian?"
-	dflt=y
+	rp="Are integers stored in big-endian format?"
+	case "$byteorder" in
+	1234) dflt=n;;
+	*) dflt=y;;
+	esac
 	. ./myread
 	case "$ans" in
 	y*) order=4321;;
