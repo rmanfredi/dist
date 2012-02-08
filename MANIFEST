@@ -252,6 +252,7 @@ mcon/U/d_hidnet.U          Do hiddennet stuff?
 mcon/U/d_hstrerror.U       Do we have hstrerror()?
 mcon/U/d_htonl.U           Do we have htonl() and friends?
 mcon/U/d_iconv.U           Do we have iconv()?
+mcon/U/d_ieee754.U         De we have IEEE-754 floats?
 mcon/U/d_inetaton.U        Do we have inet_aton()?
 mcon/U/d_inetd.U           Should internet communication be done via inetd?
 mcon/U/d_inflate.U         Do we have zlib's inflate()?

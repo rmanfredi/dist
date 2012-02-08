@@ -1,0 +1,74 @@
+?RCS:
+?RCS: Copyright (c) 2012 Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_ieee754 ieee754_byteorder: cat contains echo n c \
+	Myread Oldconfig Loc Setvar +cc +ccflags rm _o
+?MAKE:	-pick add $@ %<
+?S:d_ieee754:
+?S:	This variable conditionally defines the USE_IEEE754_FLOAT symbol,
+?S:	which indicates to the C program that floats and doubles use the
+?S:	IEEE-754 format.
+?S:.
+?S:ieee754_byteorder:
+?S:	This variable holds the IEEE float byte order. In the following, larger
+?S:	digits indicate more significance.  The variable byteorder is either 4321
+?S:	on a big-endian machine, or 1234 on a little-endian one.
+?S:	cannot figure it out.
+?S:.
+?C:USE_IEEE754_FLOAT:
+?C:	When defined, this symbol indicates that float and double values are
+?C:	stored using the IEEE-754 floating point format.  See IEEE754_BYTEORDER
+?C:	to determine the endianness in case these values need to be serialized.
+?C:.
+?C:IEEE754_BYTEORDER:
+?C:	This symbol holds the hexadecimal constant defined in ieee754_byteorder,
+?C:	i.e. 1234 for little-endian or 4321 for big-ending floats.  It is 0 when
+?C:	floats are not stored in IEEE-754 format.
+?C:.
+?H:#$d_ieee754 USE_IEEE754_FLOAT
+?H:#define IEEE754_BYTEORDER 0x$ieee754_byteorder	/* large digits for MSB */
+?H:.
+?T:order
+?LINT:set d_ieee754
+: check for ieee754 float and their endianness
+?X:
+?X: An idea from Guido Draheim <Guido.Draheim@gmx.de> checking the endianness
+?X: without actually executing code, which allows cross-compiling.
+?X:
+echo " "
+$echo $n "Checking IEEE-754 float byte-ordering...$c" >&4
+$cat >try.c <<'EOCP'
+float ascii_le[] = {
+	3223.213134765625, 6.8273612896518898e-07, 1.9753562586009612e+31, 0 };
+float ascii_be[] = {
+	865942.3125, 6.7652519659605424e+22, 1.9695089292781631e-07, 0 };
+EOCP
+order=0
+val=''
+if $cc -c $ccflags try.c >/dev/null 2>&1; then
+	if $contains ISieee754Sys try$_o >/dev/null 2>&1; then
+		val=$define
+		order=4321
+	elif $contains isIEEE754Sys try$_o >/dev/null 2>&1; then
+		val=$define
+		order=1234
+	else
+		val=$undef
+	fi
+fi
+set d_ieee754
+eval $setvar
+case "$order" in
+0)    echo " not using IEEE-754 here." >&4;;
+1234) echo " little-endian." >&4;;
+4321) echo " big-endian." >&4;;
+esac
+ieee754_byteorder=$order
+$rm -f try.c try$_o
+
