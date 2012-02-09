@@ -47,10 +47,10 @@ case "$d_ipv6" in
 #include <netdb.h>
 #endif
 #ifdef I_WINSOCK2
-#include "Winsock2.h"
+#include <Winsock2.h>
 #endif
 #ifdef I_WS2TCPIP
-#include "Ws2tcpip.h"
+#include <Ws2tcpip.h>
 #endif
 #include "static_assert.h"
 
