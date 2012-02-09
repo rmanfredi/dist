@@ -11,8 +11,10 @@
 ?X: This unit tries to compile and link a test program.
 ?X:
 ?X: To use it, put the program to compile in try.c, then say:
-?X: set d_func [optional cc flags to try in sequence]
-?X: eval $trylink
+?X:
+?X:		cyn=func
+?X:		set d_func [optional cc flags to try in sequence]
+?X:		eval $trylink
 ?X:
 ?X: A log of all attempts is kept in the trylink.log file, within the UU
 ?X: directory (where Configure runs).  This directory is only cleaned-up
