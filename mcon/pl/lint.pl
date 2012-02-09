@@ -793,14 +793,26 @@ sub p_body {
 		$shused{$unit} .= "\$$var " unless $shused{$unit} =~ /\$$var\b/;
 	}
 
-	return if $heredoc ne '' && !$began_here;	# Still in here-document
+	local($file);
+
+	if ($heredoc ne '' && !$began_here) {
+		# Still in here-document
+		# Just look for included files from C programs expected to be local
+		# in case they missed the special unit that produces these files.
+		if (s!#(\s*)include(\s+)"([\w.]+)"!!) {
+			$file = $3;
+			$fileused{$unit} .= "$file " unless
+				$filetmp{$file} || $fileused{$unit} =~ /\b$file\b/;
+		}
+		return;
+	}
 
 	# Now look at private files used by the unit (./file or ..../UU/file)
 	# We look at things like '. ./myread' and `./loc ...` as well as "< file"
-	local($file);
 	$_ = $line;
 	s/<\S+?>//g;			# <header.h> would set-off our <file detection
 	while (
+		s!#(\s*)include(\s+)"([\w.]+)"!! ||
 		s!(\.\s+|`\s*)(\S*UU|\.)/([^\$/`\s;]+)\s*!! ||
 		s!(`\s*\$?)cat\s+(\./)?([^\$/`\s;]+)\s*`!! ||
 		s!(\s+)(\./)([^\$/`\s;]+)\s*!! ||

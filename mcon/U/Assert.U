@@ -9,7 +9,16 @@
 ?RCS:
 ?MAKE:Assert: cat
 ?MAKE:	-pick add $@ %<
+?F:./static_assert.h
 : static assertion checking include file
+?X:
+?X: C programs can include this file to perform STATIC_ASSERT() checks
+?X: which are done at compile-time and cause the compilation to fail when
+?X: the expression is false.
+?X:
+?X: It is sufficient to compile with: $cc -c $ccflags try.c
+?X: There is no need to link the file to spot the assertion failure.
+?X:
 $cat >static_assert.h <<'EOC'
 #define STATIC_ASSERT(expr)	\
 	do { switch (0) { case ((expr) ? 1 : 0): case 0: break; } } while(0)
