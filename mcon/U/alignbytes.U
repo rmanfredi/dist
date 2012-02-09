@@ -18,7 +18,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:05:23  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:alignbytes: Myread Trylink cat i_inttypes i_limits i_math
+?MAKE:alignbytes: Assert Myread Trylink cat i_inttypes i_limits i_math
 ?MAKE:	-pick add $@ %<
 ?S:alignbytes:
 ?S:	This variable holds the number of bytes required to align an
@@ -106,8 +106,7 @@ struct s {
 	union u b;
 };
 
-#define STATIC_ASSERT(expr)	\
-	do { switch (0) { case ((expr) ? 1 : 0): case 0: break; } } while(0)
+#include "static_assert.h"
 
 int
 main(void)

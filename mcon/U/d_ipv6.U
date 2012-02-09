@@ -8,7 +8,7 @@
 ?RCS: that same Artistic Licence; a copy of which may be found at the root
 ?RCS: of the source tree for dist 4.0.
 ?RCS:
-?MAKE:d_ipv6: Trylink cat i_arpainet i_netdb i_syssock i_niin \
+?MAKE:d_ipv6: Assert Trylink cat i_arpainet i_netdb i_syssock i_niin \
 	i_winsock2 i_ws2tcpip
 ?MAKE:	-pick add $@ %<
 ?S:d_ipv6:
@@ -52,8 +52,7 @@ case "$d_ipv6" in
 #ifdef I_WS2TCPIP
 #include "Ws2tcpip.h"
 #endif
-#define STATIC_ASSERT(x)	\
-	do { switch (0) { case ((x) ? 1 : 0): case 0: break; } } while(0)
+#include "static_assert.h"
 
 int main(void)
 {

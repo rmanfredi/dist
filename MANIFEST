@@ -77,6 +77,7 @@ mcon/README                Instructions on using metaconfig
 mcon/U/                    Holds Units for metaconfig
 mcon/U/AAAAA.U             Does magic before Head.U
 mcon/U/Alpha_mieee.U       Can -mieee be passed to cc?
+mcon/U/Assert.U            Generates the "static_assert.h" file for tests
 mcon/U/Begin.U             "Beginning of configuration questions"
 mcon/U/Checkcc.U           A unit for checking the C compiler for sanity
 mcon/U/Chk_MANI.U          MANIFEST checks
