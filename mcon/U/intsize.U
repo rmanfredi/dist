@@ -39,18 +39,18 @@
 ?H:#define SHORTSIZE $shortsize
 ?H:.
 ?T:types t size var
-?LINT: set intsize longsize shortsize
+?LINT: set shortsize intsize longsize
 : check for lengths of integral types
 echo " "
 types=''
+@if SHORTSIZE || shortsize
+types="$types short"
+@end
 @if INTSIZE || intsize
 types="$types int"
 @end
 @if LONGSIZE || longsize
 types="$types long"
-@end
-@if SHORTSIZE || shortsize
-types="$types short"
 @end
 for t in $types; do
 	$echo $n "Checking to see how big your ${t}s are...$c" >&4
@@ -71,9 +71,9 @@ EOCP
 	error)
 		echo " cannot compute it." >&4
 		case $t in
+		short) dflt=2;;
 		int) dflt=4;;
 		long) dflt=4;;
-		short) dflt=2;;
 		esac
 		rp="What is the size of the \"$t\" type (in bytes)?"
 		. ./myread

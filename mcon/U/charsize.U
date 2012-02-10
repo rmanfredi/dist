@@ -15,7 +15,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:05:34  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:charsize: cat rm Myread +cc +ccflags
+?MAKE:charsize: Assert Myread cat rm +cc +ccflags echo n c
 ?MAKE:	-pick add $@ %<
 ?S:charsize:
 ?S:	This variable contains the value of the CHARSIZE symbol, which
@@ -25,34 +25,40 @@
 ?C:	This symbol contains the size of a char, so that the C preprocessor
 ?C:	can make decisions based on it.
 ?C:.
-?H:#define CHARSIZE $charsize		/**/
+?H:#define CHARSIZE $charsize
 ?H:.
-?F:!try
+?T:size s
 : check for length of character
 echo " "
-case "$charsize" in
-'')
-	echo "Checking to see how big your characters are..." >&4
-	$cat >try.c <<'EOCP'
-#include <stdio.h>
+$echo $n "Checking to see how big your characters are...$c" >&4
+for size in 1 2 4 8 error; do
+	$cat >try.c <<EOCP
+#include "static_assert.h"
+char foo;
 int main()
 {
-	printf("%d\n", sizeof(char));
+	STATIC_ASSERT($size == sizeof(foo));
+	return 0;
 }
 EOCP
-	if $cc $ccflags -o try try.c >/dev/null 2>&1 ; then
-		dflt=`./try`
-	else
-		dflt='1'
-		echo "(I can't seem to compile the test program.  Guessing...)"
-	fi
+	if $cc -c $ccflags try.c >/dev/null 2>&1; then break; fi
+done
+case "$size" in
+error)
+	echo " cannot compute it." >&4
+	dflt=1
+	rp="What is the size of a character (in bytes)?"
+	. ./myread
+	charsize="$ans"
 	;;
 *)
-	dflt="$charsize"
+	case "$size" in
+	1) s='';;
+	*) s='s';;
+	esac
+	echo " $size byte$s." >&4
+	charsize=$size
 	;;
 esac
-rp="What is the size of a character (in bytes)?"
-. ./myread
-charsize="$ans"
-$rm -f try.c try
+$rm -f try.*
 

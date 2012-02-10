@@ -39,6 +39,7 @@ done
 case "$size" in
 error)
 	echo " cannot compute it." >&4
+	dflt=4
 	rp="What is the size of a pointer type (in bytes)?"
 	. ./myread
 	ptrsize="$ans"
