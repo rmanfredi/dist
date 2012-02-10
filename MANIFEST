@@ -534,6 +534,7 @@ mcon/U/i_whoami.U          Include <whoami.h>?
 mcon/U/i_winsock2.U        Shall we include <Winsock2.h>?
 mcon/U/i_ws2tcpip.U        Shall we include <Ws2tcpip.h>?
 mcon/U/i_zlib.U            Shall we include <zlib.h>?
+mcon/U/ilp.U               Supported integer-long-pointer architecture.
 mcon/U/inc.U               Where to put public include files?
 mcon/U/install.U           Look for a BSD-compatible install
 mcon/U/intsize.U           What is the size of "int"?
