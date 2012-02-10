@@ -79,6 +79,7 @@ case "$cyn" in
 esac;
 $cat try.c >> "$file";
 while :; do
+	$rm -f try$_exe;
 	if $cc $ccflags -o try try.c $ldflags $1 >> "$file" 2>&1; then
 		case "$nparams" in 0) ;; *) echo "==> OK with \"$1\"" >> "$file";; esac;
 		val=$define;
