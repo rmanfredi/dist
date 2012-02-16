@@ -89,8 +89,9 @@ esac
 
 @if CAN_HANDLE_64BITS || d_can64
 : see whether compiler supports 64-bit emulation
+val=$undef
 case "$ilp" in
-64) ;;
+64) val=$define;;
 *)
 	$cat >try.c <<EOCP
 #include "static_assert.h"
@@ -105,13 +106,11 @@ EOCP
 		echo " "
 		echo "Your compiler also supports 64-bit emulation." >&4
 		val=$define
-	else
-		val=$undef
 	fi
-	set d_can64
-	eval $setvar
 	$rm -f try.*
 	;;
 esac
+set d_can64
+eval $setvar
 
 @end
