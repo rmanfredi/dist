@@ -172,6 +172,8 @@ mcon/U/d_bcopy.U           Do we have bcopy() or memcpy()?
 mcon/U/d_bindtxtcode.U     Do we have bind_textdomain_codeset()?
 mcon/U/d_brokstat.U        Check whether stat() macros are broken
 mcon/U/d_bsdjmp.U          Do we have BSD _setjmp() and _longjmp()?
+mcon/U/d_built_clz.U       Is __builtin_clz() available?
+mcon/U/d_built_ctz.U       Is __builtin_ctz() available?
 mcon/U/d_built_memcmp.U    Is __builtin_memcmp() available?
 mcon/U/d_built_popcount.U  Is __builtin_popcount() available?
 mcon/U/d_byacc.U           Is byacc available?

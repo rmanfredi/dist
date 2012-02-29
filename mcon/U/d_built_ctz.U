@@ -1,0 +1,37 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2012 Raphael Manfredi
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_built_ctz: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_built_ctz:
+?S:	This variable conditionally defines the HAS_BUILTIN_CTZ symbol, which
+?S:	indicates to the C program that __builtin_ctz is available to count
+?S:	trailing zeroes.
+?S:.
+?C:HAS_BUILTIN_CTZ:
+?C:	This symbol, if defined, indicates that __builtin_ctz routine is
+?C:	available to count trailing zeroes in a word.
+?C:.
+?H:#$d_built_ctz HAS_BUILTIN_CTZ	/**/
+?H:.
+?LINT:set d_built_ctz
+: check for __builtin_ctz
+$cat >try.c <<EOC
+int main(void)
+{
+	static int ret;
+	ret |= __builtin_ctz(127);
+	return ret ? 0 : 1;
+}
+EOC
+cyn=__builtin_ctz
+set d_built_ctz
+eval $trylink
+
