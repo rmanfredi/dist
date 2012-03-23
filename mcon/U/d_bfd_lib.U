@@ -1,0 +1,38 @@
+?RCS: $Id: d_dlopen.U 40 2010-11-27 20:54:48Z rmanfredi $
+?RCS:
+?RCS: Copyright (c) 2012 Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_bfd_lib: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_bfd_lib:
+?S:	This variable conditionally defines the HAS_BFD_LIBRARY symbol, which
+?S:	indicates to the C program that the bfd library is available.
+?S:.
+?C:HAS_BFD_LIBRARY :
+?C:	This symbol, if defined, indicates that the bfd library is available
+?C:	to inspect symbols and debugging information.  You can safely include
+?C:	the <bfd.h> file when this symbol is defined.
+?C:.
+?H:#$d_bfd_lib HAS_BFD_LIBRARY		/**/
+?H:.
+?LINT:set d_bfd_lib
+: see whether the bfd library is available
+$cat >try.c <<EOC
+#include <bfd.h>
+int main(void)
+{
+	bfd *b;
+	b = bfd_openr("file", 0);
+	return b ? 0 : 1;
+}
+EOC
+cyn="whether the BFD library is available"
+set d_bfd_lib '-lbfd -lintl -liberty'
+eval $trylink
+
