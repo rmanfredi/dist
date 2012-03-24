@@ -103,11 +103,11 @@
 ?T:tmp tmp_n tmp_c tmp_sh file
 ?T:xxxxfile xxxfile xxfile xfile hintfile newmyuname
 ?T:tans _ isesix INITPROG DJGPP has_uname
-?T:saved_osname saved_osvers
+?T:saved_osname saved_osvers saved_libswanted
 ?D:osname=''
 ?LINT:change n c sh
-?LINT:extern hostarch
-?LINT:change hostarch
+?LINT:extern hostarch libswanted libs
+?LINT:change hostarch libswanted libs
 : Determine the name of the machine
 myuname=`$uname -a 2>/dev/null`
 $test -z "$myuname" && myuname=`hostname 2>/dev/null`
@@ -452,6 +452,7 @@ esac
 ?X: just computed above so that we can propagate these new values.
 saved_osname="$osname"
 saved_osvers="$osvers"
+saved_libswanted="$libswanted"
 tmp_n="$n"
 tmp_c="$c"
 tmp_sh="$sh"
@@ -515,6 +516,13 @@ osname="$saved_osname"
 osvers="$saved_osvers"
 n="$tmp_n"
 c="$tmp_c"
+
+?X: Reset libs when libswanted changed since last time
+case "$libswanted" in
+"$saved_libswanted") ;;
+*) libs='';;
+esac
+libswanted="$saved_libswanted"
 
 . ./checkcc
 ?X: Cross-compiling support
