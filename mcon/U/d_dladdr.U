@@ -1,0 +1,42 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2012 Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_dladdr: Trylink cat i_dlfcn
+?MAKE:	-pick add $@ %<
+?S:d_dladdr:
+?S:	This variable conditionally defines the HAS_DLADDR symbol, which
+?S:	indicates to the C program that the dladdr() routine is available.
+?S:.
+?C:HAS_DLADDR :
+?C:	This symbol, if defined, indicates that the dladdr() routine is
+?C:	available to query the dynamic linker about a specified address.
+?C:.
+?H:#$d_dladdr HAS_DLADDR		/**/
+?H:.
+?LINT:set d_dladdr
+: see if dladdr exists
+$cat >try.c <<EOC
+#$i_dlfcn I_DLFCN
+#define _GNU_SOURCE
+#ifdef I_DLFCN
+#include <dlfcn.h>
+#endif
+int main(void)
+{
+	Dl_info info;
+
+	dladdr(main, &info);
+	return info.dli_fbase != 0;
+}
+EOC
+cyn=dladdr
+set d_dladdr '-ldl'
+eval $trylink
+
