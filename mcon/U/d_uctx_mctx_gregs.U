@@ -1,0 +1,40 @@
+?RCS:
+?RCS: Copyright (c) 2012 Raphael Manfredi
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_uctx_mctx_gregs: Trylink cat i_ucontext
+?MAKE:	-pick add $@ %<
+?S:d_uctx_mctx_gregs:
+?S:	This variable conditionally defines the HAS_UCONTEXT_MCONTEXT_GREGS symbol,
+?S:	which indicates to the C program that it can access general registers
+?S:	through ucontext->uc_mcontext.gregs[].
+?S:.
+?C:HAS_UCONTEXT_MCONTEXT_GREGS:
+?C:	This symbol, if defined, indicates that the C program can access the
+?C:	processor's general registers through the gregs[] array in the uc_mcontext
+?C:	machine context field from the ucontext_t structure.
+?C:.
+?H:#$d_uctx_mctx_gregs HAS_UCONTEXT_MCONTEXT_GREGS	/**/
+?H:.
+?LINT:set d_uctx_mctx_gregs
+: check for general register access through the ucontext structure
+$cat >try.c <<EOC
+#$i_ucontext I_UCONTEXT
+#ifdef I_UCONTEXT
+#include <ucontext.h>
+#endif
+int main(void)
+{
+	static ucontext_t uc;
+	return uc.uc_mcontext.gregs[0];
+}
+EOC
+cyn="whether 'struct ucontext' has a 'mcontext.gregs[]' member"
+set d_uctx_mctx_gregs
+eval $trylink
+

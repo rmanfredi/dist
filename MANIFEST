@@ -189,6 +189,7 @@ mcon/U/d_chsize.U          Size of a char
 mcon/U/d_ckeypad.U         Do we have the curses keypad()?
 mcon/U/d_closedir.U        Do we have closedir()?
 mcon/U/d_closefrom.U       Do we have closefrom()?
+mcon/U/d_uctx_mctx_gregs.U Do we have uc_mcontext.gregs[] in struct ucontext?
 mcon/U/d_const.U           Can cc grok the const keyword?
 mcon/U/d_crypt.U           Does crypt() exist?
 mcon/U/d_csh.U             csh path
@@ -499,6 +500,7 @@ mcon/U/i_pthread.U         Shall we include <pthread.h>?
 mcon/U/i_pwd.U             Shall we include <pwd.h>?
 mcon/U/i_regex.U           Shall we include <regex.h>?
 mcon/U/i_sched.U           Shall we include <sched.h>?
+mcon/U/i_ucontext.U        Shall we include <ucontext.h>
 mcon/U/i_sfio.U            Shall we include <sfio.h>?
 mcon/U/i_stddef.U          Shall we include <stddef.h>?
 mcon/U/i_stdlib.U          Shall we include <stdlib.h>?
