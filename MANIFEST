@@ -189,6 +189,7 @@ mcon/U/d_chsize.U          Size of a char
 mcon/U/d_ckeypad.U         Do we have the curses keypad()?
 mcon/U/d_closedir.U        Do we have closedir()?
 mcon/U/d_closefrom.U       Do we have closefrom()?
+mcon/U/d_uctx_mctx.U       Do we have a uc_mcontext field in struct ucontext?
 mcon/U/d_uctx_mctx_gregs.U Do we have uc_mcontext.gregs[] in struct ucontext?
 mcon/U/d_const.U           Can cc grok the const keyword?
 mcon/U/d_crypt.U           Does crypt() exist?
