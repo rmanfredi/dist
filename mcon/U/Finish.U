@@ -43,8 +43,8 @@
 : Finish up by extracting the .SH files
 case "$alldone" in
 exit)
-	$rm -rf UU
-	echo "Extraction done."
+?X: They supplied the -E switch
+	echo "Stopping at your request, leaving temporary files around."
 	exit 0
 	;;
 cont)
