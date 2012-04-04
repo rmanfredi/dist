@@ -210,7 +210,21 @@ for thislib in $libswanted; do
 	    fi	
 	done
 	if $test ! -f "$xxx"; then
-	    echo "No -l$thislib."
+?X:
+?X: Try linking aginst the library: gcc on linux platforms is notorious for
+?X: using complex library search logic, especially on systems mixing 32-bit
+?X: and 64-bit versions.
+?X:
+		if $cc -o lt $ccflags $ldflags lt.c -l$thislib >/dev/null 2>&1
+		then
+			echo "Found -l$thislib (via $cc)."
+			case " $dflt " in
+			*"-l$thislib "*) ;;
+			*) dflt="$dflt -l$thislib";;
+			esac
+		else
+			echo "No -l$thislib."
+		fi
 	fi
 done
 set X $dflt
