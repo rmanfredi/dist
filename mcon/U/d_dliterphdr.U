@@ -1,0 +1,44 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2012, Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_dliterphdr: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_dliterphdr:
+?S:	This variable conditionally defines HAS_DL_ITERATE_PHDR when
+?S:	dl_iterate_phdr() is available to walk through the list of shared
+?S:	objects.
+?S:.
+?C:HAS_DL_ITERATE_PHDR:
+?C:	This symbol, if defined, indicates that the dl_iterate_phdr() function is
+?C:	available to walk through the list of shared objects.  One needs to
+?C:	define _GNU_SOURCE before including <link.h> to get the proper signature.
+?C:.
+?H:#$d_dliterphdr HAS_DL_ITERATE_PHDR	/**/
+?H:.
+?LINT:set d_dliterphdr
+: see if dl_iterate_phdr exists
+$cat >try.c <<EOC
+#define _GNU_SOURCE
+#include <link.h>
+int cb(struct dl_phdr_info *info, size_t size, void *data)
+{
+	return NULL == info && NULL == data && size != 0 ? 0 : 1;
+}
+int main(void)
+{
+	int ret;
+	ret = dl_iterate_phdr(cb, NULL);
+	return ret ? 0 : 1;
+}
+EOC
+cyn=dl_iterate_phdr
+set d_dliterphdr
+eval $trylink
+

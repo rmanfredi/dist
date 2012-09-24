@@ -1,0 +1,38 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2012, Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_getcontext: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_getcontext:
+?S:	This variable conditionally defines HAS_GETCONTEXT if getcontext() is
+?S:	available to save a process context.
+?S:.
+?C:HAS_GETCONTEXT:
+?C:	This symbol, if defined, indicates that the getcontext() function is
+?C:	available to save a process context.
+?C:.
+?H:#$d_getcontext HAS_GETCONTEXT	/**/
+?H:.
+?LINT:set d_getcontext
+: see if getcontext exists
+$cat >try.c <<EOC
+#include <ucontext.h>
+int main(void)
+{
+	int ret;
+	ucontext_t u;
+	ret = getcontext(&u);
+	return ret ? 0 : 1;
+}
+EOC
+cyn=getcontext
+set d_getcontext
+eval $trylink
+

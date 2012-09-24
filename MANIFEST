@@ -189,8 +189,6 @@ mcon/U/d_chsize.U          Size of a char
 mcon/U/d_ckeypad.U         Do we have the curses keypad()?
 mcon/U/d_closedir.U        Do we have closedir()?
 mcon/U/d_closefrom.U       Do we have closefrom()?
-mcon/U/d_uctx_mctx.U       Do we have a uc_mcontext field in struct ucontext?
-mcon/U/d_uctx_mctx_gregs.U Do we have uc_mcontext.gregs[] in struct ucontext?
 mcon/U/d_const.U           Can cc grok the const keyword?
 mcon/U/d_crypt.U           Does crypt() exist?
 mcon/U/d_csh.U             csh path
@@ -204,6 +202,7 @@ mcon/U/d_difftime.U        Do we have difftime()?
 mcon/U/d_dirent_d_type.U   Does struct dirent has a member d_type?
 mcon/U/d_dladdr.U          Do we have dladdr()?
 mcon/U/d_dlerror.U         Do we have dlerror()?
+mcon/U/d_dliterphdr.U      Do we have dl_iterate_phdr()?
 mcon/U/d_dlopen.U          Do we have dlopen()?
 mcon/U/d_dosuid.U          Do they want setuid emulation?
 mcon/U/d_drem.U            Do we have drem()?
@@ -212,6 +211,7 @@ mcon/U/d_end_symbol.U      Whether linker defines the "end" symbol
 mcon/U/d_eofpipe.U         Will EOF be seen on closed pipes?
 mcon/U/d_epoll.U           Can we use epoll_xxx() routines?
 mcon/U/d_etext_symbol.U    Whether linker defines the "etext" symbol
+mcon/U/d_datastart_symbol.U  Whether linker defines the "__data_start" symbol
 mcon/U/d_euc2jis.U         Do we have euc2jis()?
 mcon/U/d_fast_assert.U     Can we use fast assertions?
 mcon/U/d_fchmod.U          Do we have fchmod()?
@@ -229,6 +229,7 @@ mcon/U/d_ftime.U           Do we have ftime()?
 mcon/U/d_ftrncate.U        Do we have ftruncate()?
 mcon/U/d_gconvert.U        Do we have gconvert() or gcvt()?
 mcon/U/d_getaddrinfo.U     Do we have etaddrinfo()?
+mcon/U/d_getcontext.U      Do we have getcontext()?
 mcon/U/d_geteuid.U         Do we have geteuid()?
 mcon/U/d_getgrps.U         Do we have getgroups()?
 mcon/U/d_gethbynm.U        Do we have gethostbyname()?
@@ -354,6 +355,7 @@ mcon/U/d_semctl.U          Do we have d_semctl()?
 mcon/U/d_semget.U          Do we have semget()?
 mcon/U/d_semop.U           Do we have semop()?
 mcon/U/d_sendfile.U        Do we have sendfile()?
+mcon/U/d_sendmsg.U         Do we have sendmsg()?
 mcon/U/d_setegid.U         Do we have setegid()?
 mcon/U/d_seteuid.U         Do we have seteuid()?
 mcon/U/d_setgrps.U         Do we have setgroups()?
@@ -429,6 +431,8 @@ mcon/U/d_tminsys.U         Is struct tm in <sys/time.h>?
 mcon/U/d_truncate.U        Do we have truncate()?
 mcon/U/d_tzmin.U           Do we use tz_minuteswest?
 mcon/U/d_tzname.U          Do we have tzname[]?
+mcon/U/d_uctx_mctx.U       Do we have a uc_mcontext field in struct ucontext?
+mcon/U/d_uctx_mctx_gregs.U Do we have uc_mcontext.gregs[] in struct ucontext?
 mcon/U/d_ulimit.U          Do we have ulimit()?
 mcon/U/d_umask.U           Do we have umask()?
 mcon/U/d_usendir.U         Use our own ndir routines?
@@ -501,7 +505,6 @@ mcon/U/i_pthread.U         Shall we include <pthread.h>?
 mcon/U/i_pwd.U             Shall we include <pwd.h>?
 mcon/U/i_regex.U           Shall we include <regex.h>?
 mcon/U/i_sched.U           Shall we include <sched.h>?
-mcon/U/i_ucontext.U        Shall we include <ucontext.h>
 mcon/U/i_sfio.U            Shall we include <sfio.h>?
 mcon/U/i_stddef.U          Shall we include <stddef.h>?
 mcon/U/i_stdlib.U          Shall we include <stdlib.h>?
@@ -532,6 +535,7 @@ mcon/U/i_sysvfs.U          Shall we include <sys/vfs.h>?
 mcon/U/i_syswait.U 	       Is there a <sys/wait.h>?
 mcon/U/i_termio.U          Include <termio.h> or <sgtty.h>?
 mcon/U/i_time.U            Which time.h should we include?
+mcon/U/i_ucontext.U        Shall we include <ucontext.h>
 mcon/U/i_unistd.U          Include <unistd.h>?
 mcon/U/i_utime.U           Include <utime.h>?
 mcon/U/i_values.U          Shall we include <values.h>

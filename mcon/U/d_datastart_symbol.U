@@ -1,0 +1,64 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2011, Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_datastart_symbol d_weak_datastart_symbol: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_datastart_symbol:
+?S:	This variable conditionally defines HAS_DATA_START_SYMBOL if the
+?S:	linker-defined symbol "__data_start" is available to compute the start
+?S:	address of the program's data segment.
+?S:.
+?S:d_weak_datastart_symbol:
+?S:	This variable conditionally defines HAS_WEAK_DATA_START_SYMBOL if the
+?S:	linker-defined symbol "data_start" is weakly defined to compute the start
+?S:	address of the program's data segment.
+?S:.
+?C:HAS_DATA_START_SYMBOL:
+?C:	This symbol, if defined, indicates that the C program can declare
+?C:		extern const int __data_start;
+?C:	and then use &__data_start to know the start of the data segment.
+?C:.
+?C:HAS_WEAK_DATA_START_SYMBOL:
+?C:	This symbol, if defined, indicates that the C program can declare
+?C:		#pragma weak data_start
+?C:		extern const int data_start;
+?C:	and then use &data_start to know the start of the data segment.
+?C:.
+?H:#$d_datastart_symbol HAS_DATA_START_SYMBOL	/**/
+?H:#$d_weak_datastart_symbol HAS_WEAK_DATA_START_SYMBOL	/**/
+?H:.
+?LINT:set d_datastart_symbol d_weak_datastart_symbol
+: see if the __data_start symbol exists
+$cat >try.c <<EOC
+int main(void)
+{
+	extern int __data_start;
+	return (int) &__data_start >> 12;
+}
+EOC
+cyn="whether your linker defines the __data_start symbol"
+set d_datastart_symbol
+eval $trylink
+
+@if d_weak_datastart_symbol || HAS_WEAK_DATA_START_SYMBOL
+: see if the weak data_start symbol exists
+$cat >try.c <<EOC
+int main(void)
+{
+#pragma weak data_start
+	extern int data_start;
+	return (int) &data_start >> 12;
+}
+EOC
+cyn="whether your linker defines the weak data_start symbol"
+set d_weak_datastart_symbol
+eval $trylink
+
+@end
