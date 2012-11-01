@@ -68,10 +68,10 @@
 ?H:#define Malloc_t $malloctype			/**/
 ?H:#define Free_t $freetype			/**/
 ?H:.
-?C:MYMALLOC:
+?C:USE_MY_MALLOC (MYMALLOC):
 ?C:	This symbol, if defined, indicates that we're using our own malloc.
 ?C:.
-?H:#$d_mymalloc MYMALLOC			/**/
+?H:#$d_mymalloc USE_MY_MALLOC		/**/
 ?H:.
 ?LINT:change libs
 ?X: Cannot test for mallocsrc; it is the unit's name and there is a bug in
@@ -89,7 +89,7 @@ case "$usemymalloc" in
 	esac
 	;;
 esac
-rp="Do you wish to attempt to use the malloc that comes with $package?"
+rp="Do you wish to attempt to use the malloc() that comes with $package?"
 . ./myread
 usemymalloc="$ans"
 case "$ans" in
@@ -100,7 +100,7 @@ y*|true)
 	d_mymalloc="$define"
 ?X:	Maybe libs.U should be dependent on mallocsrc.U, but then
 ?X:	most packages that use dist probably don't supply their own
-?X:	malloc, so this is probably an o.k. comprpomise
+?X:	malloc, so this is probably an o.k. compromise
 	case "$libs" in
 	*-lmalloc*)
 		: Remove malloc from list of libraries to use
