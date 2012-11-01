@@ -194,6 +194,7 @@ mcon/U/d_crypt.U           Does crypt() exist?
 mcon/U/d_csh.U             csh path
 mcon/U/d_ctermid.U         Do we have ctermid()?
 mcon/U/d_cuserid.U         Do we have cuserid()?
+mcon/U/d_datastart_symbol.U  Whether linker defines the "__data_start" symbol
 mcon/U/d_dbl_dig.U         Is DBL_DIG defined in <limits.h> or <float.h>?
 mcon/U/d_debugging.U       Conditionally defines -DDEBUGGING
 mcon/U/d_deflate.U         Do we have zlib's deflate()?
@@ -211,7 +212,6 @@ mcon/U/d_end_symbol.U      Whether linker defines the "end" symbol
 mcon/U/d_eofpipe.U         Will EOF be seen on closed pipes?
 mcon/U/d_epoll.U           Can we use epoll_xxx() routines?
 mcon/U/d_etext_symbol.U    Whether linker defines the "etext" symbol
-mcon/U/d_datastart_symbol.U  Whether linker defines the "__data_start" symbol
 mcon/U/d_euc2jis.U         Do we have euc2jis()?
 mcon/U/d_fast_assert.U     Can we use fast assertions?
 mcon/U/d_fchmod.U          Do we have fchmod()?
@@ -247,6 +247,7 @@ mcon/U/d_getpgrp2.U        Do we have getpgrp2()? (DG/UX)
 mcon/U/d_getppid.U         Do we have getppid()?
 mcon/U/d_getprior.U        Do we have getpriority()?
 mcon/U/d_getpwent.U        How is passwd info gotten?
+mcon/U/d_getrlimit.U       Do we have getrlimit()?
 mcon/U/d_gettext.U         Checks whether gettext() is available
 mcon/U/d_gettext.U         Do we have gettext()?
 mcon/U/d_getuid.U          Do we have getuid()?
@@ -369,6 +370,7 @@ mcon/U/d_setproctitle.U    Do we have setproctitle()?
 mcon/U/d_setregid.U        Do we have setregid()?
 mcon/U/d_setreuid.U        Do we have setreuid()?
 mcon/U/d_setrgid.U         Do we have setrgid()?
+mcon/U/d_setrlimit.U       Do we have setrlimit()?
 mcon/U/d_setruid.U         Do we have setruid()?
 mcon/U/d_setsid.U          Do we have setsid()?
 mcon/U/d_sgndchr.U         Are chars signed?

@@ -1,0 +1,47 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2012  Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?RCS: $Log: d_setrlimit.U,v $
+?RCS:
+?MAKE:d_setrlimit: Trylink cat i_systime
+?MAKE:	-pick add $@ %<
+?S:d_setrlimit:
+?S:	This variable conditionally defines the HAS_SETRLIMIT symbol, which
+?S:	indicates to the C program that the setrlimit() routine is available
+?S:	to set process resource limits.
+?S:.
+?C:HAS_SETRLIMIT :
+?C:	This symbol, if defined, indicates that the setrlimit() routine is
+?C:	available to set process resource limits.
+?C:.
+?H:#$d_setrlimit HAS_SETRLIMIT		/**/
+?H:.
+?LINT:set d_setrlimit
+: see if setrlimit exists
+$cat >try.c <<EOC
+#$i_systime I_SYS_TIME
+#ifdef I_SYS_TIME
+#include <sys/time.h>
+#endif
+#include <sys/resource.h>
+int main(void)
+{
+	static struct rlimit lim;
+	int ret;
+	lim.rlim_cur = 0;
+	lim.rlim_max = 1;
+	ret |= setrlimit(RLIMIT_CORE, &lim);
+	return ret ? 0 : 1;
+}
+EOC
+cyn=setrlimit
+set d_setrlimit
+eval $trylink
+
