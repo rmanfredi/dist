@@ -21,7 +21,7 @@
 ?RCS:
 ?MAKE:mallocsrc mallocobj usemymalloc malloctype d_mymalloc \
 	freetype: Myread \
-	Oldconfig package Guess Setvar rm cat +cc +ccflags Findhdr \
+	Oldconfig package spackage Guess Setvar rm cat +cc +ccflags Findhdr \
 	i_malloc i_stdlib sed libs _o ptrsize
 ?MAKE:	-pick add $@ %<
 ?X: Put near top so that other tests don't erroneously include
@@ -76,7 +76,7 @@
 ?LINT:change libs
 ?X: Cannot test for mallocsrc; it is the unit's name and there is a bug in
 ?X: the interpreter which defines all the names, even though they are not used.
-@if mallocobj
+@if mallocobj || USE_MY_MALLOC
 : determine which malloc to compile in
 echo " "
 case "$usemymalloc" in
@@ -89,6 +89,16 @@ case "$usemymalloc" in
 	esac
 	;;
 esac
+$cat <<EOM
+$spackage comes with its own malloc() implementation that will supersede
+the version included in your C library.  Since proper memory allocation is 
+critical, you may choose to opt out from this specific implementation and
+rely on the (hopefully) more thoroughly tested version in the C library.
+
+If you change your mind later, you can always re-run this configuration
+script and recompile $package from scratch.
+
+EOM
 rp="Do you wish to attempt to use the malloc() that comes with $package?"
 . ./myread
 usemymalloc="$ans"
