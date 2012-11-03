@@ -33,7 +33,7 @@ case "$official" in
 false)
 	official=false
 	val="$undef"
-
+	echo " "
 	./warn 'This build will not be suitable for distribution.' 4>&4
 
 ;;
