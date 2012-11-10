@@ -138,7 +138,7 @@ EOM
 	chmod +x $mkdep
 	$eunicefix $mkdep
 	if $mkdep dep.c >dep.out 2>/dev/null &&
-		$contains "dep$_o: dep.h" dep.out >/dev/null 2>&1
+		$contains "dep$_o:.*dep\.h" dep.out >/dev/null 2>&1
 	then
 		echo "Looks like we can use $cc -MM."
 	else
