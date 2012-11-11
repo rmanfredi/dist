@@ -7,7 +7,7 @@
 ?RCS: that same Artistic Licence; a copy of which may be found at the root
 ?RCS: of the source tree for dist 4.0.
 ?RCS:
-?MAKE:d_uctx_mctx_gregs: Trylink cat i_ucontext
+?MAKE:d_uctx_mctx_gregs: Trylink cat i_ucontext i_sys_ucontext
 ?MAKE:	-pick add $@ %<
 ?S:d_uctx_mctx_gregs:
 ?S:	This variable conditionally defines the HAS_UCONTEXT_MCONTEXT_GREGS symbol,
@@ -25,8 +25,12 @@
 : check for general register access through the ucontext structure
 $cat >try.c <<EOC
 #$i_ucontext I_UCONTEXT
+#$i_sys_ucontext I_SYS_UCONTEXT
 #ifdef I_UCONTEXT
 #include <ucontext.h>
+#endif
+#ifdef I_SYS_UCONTEXT
+#include <sys/ucontext.h>
 #endif
 int main(void)
 {
