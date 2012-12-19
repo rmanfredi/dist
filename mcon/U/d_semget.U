@@ -27,6 +27,7 @@
 ?LINT:set d_semget
 : see if semget exists
 $cat >try.c <<EOC
+#include <sys/ipc.h>
 #include <sys/sem.h>
 int main(void)
 {
