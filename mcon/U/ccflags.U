@@ -45,7 +45,7 @@
 ?RCS: Revision 3.0  1993/08/18  12:05:31  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:ccflags ldflags lkflags cppflags optimize locincpth: test cat \
+?MAKE:ccflags ldflags lkflags cppflags optimize pthread locincpth: test cat \
 	Myread Guess Options Oldconfig gccversion mips_type +usrinc \
 	package contains rm +cc cppstdin cppminus cpprun cpplast libpth \
 	loclibpth hint
@@ -60,6 +60,10 @@
 ?S:.
 ?S:optimize:
 ?S:	This variable contains any optimizer/debugger flag that should be used.
+?S:	It is up to the Makefile to use it.
+?S:.
+?S:pthread:
+?S:	This variable contains any thread-specific flag that should be used.
 ?S:	It is up to the Makefile to use it.
 ?S:.
 ?S:ldflags:
@@ -83,6 +87,7 @@
 ?D:ccflags=''
 ?D:ldflags=''
 ?D:optimize=''
+?D:pthread=''
 ?INIT:: Possible local include directories to search.
 ?INIT:: Set locincpth to "" in a hint file to defeat local include searches.
 ?INIT:locincpth=""
@@ -128,6 +133,40 @@ optimize="$ans"
 case "$optimize" in
 'none') optimize=" ";;
 esac
+
+?X: When they are using I_PTHREAD, check whether we need/can supply -pthread
+?X: to the compiler for proper threading support.  This is usually necessary
+?X: with gcc, in addition to the required -lpthread that need to be listed
+?X: at link time.
+@if I_PTHREAD
+: see whether we need -pthread at the compile/link stage
+case "$pthread" in
+''|$undef)
+	$cat > try.c <<'EOF'
+int main() { return 0; }
+EOF
+	if $cc -pthread -c try.c >/dev/null 2>&1; then
+		dflt='-pthread'
+	else
+		dflt='none'
+	fi
+	;;
+*) dflt="$pthread";;
+esac
+$cat <<EOH
+
+Some C compilers need to have special flags supplied at compile and link time
+to be able to generate code that will work correctly with POSIX threads.
+When no specific flags are required, specify the word "none".
+
+EOH
+rp="What thread-support compiler/linker flag should be used?"
+. ./myread
+pthread="$ans"
+case "$pthread" in
+'none') pthread="";;
+esac
+@end
 
 dflt=''
 : We will not override a previous value, but we might want to
@@ -361,7 +400,7 @@ esac
 echo " "
 echo "Checking your choice of C compiler and flags for coherency..." >&4
 ?X: Strip extra blanks in case some of the following variables are empty
-set X $cc $optimize $ccflags $ldflags -o try try.c
+set X $cc $optimize $pthread $ccflags $ldflags -o try try.c
 shift
 $cat >try.msg <<EOM
 I've tried to compile and run a simple program with:
