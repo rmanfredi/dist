@@ -12,19 +12,28 @@
 ?RCS: Revision 3.0  1993/08/18  12:07:05  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?MAKE:d_semop: Trylink cat
+?MAKE:d_semop d_semtimedop: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_semop:
 ?S:	This variable conditionally defines the HAS_SEMOP symbol, which
 ?S:	indicates to the C program that the semop() routine is available.
 ?S:.
+?S:d_semtimedop:
+?S:	This variable conditionally defines the HAS_SEMTIMEDOP symbol, which
+?S:	indicates to the C program that the semtimedop() routine is available.
+?S:.
 ?C:HAS_SEMOP:
 ?C:	This symbol, if defined, indicates that the semop() routine is
 ?C:	available to execute semaphore operations.
 ?C:.
+?C:HAS_SEMTIMEDOP:
+?C:	This symbol, if defined, indicates that the semtimedop() routine is
+?C:	available to execute semaphore operations with a timeout.
+?C:.
 ?H:#$d_semop HAS_SEMOP		/**/
+?H:#$d_semtimedop HAS_SEMTIMEDOP		/**/
 ?H:.
-?LINT:set d_semop
+?LINT:set d_semop d_semtimedop
 : see if semop exists
 $cat >try.c <<EOC
 #include <sys/ipc.h>
@@ -47,3 +56,29 @@ cyn=semop
 set d_semop
 eval $trylink
 
+@if d_semtimedop || HAS_SEMTIMEDOP
+: see if semtimedop exists
+$cat >try.c <<EOC
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
+int main(void)
+{
+	static int ret, id;
+	static size_t n;
+	static struct sembuf buf;
+
+	
+	buf.sem_num |= 1;
+	buf.sem_op |= 1;
+	buf.sem_flg |= SEM_UNDO;
+	buf.sem_flg |= IPC_NOWAIT;
+	ret |= semtimedop(id, &buf, n, (struct timespec *) 0);
+	return ret ? 0 : 1;
+}
+EOC
+cyn=semtimedop
+set d_semtimedop
+eval $trylink
+
+@end
