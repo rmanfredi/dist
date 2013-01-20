@@ -239,6 +239,7 @@ mcon/U/d_gethname.U        What is the C function to get host name?
 mcon/U/d_getifaddrs.U      Do we have getifaddrs() and freeifaddrs()?
 mcon/U/d_getinvent.U       Do we have getinvent()?
 mcon/U/d_getlogin.U        Do we have getlogin()?
+mcon/U/d_getnameinfo.U     Do we have getnameinfo()?
 mcon/U/d_getopt.U          Do we have getopt()?
 mcon/U/d_getpagsz.U        Computes system's page size
 mcon/U/d_getpgid.U         Do we have getpgid()?
