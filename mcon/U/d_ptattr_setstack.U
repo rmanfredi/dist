@@ -1,0 +1,40 @@
+?RCS:
+?RCS: Copyright (c) 2013 Raphael Manfredi
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic Licence,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic Licence; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_ptattr_setstack: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_ptattr_setstack:
+?S:	This variable conditionally defines the HAS_PTHREAD_ATTR_SETSTACK symbol,
+?S:	which indicates to the C program that pthread_attr_setstack() should be
+?S:	used to set the thread stack, instead of pthread_attr_setstackaddr().
+?S:.
+?C:HAS_PTHREAD_ATTR_SETSTACK:
+?C:	This symbol is defined when pthread_attr_setstack() can be used to set
+?C:	the thread stack.  Otherwise, use obsoleted pthread_attr_setstackaddr().
+?C:.
+?H:#$d_ptattr_setstack HAS_PTHREAD_ATTR_SETSTACK
+?H:.
+?LINT: set d_ptattr_setstack
+: can we use pthread_attr_setstack
+$cat >try.c <<'EOC'
+#include <pthread.h>
+int main(void)
+{
+	pthread_attr_t attr;
+	void *p = NULL;
+	static int ret;
+
+	ret |= pthread_attr_setstack(&attr, p, 4096);
+	return ret ? 0 : 1;
+}
+EOC
+cyn=pthread_attr_setstack
+set d_ptattr_setstack '-lpthread'
+eval $trylink
+
