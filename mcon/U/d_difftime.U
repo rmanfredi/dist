@@ -1,6 +1,6 @@
 ?RCS: $Id$
 ?RCS:
-?RCS: Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
+?RCS: Copyright (c) 1991-1997, 2004-2006, 2013 Raphael Manfredi
 ?RCS: 
 ?RCS: You may redistribute only under the terms of the Artistic Licence,
 ?RCS: as specified in the README file that comes with the distribution.
@@ -10,23 +10,30 @@
 ?RCS:
 ?RCS: Original Author: Andy Dougherty <doughera@lafcol.lafayette.edu>
 ?RCS:
-?RCS: $Log: d_difftime.U,v $
-?RCS: Revision 3.0.1.1  1994/08/29  16:07:31  ram
-?RCS: patch32: created by ADO
-?RCS:
-?MAKE:d_difftime: Trylink cat
+?MAKE:d_difftime use_difftime: Assert Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_difftime:
 ?S:	This variable conditionally defines the HAS_DIFFTIME symbol, which
 ?S:	indicates to the C program that the difftime() routine is available.
 ?S:.
+?S:use_difftime:
+?S:	This variable conditionally defines the USE_DIFFTIME symbol, which
+?S:	indicates to the C program that the difftime() routine should be
+?S:	used to compare times.
+?S:.
 ?C:HAS_DIFFTIME :
 ?C:	This symbol, if defined, indicates that the difftime routine is
 ?C:	available.
 ?C:.
+?C:USE_DIFFTIME :
+?C:	This symbol, if defined, indicates that the difftime routine should
+?C:	really be used to compare times.
+?C:.
 ?H:#$d_difftime HAS_DIFFTIME		/**/
+?H:#$use_difftime USE_DIFFTIME		/**/
 ?H:.
-?LINT:set d_difftime
+?LINT:set d_difftime use_difftime
+?T:avoid_difftime
 : see if difftime exists
 $cat >try.c <<EOC
 #include <time.h>
@@ -42,3 +49,32 @@ cyn=difftime
 set d_difftime
 eval $trylink
 
+@if USE_DIFFTIME || use_difftime
+: see whether difftime should be used
+case "$d_difftime" in
+"$define")
+	$cat >try.c <<EOC
+#include "static_assert.h"
+#include <time.h>
+int main(void)
+{
+?X: If time_t is not a signed integer type, we cannot calculate properly
+?X: with the raw values. Define USE_DIFFTIME when this does not compile.
+	STATIC_ASSERT((time_t) -1 < 0);
+	return 0;
+}
+EOC
+	cyn="whether difftime() can be avoided"
+	set avoid_difftime
+	eval $trylink
+	;;
+*) avoid_difftime="$define";;
+esac
+case "$avoid_difftime" in
+"$define") val="$undef";;
+*) val="$define";;
+esac
+set use_difftime
+eval $setvar
+
+@end
