@@ -13,7 +13,7 @@
 ?RCS: patch16: created
 ?RCS:
 ?RCS:
-?MAKE:cf_email: cat cf_by myhostname mydomain Oldconfig Myread
+?MAKE:cf_email: cat cf_by test myhostname mydomain Oldconfig Myread
 ?MAKE:	-pick add $@ %<
 ?S:cf_email:
 ?S:	Electronic mail address of the person who ran Configure. This can be
@@ -34,7 +34,13 @@ EOM
 cont=x
 while test "$cont"; do
 	case "$MAILDOMAIN" in
-	'') maildomain="$myhostname$mydomain";;
+	'')
+		if $test -s /etc/mailname; then
+			maildomain=`$cat /etc/mailname`
+		else
+			maildomain="$myhostname$mydomain"
+		fi
+		;;
 	*)  maildomain="$MAILDOMAIN";;
 	esac
 	case "$cf_email" in
