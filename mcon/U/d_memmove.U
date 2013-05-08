@@ -17,7 +17,7 @@
 ?S:d_memmove:
 ?S:	This variable conditionally defines the HAS_MEMMOVE symbol, which
 ?S:	indicates to the C program that the memmove() routine is available
-?S:	to copy potentatially overlapping blocks of memory.
+?S:	to copy potentially overlapping blocks of memory.
 ?S:.
 ?C:HAS_MEMMOVE:
 ?C:	This symbol, if defined, indicates that the memmove routine is available

@@ -18,7 +18,7 @@
 ?X:
 ?X: This unit offers the user the option of subscribing to the mailing
 ?X: list. To force inclusion of this unit, you must add it's name to the
-?X: dependancies on the MAKE line in your private copy of End.U.
+?X: dependencies on the MAKE line in your private copy of End.U.
 ?X: The address of the mailing list server must be set via a "list_request=..."
 ?X: entry in the .package file. This is usually done by running packinit and
 ?X: answering the proper questions.

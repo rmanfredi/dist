@@ -21,7 +21,7 @@
 ?RCS: patch54: now checks for cc/ccflags/ldflags coherency
 ?RCS:
 ?RCS: Revision 3.0.1.6  1994/10/29  16:07:02  ram
-?RCS: patch36: gcc versionning no longer relies on the C compiler's name
+?RCS: patch36: gcc versioning no longer relies on the C compiler's name
 ?RCS: patch36: simplified check for gcc version checking (ADO)
 ?RCS:
 ?RCS: Revision 3.0.1.5  1994/08/29  16:06:35  ram

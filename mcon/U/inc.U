@@ -20,7 +20,7 @@
 ?S:	often a local directory such as /usr/local/include.
 ?S:.
 ?S:incexp:
-?S:	This is the same as the inc variable, but is filename expaned
+?S:	This is the same as the inc variable, but is filename-expanded
 ?S:	at configuration time for convenient use in your makefiles.
 ?S:.
 : determine where public header files go

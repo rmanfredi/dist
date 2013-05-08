@@ -205,7 +205,7 @@ if $test "X$has_uname" != X; then
 ?X:  $3 and $4 are version/subversion
 ?X:  $5 is always "pc", but that might not be unique to DJGPP.
 ?X: (e.g. Solaris_x86 has $5 = i86pc, which doesn't actually conflict,
-?X: but it's close enought that I can easily imagine other vendors also 
+?X: but it's close enough that I can easily imagine other vendors also 
 ?X: using variants of pc* in $5.)
 ?X:  The "DJGPP" environment variable is always set when djgpp is active.
 	pc*)

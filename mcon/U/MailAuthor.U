@@ -34,7 +34,7 @@
 ?X:
 ?X:	This unit asks the user to please send a message to the author.
 ?X:	To force inclusion of this unit, you must add it's name to the
-?X:	dependancies on the MAKE line in your private copy of End.U.
+?X:	dependencies on the MAKE line in your private copy of End.U.
 ?X:	This allows a smart mailagent program to automatically let users know
 ?X:	when their package is out of date, and to allow users to be notified of
 ?X:	any future patches.

@@ -16,7 +16,7 @@
 ?RCS: patch54: ensure that ./mips always exists (ADO)
 ?RCS:
 ?RCS: Revision 3.0.1.1  1994/05/06  15:18:31  ram
-?RCS: patch23: ensure usrinc value is preserved accross sessions (WED)
+?RCS: patch23: ensure usrinc value is preserved across sessions (WED)
 ?RCS:
 ?RCS: Revision 3.0  1993/08/18  12:09:58  ram
 ?RCS: Baseline for dist 3.0 netwide release.
@@ -29,7 +29,7 @@
 ?S:	Possible values are "BSD 4.3" and "System V".
 ?S:.
 ?S:incpath:
-?S:	This variable must preceed the normal include path to get hte
+?S:	This variable must precede the normal include path to get hte
 ?S:	right one, as in "$incpath/usr/include" or "$incpath/usr/lib".
 ?S:	Value can be "" or "/bsd43" on mips.
 ?S:.

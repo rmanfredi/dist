@@ -88,7 +88,7 @@
 ?INIT:libswanted=''
 ?X: This order is chosen so that libraries  -lndir, -ldir, -lucb, -lbsd,
 ?X: -lBSD, -lPW, and -lx only get used if there are unresolved
-?X: routines at link time.  Usually, these are backwards compatability
+?X: routines at link time.  Usually, these are backwards compatibility
 ?X: libraries, and may not be as reliable as the standard c library.
 ?X:
 ?X: The -lsocket -linet -lnsl order has been reported to be necessary
@@ -173,7 +173,7 @@ for thislib in $libswanted; do
 ?X:
 ?X: It is not sufficient to find a .so on the disk.  We must make sure
 ?X: that we can indeed supply the -lfoo line on the cc line to link against
-?X: that library.  On Linux for instance, a versionned .so will not be
+?X: that library.  On Linux for instance, a versioned .so will not be
 ?X: implicitly linked against, whereas it will work fine on Solaris 2.6.
 ?X:		--RAM, 10/10/2003
 ?X:
@@ -211,7 +211,7 @@ for thislib in $libswanted; do
 	done
 	if $test ! -f "$xxx"; then
 ?X:
-?X: Try linking aginst the library: gcc on linux platforms is notorious for
+?X: Try linking against the library: gcc on linux platforms is notorious for
 ?X: using complex library search logic, especially on systems mixing 32-bit
 ?X: and 64-bit versions.
 ?X:

@@ -25,7 +25,7 @@
 ?H:.
 ?T:val
 ?X: Make line lists +i_sysfile to ensure tests for <sys/file.h> will be
-?X: conducted prior tests for <fcntl.h>, hece making sure the h_sysfile
+?X: conducted prior tests for <fcntl.h>, hence making sure the h_sysfile
 ?X: variable is correctly set when we reach that unit.
 ?LINT:set i_fcntl
 ?LINT:use i_sysfile

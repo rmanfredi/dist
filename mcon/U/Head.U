@@ -149,7 +149,7 @@ fi
 ?X: There are two schools of thoughts here. Some people correctly argue that
 ?X: the user has a better chance than we do of setting a reasonable PATH and
 ?X: others argue that Configure is the best place there is to set up a suitable
-?X: PATH. Well, here we try to compromize by keeping the user's PATH and
+?X: PATH. Well, here we try to compromise by keeping the user's PATH and
 ?X: appending some directories which are known to work on some machine or the
 ?X: other. The rationale behind this being that a novice user might not have a
 ?X: proper environment variable set, and some directories like /etc (where

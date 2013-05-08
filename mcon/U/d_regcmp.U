@@ -23,21 +23,21 @@
 ?S:d_regcmp:
 ?S:	This variable conditionally defines the HAS_REGCMP symbol, which
 ?S:	indicates to the C program that the regcmp() routine is available
-?S:	for regular patern matching (usally on System V).
+?S:	for regular pattern matching (usually on System V).
 ?S:.
 ?S:d_re_comp:
 ?S:	This variable conditionally defines the HAS_RECOMP symbol, which
 ?S:	indicates to the C program that the re_comp() routine is available
-?S:	for regular patern matching (usally on BSD). If so, it is likely that
+?S:	for regular pattern matching (usually on BSD). If so, it is likely that
 ?S:	re_exec() exists.
 ?S:.
 ?C:HAS_REGCMP (REGCMP):
 ?C:	This symbol, if defined, indicates that the regcmp() routine is
-?C:	available to do some regular patern matching (usually on System V).
+?C:	available to do some regular pattern matching (usually on System V).
 ?C:.
 ?C:HAS_RECOMP (RECOMP):
 ?C:	This symbol, if defined, indicates that the re_comp() routine is
-?C:	available to do some regular patern matching (usually on BSD). If so,
+?C:	available to do some regular pattern matching (usually on BSD). If so,
 ?C:	it is likely that re_exec() be available.
 ?C:.
 ?H:#$d_regcmp HAS_REGCMP		/* sysV */

@@ -12,7 +12,7 @@
 ?MAKE:	-pick add $@ %<
 ?S:enablenls:
 ?S:	This variable holds 'true' or 'false' depending on whether we're
-?S:	goint to enable Native Language Support (NLS).
+?S:	going to enable Native Language Support (NLS).
 ?S:.
 ?S:d_enablenls:
 ?S:	This variable conditionally defines ENABLE_NLS.

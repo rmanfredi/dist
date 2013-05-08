@@ -46,7 +46,7 @@
 ?S:	This variable conditionally defines USE_IOCNOTTY to indicate that the
 ?S:	ioctl() call with TIOCNOTTY should be used to void tty association.
 ?S:	Otherwise (on USG probably), it is enough to close the standard file
-?S:	decriptors and do a setpgrp().
+?S:	descriptors and do a setpgrp().
 ?S:.
 ?C:I_SYS_IOCTL (I_SYSIOCTL):
 ?C:	This symbol, if defined, indicates that <sys/ioctl.h> exists and should

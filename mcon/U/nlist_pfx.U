@@ -19,7 +19,7 @@
 	+cc +ccflags
 ?MAKE:	-pick add $@ %<
 ?S:nlist_pfx:
-?S:	This variable holds any characters which preceed the symbol name
+?S:	This variable holds any characters which precede the symbol name
 ?S:	when doing an nlist search.
 ?S:.
 ?S:nlist_fnd:

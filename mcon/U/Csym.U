@@ -14,7 +14,7 @@
 ?RCS: patch56: added quotes for OS/2 support
 ?RCS:
 ?RCS: Revision 3.0.1.3  1995/05/12  12:00:33  ram
-?RCS: patch54: fixed C test program to bypasss gcc builtin type checks (ADO)
+?RCS: patch54: fixed C test program to bypass gcc builtin type checks (ADO)
 ?RCS:
 ?RCS: Revision 3.0.1.2  1994/10/31  09:34:13  ram
 ?RCS: patch44: added Options to the MAKE line since it's no longer in Init.U
@@ -73,12 +73,12 @@ yes)
 ?X: type), the compiler assuming it's a built-in declaration given that the
 ?X: returned size matches. At least with 'char' we are safe! -- RAM, for ADO
 ?X:
-?X: Let's thank GNU cc for making our lifes so easy! :-)
+?X: Let's thank GNU cc for making our lives so easy! :-)
 ?X: (An alternative for the future would be to use our knowledge about gcc
 ?X: to force a -fno-builtin option in the compile test, in case the 'char'
 ?X: trick is obsoleted by future gcc releases). -- RAM
 ?X:
-?X: Lastly, gcc 3.4 otimizes &missing == 0 away, so we use + 2 instead now.
+?X: Lastly, gcc 3.4 optimizes &missing == 0 away, so we use + 2 instead now.
 ?X: The GNU folks like to do weird things, don't they? -- RAM, 2004-06-05
 ?X
 ?X: The above was invalid because main returns an int not a pointer.

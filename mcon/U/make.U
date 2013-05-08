@@ -39,7 +39,7 @@ echo " "
 echo "Checking if your $make program sets \$(MAKE)..." >&4
 case "$make_set_make" in
 '')
-?X: Use sed so we don't have a line begining with @echo.  Metaconfig
+?X: Use sed so we don't have a line beginning with @echo.  Metaconfig
 ?X: will think that's a command like @if or @end.
 	$sed 's/^X //' > testmake.mak << 'EOF'
 Xall:

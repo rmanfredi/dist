@@ -13,7 +13,7 @@
 ?RCS: patch36: call ./usg and ./Cppsym explicitely instead of relying on PATH
 ?RCS:
 ?RCS: Revision 3.0.1.3  1994/08/29  16:26:38  ram
-?RCS: patch32: don't include all threee I_* symbols in config.h
+?RCS: patch32: don't include all three I_* symbols in config.h
 ?RCS: patch32: (had forgotten to undo this part last time)
 ?RCS:
 ?RCS: Revision 3.0.1.2  1994/05/13  15:25:03  ram
