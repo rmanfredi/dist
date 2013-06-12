@@ -173,6 +173,7 @@ mcon/U/d_bfd_lib.U         Is the BFD library available?
 mcon/U/d_bindtxtcode.U     Do we have bind_textdomain_codeset()?
 mcon/U/d_brokstat.U        Check whether stat() macros are broken
 mcon/U/d_bsdjmp.U          Do we have BSD _setjmp() and _longjmp()?
+mcon/U/d_built_bswap32.U   Is __builtin_bswap32() available?
 mcon/U/d_built_clz.U       Is __builtin_clz() available?
 mcon/U/d_built_ctz.U       Is __builtin_ctz() available?
 mcon/U/d_built_memcmp.U    Is __builtin_memcmp() available?
@@ -223,7 +224,6 @@ mcon/U/d_fgetpos.U         Do we have fgetpos()?
 mcon/U/d_flexfnam.U        Long filenames?
 mcon/U/d_flock.U           Do we have flock()?
 mcon/U/d_fmod.U            Do we have fmod()?
-mcon/U/d_ptattr_setstack.U Do we have pthread_attr_setstack()?
 mcon/U/d_fork.U            Do we have fork()?
 mcon/U/d_fsetpos.U         Do we have fsetpos()?
 mcon/U/d_ftime.U           Do we have ftime()?
@@ -329,6 +329,7 @@ mcon/U/d_posix_memalign.U  Do we have posix_memalign()?
 mcon/U/d_pread.U           Do we have pread()?
 mcon/U/d_preadv.U          Do we have preadv()?
 mcon/U/d_psignal.U         Do we have psignal()?
+mcon/U/d_ptattr_setstack.U Do we have pthread_attr_setstack()?
 mcon/U/d_pwrite.U          Do we have pwrite()?
 mcon/U/d_pwritev.U         Do we have pwritev()?
 mcon/U/d_random.U          Do we have random()?
