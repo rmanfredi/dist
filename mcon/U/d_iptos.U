@@ -47,11 +47,11 @@ $cat >iptos <<EOM
 #$i_syssock I_SYS_SOCKET
 #$i_winsock2 I_WINSOCK2
 #$d_windows WINDOWS_SYSTEM
-#ifdef I_SYS_SOCKET
-#include <sys/socket.h>
-#endif
 #ifdef WINDOWS_SYSTEM
 #define WINVER 0x0501
+#endif
+#ifdef I_SYS_SOCKET
+#include <sys/socket.h>
 #endif
 #ifdef I_WINSOCK2
 #include <Winsock2.h>

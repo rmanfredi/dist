@@ -31,14 +31,14 @@ $cat >try.c <<EOC
 #$i_winsock2 I_WINSOCK2
 #$i_mswsock I_MSWSOCK
 #$d_windows WINDOWS_SYSTEM
+#ifdef WINDOWS_SYSTEM
+#define WINVER 0x0501
+#endif
 #ifdef I_SYS_TYPES
 #include <sys/types.h>
 #endif
 #ifdef I_SYS_SOCKET
 #include <sys/socket.h>
-#endif
-#ifdef WINDOWS_SYSTEM
-#define WINVER 0x0501
 #endif
 #ifdef I_WINSOCK2
 #include <Winsock2.h>

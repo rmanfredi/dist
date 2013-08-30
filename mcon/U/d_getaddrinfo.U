@@ -30,6 +30,9 @@ $cat >try.c <<EOC
 #$i_arpainet I_ARPA_INET
 #$i_netdb I_NETDB
 #$d_windows WINDOWS_SYSTEM
+#ifdef WINDOWS_SYSTEM
+#define WINVER 0x0501
+#endif
 #include <sys/types.h>
 #ifdef I_SYS_SOCKET
 #include <sys/socket.h>
@@ -42,9 +45,6 @@ $cat >try.c <<EOC
 #endif
 #ifdef I_NETDB
 #include <netdb.h>
-#endif
-#ifdef WINDOWS_SYSTEM
-#define WINVER 0x0501
 #endif
 #ifdef I_WINSOCK2
 #include <Winsock2.h>
