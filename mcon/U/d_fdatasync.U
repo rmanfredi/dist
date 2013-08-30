@@ -1,0 +1,41 @@
+?RCS:
+?RCS: Copyright (c) 2013 Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic License,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic License; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_fdatasync: Trylink cat i_unistd
+?MAKE:	-pick add $@ %<
+?S:d_fdatasync:
+?S:	This variable conditionally defines the HAS_FDATASYNC symbol, which
+?S:	indicates to the C program that the fdatasync() routine is available
+?S:	to synchronize a file's in-core data with the storage device.
+?S:.
+?C:HAS_FDATASYNC:
+?C:	This symbol, if defined, indicates that the fdatasync routine is available
+?C:	to synchronize a file's in-core data with the storage device.
+?C:.
+?H:#$d_fdatasync HAS_FDATASYNC		/**/
+?H:.
+?LINT:set d_fdatasync
+: see if fdatasync exists
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static int ret, fd;
+	ret |= fdatasync(fd);
+	return ret ? 0 : 1;
+}
+EOC
+cyn=fdatasync
+set d_fdatasync
+eval $trylink
+

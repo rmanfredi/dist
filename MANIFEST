@@ -219,6 +219,7 @@ mcon/U/d_fchmod.U          Do we have fchmod()?
 mcon/U/d_fchown.U          Do we have fchown()?
 mcon/U/d_fcntl.U           Do we have fcntl()?
 mcon/U/d_fd_set.U          Do we have the fd set manipulation macros?
+mcon/U/d_fdatasync.U       Do we have fdatasync()?
 mcon/U/d_ffs.U             Do we have ffs()?
 mcon/U/d_fgetpos.U         Do we have fgetpos()?
 mcon/U/d_flexfnam.U        Long filenames?
@@ -226,6 +227,7 @@ mcon/U/d_flock.U           Do we have flock()?
 mcon/U/d_fmod.U            Do we have fmod()?
 mcon/U/d_fork.U            Do we have fork()?
 mcon/U/d_fsetpos.U         Do we have fsetpos()?
+mcon/U/d_fsync.U           Do we have fsync()?
 mcon/U/d_ftime.U           Do we have ftime()?
 mcon/U/d_ftrncate.U        Do we have ftruncate()?
 mcon/U/d_gconvert.U        Do we have gconvert() or gcvt()?
