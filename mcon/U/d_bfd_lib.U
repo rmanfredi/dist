@@ -12,18 +12,27 @@
 ?MAKE:	-pick add $@ %<
 ?S:d_bfd_lib:
 ?S:	This variable conditionally defines the HAS_BFD_LIBRARY symbol, which
-?S:	indicates to the C program that the bfd library is available.
+?S:	indicates to the C program that the BFD library is available.
 ?S:.
 ?C:HAS_BFD_LIBRARY :
-?C:	This symbol, if defined, indicates that the bfd library is available
+?C:	This symbol, if defined, indicates that the BFD library is available
 ?C:	to inspect symbols and debugging information.  You can safely include
-?C:	the <bfd.h> file when this symbol is defined.
+?C:	the <bfd.h> file when this symbol is defined, making sure to define
+?C:	the PACKAGE and PACKAGE_VERSION symbols, just in case we're facing
+?C:	binutils 2.23 or higher.
 ?C:.
 ?H:#$d_bfd_lib HAS_BFD_LIBRARY		/**/
 ?H:.
 ?LINT:set d_bfd_lib
 : see whether the bfd library is available
 $cat >try.c <<EOC
+?X: Starting with binutils 2.23, it is necessary to define some symbols before
+?X: including <bfd.h>, or the file does not compile properly.  Do it blindly
+?X: since we do not want to bother with the actual version of the file.
+?X: This is a BFD library bug, as reported in:
+?X: https://sourceware.org/bugzilla/show_bug.cgi?id=15920
+#define PACKAGE
+#define PACKAGE_VERSION
 #include <bfd.h>
 int main(void)
 {
