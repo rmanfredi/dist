@@ -385,6 +385,7 @@ mcon/U/d_shmctl.U          Do we have shmctl()?
 mcon/U/d_shmdt.U           Do we have shmdt()?
 mcon/U/d_shmget.U          Do we have shmget()?
 mcon/U/d_sigaction.U       Do we have sigaction()?
+mcon/U/d_sigaltstack.U     Do we have sigaltstack()?
 mcon/U/d_sigblock.U        Do we have sigblock()?
 mcon/U/d_sighold.U         Do we have sighold()?
 mcon/U/d_siglist.U         Do we have sys_siglist[]?

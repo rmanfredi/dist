@@ -1,0 +1,42 @@
+?RCS:
+?RCS: Copyright (c) 2013, Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic License,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic License; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_sigaltstack: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_sigaltstack:
+?S:	This variable conditionally defines the HAS_SIGALTSTACK symbol, which
+?S:	indicates that the sigaltstack() routine is available to define an
+?S:	alternate signal stack.
+?S:.
+?C:HAS_SIGALTSTACK:
+?C:	This symbol, if defined, indicates that the sigaltstack() routine
+?C:	is available to define an alternate signal stack.
+?C:.
+?H:#$d_sigaltstack HAS_SIGALTSTACK	/**/
+?H:.
+?LINT:set d_sigaltstack
+: see if we have sigaltstack
+$cat >try.c <<EOC
+#include <stdio.h>
+#include <signal.h>
+int main(void)
+{
+	stack_t ss;
+	static int ret;
+	ss.ss_sp = NULL;
+	ss.ss_flags |= SS_ONSTACK | SS_DISABLE;
+	ss.ss_size = SIGSTKSZ + MINSIGSTKSZ;
+	ret |= sigaltstack(&ss, NULL);
+	return ret ? 0 : 1;
+}
+EOC
+cyn=sigaltstack
+set d_sigaltstack
+eval $trylink
+
