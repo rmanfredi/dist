@@ -1140,8 +1140,28 @@ NormalLintTarget($(SOURCES))	@!\
  */
 #define LinkSourceFile(src,dir)		@!\
 src:  dir/src			@@\
-	$(RM) $@			@@\
+	$(RM) -f $@			@@\
 	$(LN) $? $@			@!\
+						@!\
+local_depend:: src		@@\
+						@!\
+local_realclean::		@@\
+	$(RM) -f src		@!\
+
+
+/*
+ * LinkSourceFileAlias:
+ *	Snag source file from some other directory with a different local name.
+ */
+#define LinkSourceFileAlias(src,dir,alias)	@!\
+alias:  dir/src			@@\
+	$(RM) -f $@			@@\
+	$(LN) $? $@			@!\
+						@!\
+local_depend:: alias	@@\
+						@!\
+local_realclean::		@@\
+	$(RM) -f alias		@!\
 
 
 /*
