@@ -25,7 +25,7 @@
 
 AllTarget(Index)
 
-Index: bindex
+Index: bindex files/Jmake.rules
 	chmod +x bindex
 	./bindex
 
