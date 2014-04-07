@@ -71,6 +71,8 @@ $define)
 	eval $setvar
 	;;
 *)
+	echo " "
+	echo "Hmm... trying to include <rpcsvc/dbm.h> to get dbmclose()..." >&4
 	$cat >try.c <<EOC
 #include <rpcsvc/dbm.h>
 int main(void)
@@ -83,7 +85,7 @@ EOC
 	set d_dbmclose
 	eval $trylink
 
-	val="$define"
+	val="$d_dbmclose"
 	set i_rpcsvcdbm
 	eval $setvar
 
