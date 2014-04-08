@@ -32,7 +32,9 @@
 SetSubdirs(man)
 AllTarget(Glossary)
 
-Glossary: makegloss
+.FORCE:
+
+Glossary: .FORCE
 	chmod +x makegloss
 	./makegloss
 
