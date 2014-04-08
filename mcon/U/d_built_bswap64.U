@@ -1,0 +1,35 @@
+?RCS:
+?RCS: Copyright (c) 2013 Raphael Manfredi
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic License,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic License; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_built_bswap64: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_built_bswap64:
+?S:	This variable conditionally defines the HAS_BUILTIN_BSWAP64 symbol, which
+?S:	indicates to the C program that __builtin_bswap64 is available.
+?S:.
+?C:HAS_BUILTIN_BSWAP64:
+?C:	This symbol, if defined, indicates that __builtin_bswap64 routine is
+?C:	available to byte-swap a 64-bit value (little <-> big endian).
+?C:.
+?H:#$d_built_bswap64 HAS_BUILTIN_BSWAP64	/**/
+?H:.
+?LINT:set d_built_bswap64
+: check for __builtin_bswap64
+$cat >try.c <<EOC
+int main(void)
+{
+	static int ret;
+	ret |= __builtin_bswap64(127);
+	return ret ? 0 : 1;
+}
+EOC
+cyn=__builtin_bswap64
+set d_built_bswap64
+eval $trylink
+
