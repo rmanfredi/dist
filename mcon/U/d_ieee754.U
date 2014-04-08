@@ -35,6 +35,7 @@
 ?H:#define IEEE754_BYTEORDER 0x$ieee754_byteorder	/* large digits for MSB */
 ?H:.
 ?T:order
+?F:!str !try.c
 ?LINT:set d_ieee754
 : check for ieee754 float and their endianness
 ?X:
@@ -58,8 +59,21 @@ if $cc -c $ccflags try.c >/dev/null 2>&1; then
 	elif $contains isIEEE754Sys try$_o >/dev/null 2>&1; then
 		val=$define
 		order=1234
+?X:
+?X: On Solaris, "grep" does not work on binary files -- use strings.
+?X:
 	else
-		val=$undef
+		strings try$_o >str 2>/dev/null
+		if $contains ISieee754Sys str >/dev/null 2>&1; then
+			val=$define
+			order=4321
+		elif $contains isIEEE754Sys str >/dev/null 2>&1; then
+			val=$define
+			order=1234
+		else
+			val=$undef
+		fi
+		$rm -f str
 	fi
 fi
 set d_ieee754
