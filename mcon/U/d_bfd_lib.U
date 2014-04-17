@@ -43,6 +43,6 @@ int main(void)
 EOC
 cyn="whether the BFD library is available"
 set d_bfd_lib '-lbfd -lintl -liberty' '-lbfd -liberty' '-lbfd -liberty -lz' \
-	'-lbfd -lintl -liberty -lz'
+	'-lbfd -lintl -liberty -lz' '-lbfd -lz' '-lbfd -lintl -lz'
 eval $trylink
 
