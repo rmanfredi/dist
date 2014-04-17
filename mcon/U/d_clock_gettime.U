@@ -1,0 +1,38 @@
+?RCS:
+?RCS: Copyright (c) 2014 Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic License,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic License; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_clock_gettime: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_clock_gettime:
+?S:	This variable conditionally defines HAS_CLOCK_GETTIME when clock_gettime()
+?S:	is available to fetch the clock.
+?S:.
+?C:HAS_CLOCK_GETTIME:
+?C:	This symbol, if defined, indicates that the clock_gettime() system call is
+?C:	available to fetch the clock (CLOCK_REALTIME is a valid clock when the
+?C:	symbol is defined).
+?C:.
+?H:#$d_clock_gettime HAS_CLOCK_GETTIME	/**/
+?H:.
+?LINT:set d_clock_gettime
+: see whether clock_gettime exists
+$cat >try.c <<EOC
+#include <time.h>
+int main(void)
+{
+	int ret;
+	struct timespec tp;
+	ret = clock_gettime(CLOCK_REALTIME, &tp);
+	return ret ? 0 : 1;
+}
+EOC
+cyn=clock_gettime
+set d_clock_gettime
+eval $trylink
+

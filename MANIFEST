@@ -189,6 +189,8 @@ mcon/U/d_chown.U           Do we have chown()?
 mcon/U/d_chroot.U          Do we have chroot()?
 mcon/U/d_chsize.U          Size of a char
 mcon/U/d_ckeypad.U         Do we have the curses keypad()?
+mcon/U/d_clock_getres.U    Do we have clock_getres()?
+mcon/U/d_clock_gettime.U   Do we have clock_gettime()?
 mcon/U/d_closedir.U        Do we have closedir()?
 mcon/U/d_closefrom.U       Do we have closefrom()?
 mcon/U/d_const.U           Can cc grok the const keyword?

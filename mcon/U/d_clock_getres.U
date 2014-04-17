@@ -1,0 +1,38 @@
+?RCS:
+?RCS: Copyright (c) 2014 Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic License,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic License; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_clock_getres: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_clock_getres:
+?S:	This variable conditionally defines HAS_CLOCK_GETRES when clock_getres() is
+?S:	available to fetch the granularity of the available clock.
+?S:.
+?C:HAS_CLOCK_GETRES:
+?C:	This symbol, if defined, indicates that the clock_getres() system call is
+?C:	available to fetch the granularity of available clock (CLOCK_REALTIME is
+?C:	a valid clock when the symbol is defined).
+?C:.
+?H:#$d_clock_getres HAS_CLOCK_GETRES	/**/
+?H:.
+?LINT:set d_clock_getres
+: see whether clock_getres exists
+$cat >try.c <<EOC
+#include <time.h>
+int main(void)
+{
+	int ret;
+	struct timespec res;
+	ret = clock_getres(CLOCK_REALTIME, &res);
+	return ret ? 0 : 1;
+}
+EOC
+cyn=clock_getres
+set d_clock_getres
+eval $trylink
+
