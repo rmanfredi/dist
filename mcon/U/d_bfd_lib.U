@@ -42,7 +42,10 @@ int main(void)
 }
 EOC
 cyn="whether the BFD library is available"
+?X: Modern BFD library versions no longer require -lintl and -liberty but do
+?X: require -ldl, on Linux at least. -- RAM, 2014-07-22
 set d_bfd_lib '-lbfd -lintl -liberty' '-lbfd -liberty' '-lbfd -liberty -lz' \
-	'-lbfd -lintl -liberty -lz' '-lbfd -lz' '-lbfd -lintl -lz'
+	'-lbfd -lintl -liberty -lz' '-lbfd -lz' '-lbfd -lintl -lz' \
+	'-lbfd -lz -ldl'
 eval $trylink
 
