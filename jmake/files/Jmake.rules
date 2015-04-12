@@ -282,7 +282,7 @@ local_deinstall.man::		@@\
  *	Generate rules to install the indicated library.
  */
 #define	InstallLibrary(libname,dest)	@!\
-local_install:: lib^^libname.a		@@\
+local_install local_install-strip:: lib^^libname.a		@@\
 	_MakeInstallDirIgnore(dest) \	@@\
 	$(INSTALL) -c -m 644 lib^^libname.a $(INSTALL_PREFIX)^^^dest		@@\
 	$(RANLIB) dest/lib^^libname.a	@@\
@@ -297,7 +297,7 @@ local_deinstall::					@@\
  *	Generate rules to install the shared library.
  */
 #define	InstallSharedLibrary(libname,rev,dest)	@!\
-local_install:: lib^^libname.so.rev 	@@\
+local_install local_install-strip:: lib^^libname.so.rev 	@@\
 	_MakeInstallDirIgnore(dest) \		@@\
 	$(INSTALL) -c -m 444 lib^^libname.so.rev $(INSTALL_PREFIX)^^^dest @!\
 										@!\
@@ -310,7 +310,7 @@ local_deinstall::						@@\
  *	Generate rules to install the shared library data
  */
 #define	InstallSharedLibraryData(libname,rev,dest)	@!\
-local_install:: lib^^libname.sa.rev		@@\
+local_install local_install-strip:: lib^^libname.sa.rev		@@\
 	_MakeInstallDirIgnore(dest) \		@@\
 	$(INSTALL) -c -m 444 lib^^libname.sa.rev $(INSTALL_PREFIX)^^^dest @!\
 									@!\
@@ -324,7 +324,7 @@ local_deinstall::					@@\
  *	for the purposes of aliasing.
  */
 #define	InstallLibraryAlias(libname,alias,dest)	@!\
-local_install:: lib^^libname.a	@@\
+local_install local_install-strip:: lib^^libname.a	@@\
 	$(RM) lib^^alias.a		@@\
 	-(cd dest; $(LN) lib^^libname.a lib^^alias.a) @!\
 							@!\
@@ -376,7 +376,7 @@ InstallManPageLong(file,dest,file)
  *  install flags.
  */
 #define	InstallNonExec(file,dest)	@!\
-local_install:: file				@@\
+local_install local_install-strip:: file	@@\
 	_MakeInstallDirIgnore(dest) \	@@\
 	$(INSTALL) -c -m 444 file $(INSTALL_PREFIX)^^^dest	@!\
 									@!\
@@ -388,9 +388,15 @@ local_deinstall::					@@\
  * InstallProgramWithFlags:
  *	Generate rules to install an executable program using given
  *	install flags.
+ *	By default, program is not stripped, but the install-strip target
+ *	will force stripping.
  */
 #define InstallProgramWithFlags(program,dest,flags)	@!\
 local_install:: program				@@\
+	_MakeInstallDirIgnore(dest) \	@@\
+	$(INSTALL) -c -m 555 flags program^^^$(_EXE) $(INSTALL_PREFIX)^^^dest @!\
+									@!\
+local_install-strip:: program		@@\
 	_MakeInstallDirIgnore(dest) \	@@\
 	$(INSTALL) -c -s -m 555 flags program^^^$(_EXE) $(INSTALL_PREFIX)^^^dest @!\
 									@!\
@@ -401,10 +407,10 @@ local_deinstall::					@@\
 /*
  * InstallProgramNoStripWithFlags:
  *	Generate rules to install an executable program using given
- *	install flags.
+ *	install flags.  The program is never stripped.
  */
 #define InstallProgramNoStripWithFlags(program,dest,flags)	@!\
-local_install:: program				@@\
+local_install local_install-strip:: program		@@\
 	_MakeInstallDirIgnore(dest) \	@@\
 	$(INSTALL) -c -m 555 flags program^^^$(_EXE) $(INSTALL_PREFIX)^^^dest @!\
 									@!\
@@ -416,6 +422,8 @@ local_deinstall::					@@\
  * InstallProgram:
  *	Generate rules to install an executable program using any special
  *	install flags set in $(INSTALLFLAGS).
+ *	By default, program is not stripped, but the install-strip target
+ *	will force stripping.
  */
 #define	InstallProgram(program,dest)	@!\
 InstallProgramWithFlags(program,dest,^^)
@@ -437,7 +445,7 @@ InstallProgramNoStripWithFlags(program,dest,^^)
  *	install flags.
  */
 #define InstallScriptWithFlags(script,dest,flags)	@!\
-local_install:: script				@@\
+local_install local_install-strip:: script			@@\
 	_MakeInstallDirIgnore(dest) \	@@\
 	$(INSTALL) -c -m 555 flags script $(INSTALL_PREFIX)^^^dest @!\
 									@!\
@@ -461,7 +469,7 @@ InstallScriptWithFlags(script,dest,^^)
  */
 #define	InstallScripts()	@!\
 |once _InstallScripts_		@!\
-local_install:: $(SCRIPTS) $(LSCRIPTS) 			@@\
+local_install local_install-strip:: $(SCRIPTS) $(LSCRIPTS) 	@@\
 	_MakeInstallDirIgnore($(SCRIPTDIR)) \		@@\
 	for file in $(SCRIPTS) $(LSCRIPTS); do \	@@\
 		(set -x; \	@@\
@@ -642,6 +650,10 @@ local_clobber:: local_realclean		@!\
 #define	InstallTarget()											@!\
 ?SUBDIRS:install:: local_install sub_install					@!\
 %SUBDIRS:install:: local_install								@@\
+	@exit 0														@!\
+																@!\
+?SUBDIRS:install-strip:: local_install-strip sub_install-strip	@!\
+%SUBDIRS:install-strip:: local_install-strip					@@\
 	@exit 0														@!\
 																@!\
 ?SUBDIRS:install.man:: maybe_install.man sub_install.man		@!\
@@ -1292,7 +1304,8 @@ DependDirs($(SUBDIRS))
  *	files.
  */
 #define InstallSubdirs() \
-NamedSubTargetSubdirs(install,"Installing",^^) @!\
+NamedSubTargetSubdirs(install,"Installing",^^)			@!\
+NamedSubTargetSubdirs(install-strip,"Installing (strip)",^^)	@!\
 NamedDepthTargetSubdirs(deinstall,"Deinstalling",^^)
 
 
@@ -1425,7 +1438,7 @@ step::									@@\
  *	time (removed by deinstall).
  */
 #define MakeInstallDirectories(dirs) @!\
-local_install::				@@\
+local_install local_install-strip::  @@\
 	_MakeInstallDirs(dirs)	@!\
 							@!\
 local_deinstall::			@@\

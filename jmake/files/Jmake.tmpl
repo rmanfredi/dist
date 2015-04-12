@@ -217,6 +217,7 @@ MakeSubdirs()
  * in this directory.
  */
 local_install::
+local_install-strip::
 local_deinstall::
 local_install.man::
 local_deinstall.man::
@@ -228,6 +229,9 @@ local_deinstall.man::
 
 local_install::
 	@echo "install in $(CURRENT) done."
+
+local_install-strip::
+	@echo "install (strip) in $(CURRENT) done."
 
 local_deinstall::
 	@echo "deinstall in $(CURRENT) done."
