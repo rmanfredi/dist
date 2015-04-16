@@ -278,6 +278,7 @@ mcon/U/d_iptos.U           Do we have IP TOS support?
 mcon/U/d_ipv6.U            Do we have IPv6 support?
 mcon/U/d_isascii.U         Do we have isascii()?
 mcon/U/d_itimer.U          Do we have setitimer()?
+mcon/U/d_fchdir.U          Do we have fchdir()?
 mcon/U/d_keepsig.U         Will signal handlers need to be rearmed?
 mcon/U/d_kevent_udata.U    Is udata within struct kevent an integer?
 mcon/U/d_killpg.U          Do we have killpg()?

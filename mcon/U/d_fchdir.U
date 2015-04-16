@@ -1,0 +1,40 @@
+?RCS:
+?RCS: Copyright (c) 2015 Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic License,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic License; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_fchdir: Trylink cat i_unistd
+?MAKE:	-pick add $@ %<
+?S:d_fchdir:
+?S:	This variable conditionally defines HAS_FCHDIR if fchdir() is
+?S:	available to change the directory to that of an opened directory.
+?S:.
+?C:HAS_FCHDIR:
+?C:	This symbol, if defined, indicates that the fchdir routine is
+?C:	available to change the working directory to that of the opened
+?C:	directory whose file descriptor is given.
+?C:.
+?H:#$d_fchdir HAS_FCHDIR	/**/
+?H:.
+?LINT:set d_fchdir
+: see if fchdir exists
+$cat >try.c <<EOC
+#$i_unistd I_UNISTD
+#ifdef I_UNISTD
+#include <unistd.h>
+#endif
+int main(void)
+{
+	static int fd, ret;
+	ret |= fchdir(fd);
+	return ret ? 0 : 1;
+}
+EOC
+cyn=fchdir
+set d_fchdir
+eval $trylink
+
