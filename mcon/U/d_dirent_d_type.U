@@ -13,11 +13,13 @@
 ?S:d_dirent_d_type:
 ?S:	This variable conditionally defines the HAS_DIRENT_D_TYPE symbol,
 ?S:	which indicates to the C program that struct dirent has an
-?S: 	integer member d_type.
+?S:	integer member d_type.
 ?S:.
 ?C:HAS_DIRENT_D_TYPE:
 ?C:	This symbol, if defined, indicates that struct dirent has an
-?C:	integer member d_type.
+?C:	integer member d_type.  Note that DT_WHT is BSD-specific and may
+?C:	not be available.  If DT_UNKNOWN is returned, the filesystem does
+?C:	not fill d_type even though it is present in the dir entry.
 ?C:.
 ?H:#$d_dirent_d_type HAS_DIRENT_D_TYPE		/**/
 ?H:.
@@ -40,8 +42,7 @@ int main(void)
 	| DT_BLK
 	| DT_REG
 	| DT_LNK
-	| DT_SOCK
-	| DT_WHT;
+	| DT_SOCK;
   return 0;
 }
 EOC
