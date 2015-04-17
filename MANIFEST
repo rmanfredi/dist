@@ -205,6 +205,7 @@ mcon/U/d_deflate.U         Do we have zlib's deflate()?
 mcon/U/d_devpoll.U         Can we use /dev/poll?
 mcon/U/d_difftime.U        Do we have difftime()?
 mcon/U/d_dirent_d_type.U   Does struct dirent has a member d_type?
+mcon/U/d_dirfd.U           Do we have dirfd()?
 mcon/U/d_dladdr.U          Do we have dladdr()?
 mcon/U/d_dlerror.U         Do we have dlerror()?
 mcon/U/d_dliterphdr.U      Do we have dl_iterate_phdr()?
@@ -218,6 +219,7 @@ mcon/U/d_epoll.U           Can we use epoll_xxx() routines?
 mcon/U/d_etext_symbol.U    Whether linker defines the "etext" symbol
 mcon/U/d_euc2jis.U         Do we have euc2jis()?
 mcon/U/d_fast_assert.U     Can we use fast assertions?
+mcon/U/d_fchdir.U          Do we have fchdir()?
 mcon/U/d_fchmod.U          Do we have fchmod()?
 mcon/U/d_fchown.U          Do we have fchown()?
 mcon/U/d_fcntl.U           Do we have fcntl()?
@@ -278,7 +280,6 @@ mcon/U/d_iptos.U           Do we have IP TOS support?
 mcon/U/d_ipv6.U            Do we have IPv6 support?
 mcon/U/d_isascii.U         Do we have isascii()?
 mcon/U/d_itimer.U          Do we have setitimer()?
-mcon/U/d_fchdir.U          Do we have fchdir()?
 mcon/U/d_keepsig.U         Will signal handlers need to be rearmed?
 mcon/U/d_kevent_udata.U    Is udata within struct kevent an integer?
 mcon/U/d_killpg.U          Do we have killpg()?

@@ -1,0 +1,42 @@
+?RCS:
+?RCS: Copyright (c) 2015 Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic License,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic License; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_dirfd: Trylink cat i_dirent
+?MAKE:	-pick add $@ %<
+?S:d_dirfd:
+?S:	This variable conditionally defines HAS_DIRFD when dirfd() is
+?S:	available to get the underlying file descriptor from opendir().
+?S:.
+?C:HAS_DIRFD:
+?C:	This symbol, if defined, indicates that the dirfd() routine is
+?C:	available to get the underlying file descriptor from a DIR *
+?C:	opened by opendir().
+?C:.
+?H:#$d_dirfd HAS_DIRFD		/**/
+?H:.
+?LINT:set d_dirfd
+: see if dirfd exists
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_dirent I_DIRENT
+#ifdef I_DIRENT
+#include <dirent.h>
+#endif
+int main(void)
+{
+	static DIR *dir;
+	static int ret;
+	ret = dirfd(dir);
+	return ret ? 0 : 1;
+}
+EOC
+cyn=dirfd
+set d_dirfd
+eval $trylink
+
