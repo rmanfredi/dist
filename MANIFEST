@@ -324,6 +324,7 @@ mcon/U/d_nls.U             Do we support NLS?
 mcon/U/d_nolnbuf.U         Is stdout line buffered?
 mcon/U/d_normsig.U         signal() vs sigset()
 mcon/U/d_open3.U           Do we have the 3 arguments form for open()?
+mcon/U/d_openat.U          Do we have openat()?
 mcon/U/d_passwd.U          Do we have passwd()?
 mcon/U/d_pathconf.U        Do we have pathconf()?
 mcon/U/d_pause.U           Do we have pause()?
