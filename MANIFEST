@@ -204,6 +204,7 @@ mcon/U/d_debugging.U       Conditionally defines -DDEBUGGING
 mcon/U/d_deflate.U         Do we have zlib's deflate()?
 mcon/U/d_devpoll.U         Can we use /dev/poll?
 mcon/U/d_difftime.U        Do we have difftime()?
+mcon/U/d_dirent_d_namelen.U  Does struct dirent has a member d_namelen?
 mcon/U/d_dirent_d_type.U   Does struct dirent has a member d_type?
 mcon/U/d_dirfd.U           Do we have dirfd()?
 mcon/U/d_dladdr.U          Do we have dladdr()?
