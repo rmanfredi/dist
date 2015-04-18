@@ -1,0 +1,46 @@
+?RCS:
+?RCS: Copyright (c) 2015 Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic License,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic License; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_fstatat: Trylink cat i_fcntl i_sysstat
+?MAKE:	-pick add $@ %<
+?S:d_fstatat:
+?S:	This variable conditionally defines HAS_FSTATAT if fstatat() is
+?S:	available to do file stats with a relative path interepreted in
+?S:	the context of an opened directory.
+?S:.
+?C:HAS_FSTATAT:
+?C:	This symbol, if defined, indicates that the fstatat() routine is
+?C:	available to do file stats with a relative path interepreted in
+?C:	the context of an opened directory.
+?C:.
+?H:#$d_fstatat HAS_FSTATAT		/**/
+?H:.
+?LINT:set d_fstatat
+: see if fstatat exists
+$cat >try.c <<EOC
+#$i_sysstat I_SYS_STAT
+#$i_fcntl I_FCNTL
+#ifdef I_FCNTL
+#include <fcntl.h>	/* AT_* constants */
+#endif
+#ifdef I_SYS_STAT
+#include <sys/stat.h>
+#endif
+int main(void)
+{
+	static int ret;
+	struct stat sb;
+	ret |= fstatat(AT_FDCWD, "path", &sb, 0);
+	return ret ? 0 : 1;
+}
+EOC
+cyn=fstatat
+set d_fstatat
+eval $trylink
+
