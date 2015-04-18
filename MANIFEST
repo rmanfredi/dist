@@ -226,6 +226,7 @@ mcon/U/d_fchown.U          Do we have fchown()?
 mcon/U/d_fcntl.U           Do we have fcntl()?
 mcon/U/d_fd_set.U          Do we have the fd set manipulation macros?
 mcon/U/d_fdatasync.U       Do we have fdatasync()?
+mcon/U/d_fdopendir.U       Do we have fdopendir()?
 mcon/U/d_ffs.U             Do we have ffs()?
 mcon/U/d_fgetpos.U         Do we have fgetpos()?
 mcon/U/d_flexfnam.U        Long filenames?
