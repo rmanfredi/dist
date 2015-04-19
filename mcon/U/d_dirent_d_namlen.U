@@ -7,22 +7,22 @@
 ?RCS: that same Artistic License; a copy of which may be found at the root
 ?RCS: of the source tree for dist 4.0.
 ?RCS:
-?MAKE:d_dirent_d_namelen: Trylink cat i_dirent
+?MAKE:d_dirent_d_namlen: Trylink cat i_dirent
 ?MAKE:	-pick add $@ %<
-?S:d_dirent_d_namelen:
-?S:	This variable conditionally defines the HAS_DIRENT_D_NAMELEN symbol,
+?S:d_dirent_d_namlen:
+?S:	This variable conditionally defines the HAS_DIRENT_D_NAMLEN symbol,
 ?S:	which indicates to the C program that struct dirent has an
-?S:	integer member d_namelen.  Better check for HAS_DIRENT_D_NAMELEN than
+?S:	integer member d_namlen.  Better check for HAS_DIRENT_D_NAMLEN than
 ?S:	DIRNAMLEN since the latter has a weaker test not involving compilation.
 ?S:.
-?C:HAS_DIRENT_D_NAMELEN:
+?C:HAS_DIRENT_D_NAMLEN:
 ?C:	This symbol, if defined, indicates that struct dirent has an
-?C:	integer member d_namelen to hold the actual string length of d_name.
+?C:	integer member d_namlen to hold the actual string length of d_name.
 ?C:.
-?H:#$d_dirent_d_namelen HAS_DIRENT_D_NAMELEN		/**/
+?H:#$d_dirent_d_namlen HAS_DIRENT_D_NAMLEN		/**/
 ?H:.
-?LINT:set d_dirent_d_namelen
-: check whether struct dirent has a member d_namelen.
+?LINT:set d_dirent_d_namlen
+: check whether struct dirent has a member d_namlen.
 $cat >try.c <<EOC
 #include <sys/types.h>
 #$i_dirent I_DIRENT
@@ -32,11 +32,11 @@ $cat >try.c <<EOC
 int main(void)
 {
   static struct dirent dir_entry;
-  dir_entry.d_namelen |= 1;
+  dir_entry.d_namlen |= 1;
   return 0;
 }
 EOC
-cyn="whether struct dirent has a d_namelen member"
-set d_dirent_d_namelen
+cyn="whether struct dirent has a d_namlen member"
+set d_dirent_d_namlen
 eval $trylink
 
