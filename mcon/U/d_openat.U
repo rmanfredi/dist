@@ -7,7 +7,7 @@
 ?RCS: that same Artistic License; a copy of which may be found at the root
 ?RCS: of the source tree for dist 4.0.
 ?RCS:
-?MAKE:d_openat: Trylink cat i_fcntl
+?MAKE:d_openat: Trylink cat
 ?MAKE:	-pick add $@ %<
 ?S:d_openat:
 ?S:	This variable conditionally defines HAS_OPENAT if openat() is
@@ -24,10 +24,7 @@
 ?LINT:set d_openat
 : see if openat exists
 $cat >try.c <<EOC
-#$i_fcntl I_FCNTL
-#ifdef I_FCNTL
 #include <fcntl.h>	/* AT_* constants */
-#endif
 int main(void)
 {
 	static int ret;

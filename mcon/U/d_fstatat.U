@@ -7,7 +7,7 @@
 ?RCS: that same Artistic License; a copy of which may be found at the root
 ?RCS: of the source tree for dist 4.0.
 ?RCS:
-?MAKE:d_fstatat: Trylink cat i_fcntl i_sysstat
+?MAKE:d_fstatat: Trylink cat i_sysstat
 ?MAKE:	-pick add $@ %<
 ?S:d_fstatat:
 ?S:	This variable conditionally defines HAS_FSTATAT if fstatat() is
@@ -25,10 +25,7 @@
 : see if fstatat exists
 $cat >try.c <<EOC
 #$i_sysstat I_SYS_STAT
-#$i_fcntl I_FCNTL
-#ifdef I_FCNTL
 #include <fcntl.h>	/* AT_* constants */
-#endif
 #ifdef I_SYS_STAT
 #include <sys/stat.h>
 #endif
