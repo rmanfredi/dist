@@ -354,8 +354,19 @@ case "$silent" in
 true) exec 1>/dev/null;;
 esac
 
-: run the defines and the undefines, if any, but leave the file out there...
+?X: Patch from H.Merijn Brand -- 2015-04-19
+?X: The reasoning behind this change is that optdef.sh gets sourced and the 
+?X: arguments, like prefix, are passed around in different quotation styles 
+?X: and subshells all around, and the (unescaped) backslash will not be 
+?X: pertained in the final config.sh
+?X: Note that -q is POSIX but to be sure, we also silence all output --RAM
 touch optdef.sh
+if grep -q '\\' optdef.sh >/dev/null 2>&1; then
+	echo "Configure does not support \\ in -D or -U arguments" >&2
+	exit 1
+fi
+
+: run the defines and the undefines, if any, but leave the file out there...
 . ./optdef.sh
 : create the posthint manipulation script and leave the file out there...
 ?X: this file will be perused by Oldconfig.U
