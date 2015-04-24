@@ -33,7 +33,7 @@ int main(void)
 {
 	static DIR *d;
 	d = fdopendir(0);
-	return NULL == d;
+	return (DIR *) 0 == d;
 }
 EOC
 cyn=fdopendir
