@@ -1206,7 +1206,7 @@ subdirs: 						@@\
 	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \			@@\
 	for i in dirs ;\					@@\
 	do \								@@\
-		(cd $$i ; echo $(VERB) "in $(DIR)$$i..."; \		@@\
+		(cd $$i ; echo "$(VERB) in $(DIR)$$i..."; \		@@\
 			$(MAKE) $(MFLAGS) $(FLAGS) $(TARGET)) || exit 1; \	@@\
 	done
 	
