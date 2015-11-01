@@ -332,6 +332,7 @@ mcon/U/d_pause.U           Do we have pause()?
 mcon/U/d_perror.U          Do we have perror()?
 mcon/U/d_pidcheck.U        Is kill(pid, 0) allowed for PID checks?
 mcon/U/d_pipe.U            Do we have pipe()?
+mcon/U/d_pipe2.U           Do we have pipe2()?
 mcon/U/d_poll.U            Do we have poll()?
 mcon/U/d_popen.U           Do we have popen()?
 mcon/U/d_portable.U        How portable do we want to be?

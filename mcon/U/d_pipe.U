@@ -21,7 +21,7 @@
 ?S:	indicates to the C program that the pipe() routine is available
 ?S:	to create an inter-process channel.
 ?S:.
-?C:HAS_PIPE :
+?C:HAS_PIPE:
 ?C:	This symbol, if defined, indicates that the pipe routine is
 ?C:	available to create an inter-process channel.
 ?C:.
