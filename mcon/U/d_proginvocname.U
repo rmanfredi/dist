@@ -1,0 +1,40 @@
+?RCS:
+?RCS: Copyright (c) 2015 Raphael Manfredi
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic License,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic License; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_proginvocname: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_proginvocname:
+?S:	This variable conditionally defines the HAS_PROGRAM_INVOCATION_NAME
+?S:	symbol, which indicates to the C program that the two variables
+?S:	program_invocation_name and program_invocation_short_name are set
+?S:	at startup time.
+?S:.
+?C:HAS_PROGRAM_INVOCATION_NAME:
+?C:	This symbol is defined when the C startup sets the two variables
+?C:	program_invocation_name and program_invocation_short_name.  To get
+?C:	these definitions, <errno.h> must be included with __USE_GNU defined.
+?C:.
+?H:#$d_proginvocname HAS_PROGRAM_INVOCATION_NAME
+?H:.
+?LINT: set d_proginvocname
+: do we have the program_invocation_name variable?
+$cat >try.c <<EOC
+#include <stdio.h>
+#define __USE_GNU
+#include <errno.h>
+int main(void)
+{
+	printf("%s\n%s\n", program_invocation_name, program_invocation_short_name);
+	return 0;
+}
+EOC
+cyn="whether C startup sets program_invocation_name"
+set d_proginvocname
+eval $trylink
+

@@ -1,0 +1,40 @@
+?RCS:
+?RCS: Copyright (c) 2015 Raphael Manfredi
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic License,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic License; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_setprogname: Trylink cat i_stdlib
+?MAKE:	-pick add $@ %<
+?S:d_setprogname:
+?S:	This variable conditionally defines the HAS_SETPROGNAME
+?S:	symbol, which indicates to the C program that setprogname()
+?S:	is available to set the program name.
+?S:.
+?C:HAS_SETPROGNAME:
+?C:	This symbol is defined when setprogname() is there to set the
+?C:	program name.
+?C:.
+?H:#$d_setprogname HAS_SETPROGNAME
+?H:.
+?LINT: set d_setprogname
+: can we use setprogname?
+$cat >try.c <<EOC
+#include <sys/types.h>
+#$i_stdlib I_STDLIB
+#ifdef I_STDLIB
+#include <stdlib.h>
+#endif
+int main(void)
+{
+	setprogname("test");
+	return 0;
+}
+EOC
+cyn=setprogname
+set d_setprogname
+eval $trylink
+

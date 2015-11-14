@@ -1,0 +1,38 @@
+?RCS:
+?RCS: Copyright (c) 2015 Raphael Manfredi
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic License,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic License; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_unsetenv: Trylink cat i_stdlib
+?MAKE:	-pick add $@ %<
+?S:d_unsetenv:
+?S:	This variable conditionally defines the HAS_UNSETENV
+?S:	symbol, which indicates to the C program that unsetenv()
+?S:	is available to delete an environment variable.
+?S:.
+?C:HAS_UNSETENV:
+?C:	This symbol is defined when unsetenv() is available to delete
+?C:	an environment variable.
+?C:.
+?H:#$d_unsetenv HAS_UNSETENV
+?H:.
+?LINT: set d_unsetenv
+: do we have unsetenv?
+$cat >try.c <<EOC
+#$i_stdlib I_STDLIB
+#ifdef I_STDLIB
+#include <stdlib.h>
+#endif
+int main(void)
+{
+	return unsetenv("foo");
+}
+EOC
+cyn=unsetenv
+set d_unsetenv
+eval $trylink
+

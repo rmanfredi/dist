@@ -189,6 +189,7 @@ mcon/U/d_chown.U           Do we have chown()?
 mcon/U/d_chroot.U          Do we have chroot()?
 mcon/U/d_chsize.U          Size of a char
 mcon/U/d_ckeypad.U         Do we have the curses keypad()?
+mcon/U/d_clearenv.U        Do we have clearenv()?
 mcon/U/d_clock_getres.U    Do we have clock_getres()?
 mcon/U/d_clock_gettime.U   Do we have clock_gettime()?
 mcon/U/d_closedir.U        Do we have closedir()?
@@ -258,6 +259,7 @@ mcon/U/d_getpgrp.U         Do we have getpgrp()?
 mcon/U/d_getpgrp2.U        Do we have getpgrp2()? (DG/UX)
 mcon/U/d_getppid.U         Do we have getppid()?
 mcon/U/d_getprior.U        Do we have getpriority()?
+mcon/U/d_getprogname.U     Do we have getprogname()?
 mcon/U/d_getpwent.U        How is passwd info gotten?
 mcon/U/d_getrlimit.U       Do we have getrlimit()?
 mcon/U/d_gettext.U         Checks whether gettext() is available
@@ -340,6 +342,7 @@ mcon/U/d_posix_fadvise.U   Do we have posix_fadvise()?
 mcon/U/d_posix_memalign.U  Do we have posix_memalign()?
 mcon/U/d_pread.U           Do we have pread()?
 mcon/U/d_preadv.U          Do we have preadv()?
+mcon/U/d_proginvocname.U   Do we have program_invocation_name variables?
 mcon/U/d_psignal.U         Do we have psignal()?
 mcon/U/d_ptattr_setstack.U Do we have pthread_attr_setstack()?
 mcon/U/d_pwrite.U          Do we have pwrite()?
@@ -373,6 +376,7 @@ mcon/U/d_semop.U           Do we have semop()?
 mcon/U/d_sendfile.U        Do we have sendfile()?
 mcon/U/d_sendmsg.U         Do we have sendmsg()?
 mcon/U/d_setegid.U         Do we have setegid()?
+mcon/U/d_setenv.U          Do we have setenv()?
 mcon/U/d_seteuid.U         Do we have seteuid()?
 mcon/U/d_setgrps.U         Do we have setgroups()?
 mcon/U/d_setlnbuf.U        Do we have setlinebuf()?
@@ -382,6 +386,7 @@ mcon/U/d_setpgrp.U         Do we have setpgrp()?
 mcon/U/d_setpgrp2.U        Do we have setpgrp2()? (DG/UX)
 mcon/U/d_setprior.U        Do we have setpriority()?
 mcon/U/d_setproctitle.U    Do we have setproctitle()?
+mcon/U/d_setprogname.U     Do we have setprogname()?
 mcon/U/d_setregid.U        Do we have setregid()?
 mcon/U/d_setreuid.U        Do we have setreuid()?
 mcon/U/d_setrgid.U         Do we have setrgid()?
@@ -453,6 +458,7 @@ mcon/U/d_uctx_mctx.U       Do we have a uc_mcontext field in struct ucontext?
 mcon/U/d_uctx_mctx_gregs.U Do we have uc_mcontext.gregs[] in struct ucontext?
 mcon/U/d_ulimit.U          Do we have ulimit()?
 mcon/U/d_umask.U           Do we have umask()?
+mcon/U/d_unsetenv.U        Do we have unsetenv()?
 mcon/U/d_usendir.U         Use our own ndir routines?
 mcon/U/d_usleep.U          Do we have usleep()?
 mcon/U/d_uwait.U           Is there a 'union wait' declaration around here?
