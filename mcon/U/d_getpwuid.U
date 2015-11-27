@@ -1,0 +1,38 @@
+?RCS:
+?RCS: Copyright (c) 2015 Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic License,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic License; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_getpwuid: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_getpwuid:
+?S:	This variable conditionally defines the HAS_GETPWUID symbol, which
+?S:	indicates to the C program that it can use the getpwuid() routine
+?S:	to get the /etc/passwd structure entries for given user ID.
+?S:.
+?C:HAS_GETPWUID:
+?C:	This symbol, if defined, indicates that the getpwuid() routine
+?C:	is available to get the /etc/passwd structure entries for given
+?C:	user ID.
+?C:.
+?H:#$d_getpwuid HAS_GETPWUID	/**/
+?H:.
+?LINT:set d_getpwuid
+: see if there is a getpwuid
+$cat >try.c <<EOC
+#include <pwd.h>
+int main(void)
+{
+	struct passwd pw;
+	pw = *getpwuid(0);
+	return pw.pw_name ? 0 : 1;
+}
+EOC
+cyn=getpwuid
+set d_getpwuid
+eval $trylink
+

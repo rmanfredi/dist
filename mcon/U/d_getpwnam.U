@@ -1,0 +1,38 @@
+?RCS:
+?RCS: Copyright (c) 2015 Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic License,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic License; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_getpwnam: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_getpwnam:
+?S:	This variable conditionally defines the HAS_GETPWNAM symbol, which
+?S:	indicates to the C program that it can use the getpwnam() routine
+?S:	to get the /etc/passwd structure entries for given user name.
+?S:.
+?C:HAS_GETPWNAM:
+?C:	This symbol, if defined, indicates that the getpwnam() routine
+?C:	is available to get the /etc/passwd structure entries for given
+?C:	user name.
+?C:.
+?H:#$d_getpwnam HAS_GETPWNAM	/**/
+?H:.
+?LINT:set d_getpwnam
+: see if there is a getpwnam
+$cat >try.c <<EOC
+#include <pwd.h>
+int main(void)
+{
+	struct passwd pw;
+	pw = *getpwnam("foo");
+	return pw.pw_name ? 0 : 1;
+}
+EOC
+cyn=getpwnam
+set d_getpwnam
+eval $trylink
+
