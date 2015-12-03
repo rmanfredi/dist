@@ -1,0 +1,39 @@
+?RCS:
+?RCS: Copyright (c) 2015 Raphael Manfredi
+?RCS: 
+?RCS: You may redistribute only under the terms of the Artistic License,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic License; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_bsearch: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_bsearch:
+?S:	This variable conditionally defines the HAS_BSEARCH symbol, which
+?S:	indicates to the C program that it can use the bsearch() routine
+?S:	to perform a binary search on a sorted array.
+?S:.
+?C:HAS_BSEARCH:
+?C:	This symbol, if defined, indicates that the bsearch() routine
+?C:	is available to perform a binary search on a sorted array.
+?C:.
+?H:#$d_bsearch HAS_BSEARCH	/**/
+?H:.
+?LINT:set d_bsearch
+: see if there is a bsearch
+$cat >try.c <<EOC
+#include <stdlib.h>
+int mycmp(const void *a, const void *b)
+{
+	return (char *) a - (char *) b;
+}
+int main(int argc, char **argv)
+{
+	return NULL == bsearch("foo", argv, argc, sizeof argv[0], mycmp);
+}
+EOC
+cyn=bsearch
+set d_bsearch
+eval $trylink
+
