@@ -752,4 +752,3 @@ pl/rcsargs.pl              Perl library to expand rcs filename lists
 pl/snapshot.pl             Perl library to parse RCS snapshot file
 pl/tilde.pl                Perl library to perform ~name expansion
 pl/users.pl                Perl library to parse users file
-revision.h                 The current SVN revision number for dist

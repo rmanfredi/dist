@@ -14,6 +14,10 @@
 # Computes SVN current revision number, if possible, emitting it in
 # the form of a #define for C perusal.
 #
+# On 2016-04-01, we switched to git so until we come up with a more elaborate
+# scheme, the current version number is computed by counting the amount of
+# commits made on the "master" branch.
+#
 
 LC_ALL=C
 export LC_ALL
@@ -28,8 +32,8 @@ else
 	oldrev=`grep REVISION "$FILE" 2>/dev/null | head -n1 | cut -d' ' -f4`
 fi
 
-if test -d "$TOP/.svn"; then
-  revnum=`svn info "$TOP" 2>/dev/null | grep '^Revision' | head -n1 | cut -d' ' -f2`
+if test -d "$TOP/.git"; then
+  revnum=`git log --oneline master | wc -l`
 else
   revnum="$oldrev" # keep as is
 fi
