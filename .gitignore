@@ -39,3 +39,4 @@ pat/patnotify
 pat/patpost
 pat/patsend
 pat/patsnap
+revision.h
