@@ -33,7 +33,7 @@ sub solve_dependencies {
 			# Ignore conditional symbol request
 		} else {
 			chop;
-			system;
+			system $_;
 		}
 	}
 	chdir($WD) || die "Can't chdir to $WD: $!.\n";
