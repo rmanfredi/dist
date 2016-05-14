@@ -1,7 +1,7 @@
 ?RCS: $Id$
 ?RCS:
 ?RCS: Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
-?RCS: 
+?RCS:
 ?RCS: You may redistribute only under the terms of the Artistic License,
 ?RCS: as specified in the README file that comes with the distribution.
 ?RCS: You may reuse parts of this distribution only within the terms of
@@ -15,12 +15,12 @@
 ?RCS: Revision 3.0  1993/08/18  12:05:13  ram
 ?RCS: Baseline for dist 3.0 netwide release.
 ?RCS:
-?X: 
+?X:
 ?X: This unit follows the creation of the config.sh file. It adds some
 ?X: special symbols: defines from patchlevel.h file if any and CONFIG,
 ?X: which is set to true. Then, we try to keep all the new symbols that
 ?X: may come from a hint file or a previous config.sh file.
-?X: 
+?X:
 ?MAKE:Oldsym: Config_sh Options test hint src sed sort uniq
 ?MAKE:	-pick add $@ %<
 ?T:CONFIG sym tmp

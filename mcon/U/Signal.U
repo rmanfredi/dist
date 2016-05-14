@@ -1,7 +1,7 @@
 ?RCS: $Id$
 ?RCS:
 ?RCS: Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
-?RCS: 
+?RCS:
 ?RCS: You may redistribute only under the terms of the Artistic License,
 ?RCS: as specified in the README file that comes with the distribution.
 ?RCS: You may reuse parts of this distribution only within the terms of
@@ -32,9 +32,9 @@
 ?X: signal.cmd vs. signal.
 ?X: The signal_cmd script also falls back on checking signals one at a
 ?X: time in case the signal.c program fails.  On at least one version of
-?X: Linux 2.1.x, the header file #define'd SIGRTMAX to a symbol that 
+?X: Linux 2.1.x, the header file #define'd SIGRTMAX to a symbol that
 ?X: is not defined by the compiler/linker. :-(.  Further, on that same
-?X: version of Linux, the user had a defective C-shell that gave an 
+?X: version of Linux, the user had a defective C-shell that gave an
 ?X: incorrect list for kill -l, so the fall-back didn't work.
 ?X:
 ?X: This unit is then used by sig_name.U.
@@ -63,7 +63,7 @@ else
 		$sed 's!\\\\\\\\!/!g' | $sort | $uniq`
 fi
 ?X: Check this list of files to be sure we have parsed the cpp output ok.
-?X: This will also avoid potentially non-existent files, such 
+?X: This will also avoid potentially non-existent files, such
 ?X: as ../foo/bar.h
 xxxfiles=''
 ?X: Add /dev/null in case the $xxx list is empty.
