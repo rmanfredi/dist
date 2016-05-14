@@ -10,7 +10,7 @@
 ?RCS:
 ?RCS: $Log: nametype.U,v $
 ?RCS: Revision 3.0.1.3  1994/10/29  16:26:09  ram
-?RCS: patch36: call ./usg and ./bsd explicitely instead of relying on PATH
+?RCS: patch36: call ./usg and ./bsd explicitly instead of relying on PATH
 ?RCS:
 ?RCS: Revision 3.0.1.2  1994/08/29  16:36:48  ram
 ?RCS: patch32: fixed typo: /etc/password -> /etc/passwd (WED)

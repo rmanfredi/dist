@@ -144,7 +144,7 @@ For instance, d_const.U writes:
 	?C:HASCONST ~ %<:
 
 so that the HASCONST hype is loaded iff the unit (%<) is wanted. This is why
-the ?H: lines are also explicitely tied to the wanted-ness of the d_const
+the ?H: lines are also explicitly tied to the wanted-ness of the d_const
 symbol, by writing:
 
 	?H:?%<:#$d_const HASCONST	/**/

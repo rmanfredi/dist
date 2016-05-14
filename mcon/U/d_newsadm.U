@@ -13,7 +13,7 @@
 ?RCS: patch61: added Guess dependency
 ?RCS:
 ?RCS: Revision 3.0.1.1  1994/10/29  16:14:33  ram
-?RCS: patch36: call ./eunice explicitely instead of relying on PATH
+?RCS: patch36: call ./eunice explicitly instead of relying on PATH
 ?RCS:
 ?RCS: Revision 3.0  1993/08/18  12:06:42  ram
 ?RCS: Baseline for dist 3.0 netwide release.

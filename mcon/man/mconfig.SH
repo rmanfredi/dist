@@ -1166,7 +1166,7 @@ the C symbol will be controlled, i.e. if the \fIalias\fR symbol is wanted,
 then that C symbol will be written in the \fIconfig_h.SH\fR file. Usually,
 the alias is just '%<' (stands for the unit's name) and there is also
 a ?W: line mapping a C symbol to the \fIalias\fR. Also the relevant parts
-of the ?H: lines are explicitely protected by a '?%<' condition. See
+of the ?H: lines are explicitly protected by a '?%<' condition. See
 the symbol aliasing paragraph for more details.
 The remaining of the line is the optional \fIobsolete symbol list\fR,
 which lists old equivalents for the new \fIsymbol_name\fR.

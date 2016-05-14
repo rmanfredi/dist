@@ -10,7 +10,7 @@
 ?RCS: 
 ?RCS: $Log: afs.U,v $
 ?RCS: Revision 3.0.1.2  1997/02/28  15:23:06  ram
-?RCS: patch61: can now explicitely tell Configure whether AFS is running
+?RCS: patch61: can now explicitly tell Configure whether AFS is running
 ?RCS:
 ?RCS: Revision 3.0.1.1  1993/08/24  12:24:43  ram
 ?RCS: patch3: created
