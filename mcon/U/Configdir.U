@@ -10,7 +10,7 @@
 ?RCS:
 ?RCS: $Log: Configdir.U,v $
 ?RCS: Revision 3.0.1.1  1997/02/28  14:58:36  ram
-?RCS: patch61: have README explicitely mention the package name
+?RCS: patch61: have README explicitly mention the package name
 ?RCS:
 ?RCS: Revision 3.0  1993/08/18  12:04:49  ram
 ?RCS: Baseline for dist 3.0 netwide release.

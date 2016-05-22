@@ -90,7 +90,7 @@ Fri Feb 28 17:48:41 MET 1997   Raphael Manfredi <Raphael_Manfredi@grenoble.hp.co
 	mcon/U/patchlevel.U, mcon/U/MailAuthor.U, mcon/U/Chk_MANI.U,
 	mcon/U/Config_h.U: Added support for src.U.
 
-	* mcon/U/Configdir.U: Have README explicitely mention the package
+	* mcon/U/Configdir.U: Have README explicitly mention the package
 	name.
 
 	* mcon/U/make.U, mcon/U/d_strtoul.U, mcon/U/Unix.U,
@@ -123,7 +123,7 @@ Fri Feb 28 17:48:41 MET 1997   Raphael Manfredi <Raphael_Manfredi@grenoble.hp.co
 
 	* mcon/U/Whoa.U: Whoa script now starts with leading "startsh".
 
-	* mcon/U/afs.U: Can now explicitely tell Configure whether AFS is
+	* mcon/U/afs.U: Can now explicitly tell Configure whether AFS is
 	running.
 
 	* mcon/U/archlib.U: Skip existence checks for archlib.
@@ -969,7 +969,7 @@ Wed Jan 11 17:03:22 MET 1995   Raphael Manfredi <ram@acri.fr>
 	Andreas Koenig <k@franz.ww.tu-berlin.de> on the perl5-porters
 	mailing list. Thanks!
 
-	Now sets sbrksmart to undef explicitely when lacking sbrk().
+	Now sets sbrksmart to undef explicitly when lacking sbrk().
 	Forgot a cast when using return value from sbrk(). Both fixes
 	reported by Xavier Le Vourch <xavierl@eiffel.com>.
 
@@ -1038,7 +1038,7 @@ Wed Jan 11 17:03:22 MET 1995   Raphael Manfredi <ram@acri.fr>
 	* mcon/U/orderlib.U: Allows hint files to specify their own value for
 	'ranlib'.
 
-	* mcon/U/sbrksmart.U: Now sets sbrksmart to undef explicitely when
+	* mcon/U/sbrksmart.U: Now sets sbrksmart to undef explicitly when
 	lacking sbrk().  Forgot a cast when using return value from sbrk().
 
 	* mcon/U/spitshell.U: Use 'test -f' instead of 'test -r' for
@@ -1083,7 +1083,7 @@ Mon Oct 31 10:57:05 MET 1994   Raphael Manfredi <ram@acri.fr>
 	in their ?MAKE: line due to the way metalint performs its visible
 	symbol lookup (by following dependencies recursively and implicitely
 	placing Init at the top). Since Options is no longer a dependency
-	of Init, Myread.U and Csym.U now explicitely mention Options in
+	of Init, Myread.U and Csym.U now explicitly mention Options in
 	their dependency line.
 
 	Also, the leading comment in Chk_MANI.U now explains how this
@@ -1302,12 +1302,12 @@ Sat Oct 29 18:16:03 MET 1994   Raphael Manfredi <ram@acri.fr>
 	HOME to the ?T: line since metalint now checks ${HOME}.
 
 	* mcon/U/Guess.U: Added ?F: line for metalint file checking.  Call
-	./xenix explicitely instead of relying on PATH.
+	./xenix explicitly instead of relying on PATH.
 
 	* mcon/U/Head.U: Make sure ENV is unset before calling /bin/ksh.
 
 	* mcon/U/Setvar.U, mcon/U/Inhdr.U, mcon/U/Inlibc.U: Call ./whoa
-	explicitely instead of relying on PATH.
+	explicitly instead of relying on PATH.
 
 	* mcon/U/Loc.U: Added ?F: line for metalint file checking.  Be
 	careful and guard against wildcard searching (ADO).
@@ -1323,10 +1323,10 @@ Sat Oct 29 18:16:03 MET 1994   Raphael Manfredi <ram@acri.fr>
 	* mcon/U/Typedef.U: Don't clobber visible 'val' variable, use
 	'varval' instead.
 
-	* mcon/U/Warn_v7EXT.U, mcon/U/Warn_v7ND.U: Call ./v7 explicitely
+	* mcon/U/Warn_v7EXT.U, mcon/U/Warn_v7ND.U: Call ./v7 explicitly
 	instead of relying on PATH.
 
-	* mcon/U/abortsig.U, mcon/U/d_bsdjmp.U: Call ./usg explicitely
+	* mcon/U/abortsig.U, mcon/U/d_bsdjmp.U: Call ./usg explicitly
 	instead of relying on PATH.
 
 	* mcon/U/d_attribut.U, mcon/U/d_gconvert.U, mcon/U/d_drem.U,
@@ -1358,19 +1358,19 @@ Sat Oct 29 18:16:03 MET 1994   Raphael Manfredi <ram@acri.fr>
 	McQueen).
 
 	* mcon/U/d_keepsig.U, mcon/U/d_eofpipe.U, mcon/U/d_normsig.U,
-	mcon/U/d_tzmin.U: Call ./bsd explicitely instead of relying on PATH.
+	mcon/U/d_tzmin.U: Call ./bsd explicitly instead of relying on PATH.
 
-	* mcon/U/d_gethname.U: Call ./xenix explicitely instead of relying on
+	* mcon/U/d_gethname.U: Call ./xenix explicitly instead of relying on
 	PATH.
 
-	* mcon/U/d_newsadm.U: Call ./eunice explicitely instead of relying on
+	* mcon/U/d_newsadm.U: Call ./eunice explicitly instead of relying on
 	PATH.
 
 	* mcon/U/d_setpgrp.U: Added 'ldflags' to the test compile line (ADO).
-	Call ./usg explicitely instead of relying on PATH.
+	Call ./usg explicitly instead of relying on PATH.
 
 	* mcon/U/registers.U, mcon/U/shm_for.U, mcon/U/d_speedopt.U: Call
-	./Cppsym explicitely instead of relying on PATH.
+	./Cppsym explicitly instead of relying on PATH.
 
 	* mcon/U/d_time.U: Now uses new Typedef unit to compute type
 	information (ADO).
@@ -1384,7 +1384,7 @@ Sat Oct 29 18:16:03 MET 1994   Raphael Manfredi <ram@acri.fr>
 	* mcon/U/i_neterrno.U: Forgot to initialize 'val' to an empty value
 	(ADO).
 
-	* mcon/U/i_termio.U: Call ./usg and ./Cppsym explicitely instead of
+	* mcon/U/i_termio.U: Call ./usg and ./Cppsym explicitly instead of
 	relying on PATH.
 
 	* mcon/U/lex.U: Spurious single quote could cause Configure to crash.
@@ -1398,10 +1398,10 @@ Sat Oct 29 18:16:03 MET 1994   Raphael Manfredi <ram@acri.fr>
 	* mcon/U/mailfile.U: The Loc unit was missing from the dependency
 	line.
 
-	* mcon/U/myhostname.U: Call ./xenix explicitely instead of relying on
+	* mcon/U/myhostname.U: Call ./xenix explicitly instead of relying on
 	PATH.  Now uses new Tr unit to convert to/from lowercase.
 
-	* mcon/U/nametype.U: Call ./usg and ./bsd explicitely instead of
+	* mcon/U/nametype.U: Call ./usg and ./bsd explicitly instead of
 	relying on PATH.
 
 	* mcon/U/orderlib.U: Now performs a real small compile for accurate

@@ -219,7 +219,7 @@ The variable was already made visible as read-write by another unit.
 The variable was already made visible as read-only by another unit.
 .TP
 "(?W) variable '\$xxx' already wanted."
-Variable is already wanted, there is no need to explicitely ask for it here.
+Variable is already wanted, there is no need to explicitly ask for it here.
 .TP
 "(?W) variable '\$xxx' also locally defined."
 A wanted variable would conflict with a locally defined variable and could
@@ -400,7 +400,7 @@ dependency information. Use the \fIextern\fR lint hint to suppress this message.
 A file listed as a private UU file is not created by the special unit.
 Creation is detected by seing an explicit shell redirection to the file,
 not by an implicit creation (such as a C compilation would for instance).
-All special units should create only shell scripts explicitely anyway so this
+All special units should create only shell scripts explicitly anyway so this
 message cannot be suppressed via a lint hint.
 .TP
 "local file 'xxx' may override the one set by 'unit.U'."

@@ -81,7 +81,7 @@ $spitshell >>Makefile <<'!NO!SUBS!'
 # patch16: added dependency generation stage
 #
 # Revision 3.0.1.2  1993/11/02  10:40:01  ram
-# patch14: now invokes perload explicitely via perl executable
+# patch14: now invokes perload explicitly via perl executable
 #
 # Revision 3.0.1.1  1993/08/25  08:46:44  ram
 # patch6: split unit installation to avoid shell command line overflow
