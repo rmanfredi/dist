@@ -13,7 +13,7 @@
 ?RCS: patch61: created
 ?RCS:
 ?RCS:
-?MAKE:d_sanemcmp: cat d_memcmp +cc +optimize +ccflags +libs +ldflags rm \
+?MAKE:d_sanemcmp: cat d_memcmp +cc +optimize +ccflags +libs +ldflags rm_try \
 	i_memory i_stdlib i_string i_unistd Oldconfig Setvar
 ?MAKE:	-pick add $@ %<
 ?S:d_sanemcmp:
@@ -82,7 +82,7 @@ EOCP
 	fi
 	;;
 esac
-$rm -f foo.* sanemcmp core
+$rm_try foo.* sanemcmp
 set d_sanemcmp
 eval $setvar
 

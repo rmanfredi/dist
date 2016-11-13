@@ -19,7 +19,7 @@
 ?X: environment, then some of the following variables can be redefined in hint
 ?X: files.
 ?X:
-?MAKE:Unix _a _o firstmakefile archobjs: Oldconfig
+?MAKE:Unix _a _o firstmakefile archobjs rm_try: Oldconfig rm
 ?MAKE:	-pick add $@ %<
 ?S:_a (lib_ext):
 ?S:	This variable defines the extension used for ordinary libraries.
@@ -44,7 +44,10 @@
 ?S:	or other facilities.  For perl on OS/2, for example, this would
 ?S:	include os2/os2.obj.
 ?S:.
-?INIT:: Extra object files, if any, needed on this platform.
+?S:rm_try:
+?S:	This is a cleanup variable for try test programs.
+?S:	Internal Configure use only.
+?S:.?INIT:: Extra object files, if any, needed on this platform.
 ?INIT:archobjs=''
 : Define several unixisms.
 : Hints files or command line option can be used to override them.
@@ -54,6 +57,8 @@ esac
 case "$_o" in
 '') _o='.o';;
 esac
+
+rm_try="$rm -f try try$_exe a.out .out try.[cho] try.$_o core core.try* try.core*"
 
 @if firstmakefile
 : Which makefile gets called first.  This is used by make depend.
