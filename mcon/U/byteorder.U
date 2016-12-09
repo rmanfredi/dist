@@ -7,7 +7,7 @@
 ?RCS: that same Artistic License; a copy of which may be found at the root
 ?RCS: of the source tree for dist 4.0.
 ?RCS:
-?MAKE:byteorder: cat contains echo n c Myread Oldconfig Loc +cc +ccflags rm _o
+?MAKE:byteorder: cat contains echo n c Myread Oldconfig Loc +cc +ccflags rm_try _o
 ?MAKE:	-pick add $@ %<
 ?S:byteorder:
 ?S:	This variable holds the byte order. In the following, larger digits
@@ -64,5 +64,5 @@ case "$order" in
 4321) echo " big-endian." >&4;;
 esac
 byteorder=$order
-$rm -f try.c try$_o
+$rm_try
 
