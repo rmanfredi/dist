@@ -113,6 +113,12 @@ Print version number and exit.
 .SH DIAGNOSTICS
 The following diagnostics may be emitted by \fImetalint\fR:
 .TP 5
+"(?MAKE) command line must start with a leading TAB character."
+Self explainatory.
+.TP
+"(?MAKE) fourth pick argument is missing."
+Self explainatory.
+.TP
 "(?MAKE) ignoring duplicate dependency listing line."
 More than one ?MAKE: line bearing dependencies was found in the unit. There
 may be only one such line, although multiple ?MAKE action lines may occur.
@@ -135,6 +141,19 @@ Symbol is listed as a normal dependency and as a conditional one.
 .I Metaconfig
 will consider this as being a full dependency, but that may not be what you
 initially wanted...
+.TP
+"(?MAKE) pick needs a command argument."
+There is no command name after the special "pick" directive, which is invalid.
+.TP
+"(?MAKE) third pick argument must be $@.
+The third argument to the special "pick" directive must be $@, litterally.
+.TP
+"(?MAKE) unknown pick command 'xxx'.
+The command argument listed for the special "pick" directive is unknown.
+.TP
+"(?MAKE) weird fourth argument 'xxx' to pick.
+The fourth argument for pick, the target file, should be a unit name, a file
+path introduced by "./" or the special "%<" token.
 .TP
 "(?Y) unknown layout directive 'xxx'."
 Layout directives may only be one of \fItop\fR, \fIdefault\fR or \fIbottom\fR,
