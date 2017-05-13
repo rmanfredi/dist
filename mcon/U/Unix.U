@@ -47,7 +47,8 @@
 ?S:rm_try:
 ?S:	This is a cleanup variable for try test programs.
 ?S:	Internal Configure use only.
-?S:.?INIT:: Extra object files, if any, needed on this platform.
+?S:.
+?INIT:: Extra object files, if any, needed on this platform.
 ?INIT:archobjs=''
 : Define several unixisms.
 : Hints files or command line option can be used to override them.
