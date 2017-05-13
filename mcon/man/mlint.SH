@@ -145,8 +145,8 @@ initially wanted...
 "(?MAKE) pick needs a command argument."
 There is no command name after the special "pick" directive, which is invalid.
 .TP
-"(?MAKE) third pick argument must be $@.
-The third argument to the special "pick" directive must be $@, litterally.
+"(?MAKE) third pick argument must be \$@.
+The third argument to the special "pick" directive must be \$@, litterally.
 .TP
 "(?MAKE) unknown pick command 'xxx'.
 The command argument listed for the special "pick" directive is unknown.
