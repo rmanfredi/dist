@@ -77,7 +77,8 @@ sub process_command {
 			warn "\t    $msg\n";
 		}
 	}
-	die "Can't open $file.\n" unless open(UNIT, $file);
+	die "Can't open $file.($name for target $target): $!\n"
+		unless open(UNIT, $file);
 	print "\t$cmd $file\n" if $opt_v;
 	&init_interp;						# Initializes the interpreter
 
@@ -215,9 +216,9 @@ sub process_command {
 	elsif ($cmd eq 'prepend') {
 		if (-s $file) {
 			open(PREPEND, ">.prepend") ||
-				die "Can't create .MT/.prepend.\n";
+				die "Can't create .MT/.prepend: $!\n";
 			open(TARGET, $Unit{$target}) ||
-				die "Can't open $Unit{$target}.\n";
+				die "Can't open unit $Unit{$target}: $!\n";
 			while (<TARGET>) {
 				print PREPEND unless &skipped;
 			}
@@ -225,7 +226,7 @@ sub process_command {
 			close PREPEND;
 			close TARGET;
 			rename('.prepend', $file) ||
-				die "Can't rename .prepend into $file.\n";
+				die "Can't rename .prepend into $file: $!\n";
 		}
 	}
 
