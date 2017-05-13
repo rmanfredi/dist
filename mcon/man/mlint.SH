@@ -555,7 +555,7 @@ listed file is used (do not prepend name with '!' for temporary ones)
 Harlan Stenn <harlan@mumps.pfcs.com> wrote the first version, based on
 Larry Wall's \fImetaconfig\fR from dist 2.0.
 .br
-Raphael Manfredi <ram@hptnos02.grenoble.hp.com> rewrote it from scratch for
+Raphael Manfredi <Raphael.Manfredi@pobox.com> rewrote it from scratch for
 3.0 with a few enhancements.
 .SH FILES
 .TP 10

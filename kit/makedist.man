@@ -137,7 +137,7 @@ Print version number and exit.
 .SH AUTHORS
 Larry Wall <lwall@netlabs.com> (version 2.0)
 .br
-Raphael Manfredi <ram@hptnos02.grenoble.hp.com>
+Raphael Manfredi <Raphael.Manfredi@pobox.com>
 .SH FILES
 Creates ./$package.kit* unless \fB\-c\fR option is used.
 .br

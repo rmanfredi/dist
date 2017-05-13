@@ -308,7 +308,7 @@ Larry Wall <lwall@netlabs.com> (dist 2.0 in 1988)
 .br
 Harlan Stenn <harlan@mumps.pfcs.com> (worked on dist 3.0 1990-1992)
 .br
-Raphael Manfredi <ram@hptnos02.grenoble.hp.com> (dist 3.0 and
+Raphael Manfredi <Raphael.Manfredi@pobox.com> (dist 3.0 and
 integration 1991-1995)
 .sp
 Please look at the \fICredits\fR file in the distribution source tree for a

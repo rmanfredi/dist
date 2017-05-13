@@ -635,7 +635,7 @@ multi-character value. I suspect this did not work with versions of \fIperl\fR
 prior to 4.0, so any script using this optimized form of dataloading will not
 be 100% backward compatible.
 .SH AUTHOR
-Raphael Manfredi <ram@acri.fr>
+Raphael Manfredi <Raphael.Manfredi@pobox.com>
 .SH CREDITS
 Valuable input came from Wayne H. Scott <wscott@ecn.purdue.edu>. He is
 merely the author of the optimizing offset table (\fB\-o\fR option).

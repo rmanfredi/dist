@@ -349,7 +349,7 @@ Put the unit into the public or private U directory as appropriate.
 .IP \(bu
 Rerun \fImetaconfig\fR.
 .IP \(bu
-Send your unit to ram@acri.fr (Raphael Manfredi) for inclusion
+Send your unit to Raphael.Manfredi@pobox.com (Raphael Manfredi) for inclusion
 in the master copy, if you think it's of general interest.
 .PP
 In order to add a new program to be located:
@@ -2077,7 +2077,7 @@ Larry Wall <lwall@netlabs.com> for version 2.0.
 .br
 Harlan Stenn <harlan@mumps.pfcs.com> for important unit extensions.
 .br
-Raphael Manfredi <ram@hptnos02.grenoble.hp.com>.
+Raphael Manfredi <Raphael.Manfredi@pobox.com>.
 .br
 Many other contributors for the
 \fImetaconfig\fR units. See the credit file for a list.

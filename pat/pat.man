@@ -509,5 +509,5 @@ Most of this should be built into RCS.
 .SH AUTHORS
 Larry Wall (version 2.0).
 .br
-Raphael Manfredi <ram@hptnos02.grenoble.hp.com>.
+Raphael Manfredi <Raphael.Manfredi@pobox.com>.
 .rn }` ''

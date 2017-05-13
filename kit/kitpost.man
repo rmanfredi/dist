@@ -84,6 +84,6 @@ Article cross-referencing is properly set-up only when the whole package is
 It is not currently possible to set-up the article headers manually or
 better, interactively.
 .SH AUTHOR
-Raphael Manfredi <ram@hptnos02.grenoble.hp.com>
+Raphael Manfredi <Raphael.Manfredi@pobox.com>
 .SH "SEE ALSO"
 makedist(1), kitsend(1).

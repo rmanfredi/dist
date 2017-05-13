@@ -327,6 +327,6 @@ Default manifest file, listing files and giving a small description for each
 of them.
 .PD
 .SH AUTHOR
-Raphael Manfredi <ram@hptnos02.grenoble.hp.com>
+Raphael Manfredi <Raphael.Manfredi@pobox.com>
 .SH "SEE ALSO"
 manifake(1), makedist(1), pat(1).

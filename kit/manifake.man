@@ -32,7 +32,7 @@ thrown away.
 will typically be used when converting an existing package
 to use \fImetaconfig\fR or any other dist utility.
 .SH AUTHOR
-Raphael Manfredi <ram@hptnos02.grenoble.hp.com>
+Raphael Manfredi <Raphael.Manfredi@pobox.com>
 .SH FILES
 .PD 0
 .TP 20
