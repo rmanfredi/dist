@@ -114,10 +114,10 @@ Print version number and exit.
 The following diagnostics may be emitted by \fImetalint\fR:
 .TP 5
 "(?MAKE) command line must start with a leading TAB character."
-Self explainatory.
+Self explanatory.
 .TP
 "(?MAKE) fourth pick argument is missing."
-Self explainatory.
+Self explanatory.
 .TP
 "(?MAKE) ignoring duplicate dependency listing line."
 More than one ?MAKE: line bearing dependencies was found in the unit. There
@@ -169,14 +169,14 @@ The unit describes a shell symbol entry which cannot be used externally since
 not listed as a dependency.
 .TP
 "(?S) syntax error in ?S: construct."
-Self explainatory.
+Self explanatory.
 .TP
 "(?C) duplicate description for symbol 'XXX'."
 C symbol is described more than once, and that will produce two entries for
 it in the Glossary.
 .TP
 "(?C) syntax error in ?C: construct."
-Self explainatory.
+Self explanatory.
 .TP
 "(?H) symbol 'XXX' was already defined."
 Apparently, two ?H: lines are defining the same C symbol.
@@ -209,7 +209,7 @@ All the leading ?sym: constraints on the ?H: lines should be a valid
 shell or C symbol, defined in the unit.
 .TP
 "(?M) syntax error in ?M: construct."
-Self explainatory.
+Self explanatory.
 .TP
 "(?M) symbol 'xxx' already listed on a ?M: line in 'yyy'."
 A magic definition for symbol xxx is attempted, but another one was
@@ -259,7 +259,7 @@ later perusal by \fIConfigure\fR) may only be created in special units.
 Exceptions allowed if the ?F: line is preceded by a proper ?LINT: hint.
 .TP
 "(?T) temporary symbol '\$xxx' multiply declared."
-Self explainatory.
+Self explanatory.
 .TP
 "directive should come after ?MAKE declarations."
 The directive listed between () at the beginning of this message should
@@ -394,22 +394,22 @@ A shell symbol is defined by some units, obsoleted by others and used as
 a temporary.
 .TP
 "Shell symbol 'xxx' is both defined and obsoleted:"
-Self explainatory.
+Self explanatory.
 .TP
 "Shell symbol 'xxx' is both defined and used as temporary:"
-Self explainatory.
+Self explanatory.
 .TP
 "Shell symbol 'xxx' obsoleted also used as temporary:"
-Self explainatory.
+Self explanatory.
 .TP
 "definition of '\$xxx' not closed by '?S:.'."
-Self explainatory.
+Self explanatory.
 .TP
 "definition of 'XXX' not closed by '?C:.'."
-Self explainatory.
+Self explanatory.
 .TP
 "magic definition of 'xxx' not closed by '?M:.'."
-Self explainatory.
+Self explanatory.
 .TP
 "variable '\$xxx' is defined externally."
 A variable defined externally (i.e. in another unit) is used, without proper
