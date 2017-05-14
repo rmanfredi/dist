@@ -119,6 +119,13 @@ Self explanatory.
 "(?MAKE) fourth pick argument is missing."
 Self explanatory.
 .TP
+"(?MAKE) fourth pick argument should probably be the %< macro."
+When the fourth argument is not a relative path, it is expected to be the
+current unit name, which is best described using the "%<" string, a macro
+handled by
+.I metaconfig
+and which is substituted with the current unit name.
+.TP
 "(?MAKE) ignoring duplicate dependency listing line."
 More than one ?MAKE: line bearing dependencies was found in the unit. There
 may be only one such line, although multiple ?MAKE action lines may occur.

@@ -165,6 +165,8 @@ sub p_make_command {
 	return if $target =~ m|^\./|;
 	warn "$where: weird fourth argument '$target' to pick.\n"
 		unless $target =~ /^\w+$/;
+	warn "$where: fourth pick argument should probably be the %< macro.\n"
+		unless $target eq $unit;
 }
 
 # Process the ?MAKE: line
