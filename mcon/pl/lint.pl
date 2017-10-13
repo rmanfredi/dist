@@ -798,7 +798,7 @@ sub p_body {
 	# afterwards...
 
 	my $check_vars = 1;
-	$chek_vars = 0 if $heredoc_nosubst && !$began_here;
+	$check_vars = 0 if $heredoc_nosubst && !$began_here;
 
 	# Record any attempt made to set a shell variable
 	local($sym);
