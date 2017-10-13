@@ -110,7 +110,8 @@ sub init_extraction {
 	@make = ();					# Records make dependency lines
 	$body = 'p_body';			# Procedure to handle body
 	$ending = 'p_end';			# Called at the end of each unit
-	@wiping = qw( 				# The keywords we recognize for "wiped" units
+	@wiping =				# The keywords we recognize for "wiped" units
+	qw(
 		PACKAGENAME
 		MAINTLOC
 		VERSION
