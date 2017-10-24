@@ -55,6 +55,9 @@ sub p_wanted {
 		$cwanted{$_} = "$fake";					# Attached to this symbol
 		push(@Master, "?$unit:$fake=''");		# Fake initialization
 	}
+
+	delete @cmaster{keys %excluded_symbol};
+	delete @cwanted{keys %excluded_symbol};
 }
 
 # Ingnore the following:

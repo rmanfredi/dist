@@ -60,10 +60,12 @@ $spitshell >>mxref <<'!NO!SUBS!'
 &profile;						# Read ~/.dist_profile
 
 use Getopt::Std;
-&usage unless getopts("df:hkmsVL:");
+&usage unless getopts("df:hkmsVL:X:");
 
 chop($date = `date`);
 chop($WD = `pwd`);				# Working directory
+my %excluded_symbol;
+read_exclusions($opt_X) if defined $opt_X;
 $MC = $opt_L if $opt_L;			# May override  library path
 $MC = &tilda_expand($MC);		# ~name expansion
 chdir $MC || die "Can't chdir to $MC: $!\n";
@@ -119,7 +121,7 @@ sub init_except {
 # Print out metaxref's usage and exits
 sub usage {
 	print STDERR <<EOM;
-Usage: metaxref [-dhkmsV] [-f manifest] [-L dir]
+Usage: metaxref [-dhkmsV] [-f manifest] [-L dir] [-X file]
   -d : debug mode.
   -f : use that file as manifest instead of MANIFEST.new.
   -h : print this help message and exits.
@@ -128,6 +130,7 @@ Usage: metaxref [-dhkmsV] [-f manifest] [-L dir]
   -s : silent mode.
   -L : specify main units repository.
   -V : print version number and exits.
+  -X : read symbol exclusions from FILE
 EOM
 	exit 1;
 }
