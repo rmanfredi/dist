@@ -273,7 +273,7 @@ sub manimake {
 Filename                   Kit Description
 --------                   --- -----------
 ";
-	for (sort keys(comment)) {
+	for (sort keys(%comment)) {
 		printf PACKLIST "%-27s %2s %.47s\n", $_, $kit{$_}, $comment{$_};
 	}
 	close PACKLIST;

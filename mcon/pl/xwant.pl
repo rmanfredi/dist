@@ -49,7 +49,7 @@ sub build_xref {
 		print "    Scanning .[chyl] files for symbols...\n" unless $opt_s;
 		$search = ' ' x (40 * (@cmaster + @ocmaster));	# Pre-extend
 		$search = "while (<>) {study;\n";				# Init loop over ARGV
-		foreach $key (keys(cmaster)) {
+		foreach $key (keys(%cmaster)) {
 			$search .= "\$cmaster{'$key'} .= \"\$ARGV#\" if /\\b$key\\b/;\n";
 		}
 		foreach $key (grep(!/^\$/, keys %Obsolete)) {
@@ -63,7 +63,7 @@ sub build_xref {
 		eval $search;
 		eval '';
 		$/ = "\n";
-		while (($key,$value) = each(cmaster)) {
+		while (($key,$value) = each(%cmaster)) {
 			next if $value eq '';
 			foreach $file (sort(split(/#/, $value))) {
 				next if $file eq '';
@@ -94,7 +94,7 @@ sub build_xref {
 		$search = ' ' x (40 * (@shmaster + @oshmaster));	# Pre-extend
 		$search = "while (<>) {study;\n";
 		# All the keys already have a leading '$'
-		foreach $key (keys(shmaster)) {
+		foreach $key (keys(%shmaster)) {
 			$search .= "\$shmaster{'$key'} .= \"\$ARGV#\" if /\\$key\\b/;\n";
 		}
 		foreach $key (grep (/^\$/, keys %Obsolete)) {
@@ -108,7 +108,7 @@ sub build_xref {
 		eval $search;
 		eval '';
 		$/ = "\n";
-		while (($key,$value) = each(shmaster)) {
+		while (($key,$value) = each(%shmaster)) {
 			next if $value eq '';
 			foreach $file (sort(split(/#/, $value))) {
 				next if $file eq '';
