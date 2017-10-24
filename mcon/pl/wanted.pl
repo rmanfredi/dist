@@ -39,25 +39,6 @@
 ;#
 ;# The manifake() routine has to be provided externally.
 ;#
-sub read_exclusions {
-	my ($filename) = @_;
-	print "Reading exclusions from $filename...\n" unless $opt_s;
-	open(EXCLUSIONS, "< $filename\0") || die "Can't read $filename: $!\n";
-	local $_;
-	while (<EXCLUSIONS>) {
-		if (/^\s*#|^\s*$/) {
-			# comment or blank line, ignore
-		}
-		elsif (/^\s*(\w+)\s*$/) {
-			$excluded_symbol{$1} = 1;
-		}
-		else {
-			die "$filename:$.: unrecognised line\n";
-		}
-	}
-	close(EXCLUSIONS) || die "Can't close $filename: $!\n";
-}
-
 # Build a wanted file from the files held in @SHlist and @clist arrays
 sub build_wanted {
 	# If wanted file is already there, parse it to map obsolete if -o option
