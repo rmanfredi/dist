@@ -196,8 +196,9 @@ print <<'EOM';
 
 If your package sources contains symbols that metaconfig will mistake for the
 names of symbols defined by its units, you can list them in an exclusions file.
-(See the documentation of "mconfig -X".) What file would you like metaconfig to
-consult for those symbols? Say "none" if you don't need to exclude any symbols.
+(See the documentation of "metaconfig -X".) What file would you like metaconfig
+to consult for those symbols? Say "none" if you don't need to exclude any
+symbols.
 
 EOM
 $exclusions_file = &myread('File to consult for excluded symbols?', $dflt);
