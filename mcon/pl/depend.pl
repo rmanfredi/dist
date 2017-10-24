@@ -52,6 +52,9 @@ sub p_wanted {
 		$cmaster{$_} = undef;					# Asks for look-up in C files
 		$cwanted{$_} = "$active" if $active;	# Shell symbols to activate
 	}
+
+	delete @cmaster{keys %excluded_symbol};
+	delete @cwanted{keys %excluded_symbol};
 }
 
 # Process the ?INIT: lines

@@ -528,6 +528,19 @@ option permanently.
 .TP
 .B \-V
 Print version number and exit.
+.TP
+\fB\-X\fI file\fR
+When examining the source files, ignore any symbols listed in the \fIfile\fR.
+This is useful in situations where a particular unit is known not to be needed
+for your package's portability targets, but your source files nevertheless
+contain occurrences of words that look to \fImetaconfig\fR like symbols defined
+in that unit. (For example, you might need the word "index" in a source file,
+but not need the unit that determines whether \fIstrcpy\fR or \fIindex\fR
+should be used.)
+The \fIfile\fR can contain blank lines, comment lines introduced with '#', and
+lines containing a single symbol.
+If this option is not supplied, any \fI$exclusions_file\fR variable in
+\fI.package\fR is honored instead.
 '''
 ''' T u t o r i a l
 '''

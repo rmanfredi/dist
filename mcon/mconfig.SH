@@ -68,8 +68,10 @@ chop($date = `date`);
 &profile;						# Read ~/.dist_profile
 
 use Getopt::Std;
-&usage unless getopts("dhkmostvwGMVL:");
+&usage unless getopts("dhkmostvwGMVL:X:");
 
+my %excluded_symbol;
+read_exclusions($opt_X);
 $MC = $opt_L if $opt_L;			# May override public library path
 $MC = &tilda_expand($MC);		# ~name expansion
 chop($WD = `pwd`);				# Working directory
@@ -150,7 +152,7 @@ sub init_except {
 # Print out metaconfig's usage and exits
 sub usage {
 	print STDERR <<'EOH';
-Usage: metaconfig [-dhkmostvwGMV] [-L dir]
+Usage: metaconfig [-dhkmostvwGMV] [-L dir] [-X file]
   -d : debug mode.
   -h : print this help message and exits.
   -k : keep temporary directory.
@@ -164,6 +166,7 @@ Usage: metaconfig [-dhkmostvwGMV] [-L dir]
   -L : specify main units repository.
   -M : activate production of confmagic.h.
   -V : print version number and exits.
+  -X : read symbol exclusions from file (overriding .package)
 EOH
 	exit 1;
 }
