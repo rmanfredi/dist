@@ -166,7 +166,7 @@ Usage: metaconfig [-dhkmostvwGMV] [-L dir] [-X file]
   -L : specify main units repository.
   -M : activate production of confmagic.h.
   -V : print version number and exits.
-  -X : read symbol exclusions from FILE (overriding .package)
+  -X : read symbol exclusions from file (overriding .package)
 EOH
 	exit 1;
 }

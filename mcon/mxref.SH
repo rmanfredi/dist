@@ -130,7 +130,7 @@ Usage: metaxref [-dhkmsV] [-f manifest] [-L dir] [-X file]
   -s : silent mode.
   -L : specify main units repository.
   -V : print version number and exits.
-  -X : read symbol exclusions from FILE (overriding .package)
+  -X : read symbol exclusions from file (overriding .package)
 EOM
 	exit 1;
 }
