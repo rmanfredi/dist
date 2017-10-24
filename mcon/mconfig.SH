@@ -152,7 +152,7 @@ sub init_except {
 # Print out metaconfig's usage and exits
 sub usage {
 	print STDERR <<'EOH';
-Usage: metaconfig [-dhkmostvwGMV] [-L dir]
+Usage: metaconfig [-dhkmostvwGMV] [-L dir] [-X file]
   -d : debug mode.
   -h : print this help message and exits.
   -k : keep temporary directory.
@@ -166,7 +166,7 @@ Usage: metaconfig [-dhkmostvwGMV] [-L dir]
   -L : specify main units repository.
   -M : activate production of confmagic.h.
   -V : print version number and exits.
-  -X FILE : read symbol exclusions from FILE
+  -X : read symbol exclusions from FILE
 EOH
 	exit 1;
 }
