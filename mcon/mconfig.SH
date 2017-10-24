@@ -71,7 +71,7 @@ use Getopt::Std;
 &usage unless getopts("dhkmostvwGMVL:X:");
 
 my %excluded_symbol;
-read_exclusions($opt_X) if defined $opt_X;
+read_exclusions($opt_X);
 $MC = $opt_L if $opt_L;			# May override public library path
 $MC = &tilda_expand($MC);		# ~name expansion
 chop($WD = `pwd`);				# Working directory
@@ -166,7 +166,7 @@ Usage: metaconfig [-dhkmostvwGMV] [-L dir] [-X file]
   -L : specify main units repository.
   -M : activate production of confmagic.h.
   -V : print version number and exits.
-  -X : read symbol exclusions from FILE
+  -X : read symbol exclusions from FILE (overriding .package)
 EOH
 	exit 1;
 }

@@ -65,7 +65,7 @@ use Getopt::Std;
 chop($date = `date`);
 chop($WD = `pwd`);				# Working directory
 my %excluded_symbol;
-read_exclusions($opt_X) if defined $opt_X;
+read_exclusions($opt_X);
 $MC = $opt_L if $opt_L;			# May override  library path
 $MC = &tilda_expand($MC);		# ~name expansion
 chdir $MC || die "Can't chdir to $MC: $!\n";
@@ -130,7 +130,7 @@ Usage: metaxref [-dhkmsV] [-f manifest] [-L dir] [-X file]
   -s : silent mode.
   -L : specify main units repository.
   -V : print version number and exits.
-  -X : read symbol exclusions from FILE
+  -X : read symbol exclusions from FILE (overriding .package)
 EOM
 	exit 1;
 }

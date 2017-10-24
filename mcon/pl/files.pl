@@ -29,6 +29,9 @@
 ;# extensions to their packages. For instance, perl5 adds .xs files holding
 ;# some C symbols.
 ;#
+;# The read_exclusions() routine honours the .package $exclusions_file
+;# variable if its argument is undefined.
+;#
 # Extract filenames from manifest
 sub extract_filenames {
 	&build_filext;			# Construct &is_cfile and &is_shfile
@@ -108,6 +111,10 @@ sub q {
 
 sub read_exclusions {
 	my ($filename) = @_;
+	if (!defined $filename) {
+		$filename = $exclusions_file; # default to name from .package
+		return if !defined $filename || $filename eq '';
+	}
 	print "Reading exclusions from $filename...\n" unless $opt_s;
 	open(EXCLUSIONS, "< $filename\0") || die "Can't read $filename: $!\n";
 	local $_;

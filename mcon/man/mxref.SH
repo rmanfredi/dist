@@ -110,6 +110,8 @@ but not need the unit that determines whether \fIstrcpy\fR or \fIindex\fR
 should be used.)
 The \fIfile\fR can contain blank lines, comment lines introduced with '#', and
 lines containing a single symbol.
+If this option is not supplied, any \fI$exclusions_file\fR variable in
+\fI.package\fR is honored instead.
 .SH AUTHOR
 Harlan Stenn <harlan@mumps.pfcs.com>
 .SH FILES
