@@ -213,7 +213,7 @@ if ($opt_d) {
 }
 
 @manifest = sort @manifest;
-@files = sort @files if defined(@files);
+@files = sort @files if @files;
 
 # Build up the %manifest array so that we quickly know whether a file is in the
 # manifest or not.

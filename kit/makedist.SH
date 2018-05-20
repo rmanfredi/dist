@@ -114,7 +114,7 @@ sub kitbuild {
 		$list = $list[$kitnum];
 		$kit = sprintf("$package.kit" . $sp,$kitnum);
 		print "*** Making $kit ***\n";
-		open(KIT,">$curdir/$kit") || do fatal("Can't create $curdir/$kit: $!");
+		open(KIT,">$curdir/$kit") || &fatal("Can't create $curdir/$kit: $!");
 
 		&kitleader;
 
@@ -202,7 +202,7 @@ sub kitlists {
 	}
 
 	# Build a file PACKNOTES to reconstruct split files
-	if (defined %Chopped) {
+	if (%Chopped) {
 		open(PACKNOTES, ">$PACKNOTES") || &fatal("Can't create PACKNOTES: $!");
 		foreach (keys %Chopped) {
 			print PACKNOTES <<EOC;
@@ -248,9 +248,9 @@ EOC
 
 # Read manifest file and initialize the %comment array.
 sub maniread {
-	do fatal("You don't have a $NEWMANI file.  Run manifake")
+	&fatal("You don't have a $NEWMANI file.  Run manifake")
 		unless -f "$NEWMANI";
-	open(NEWMANI,$NEWMANI) || do fatal("Can't read $NEWMANI: $!");
+	open(NEWMANI,$NEWMANI) || &fatal("Can't read $NEWMANI: $!");
 	while (<NEWMANI>) {
 		($key,$val) = split(' ',$_,1) unless ($key,$val) = /^(\S+)\s+(.*)/;
 		$comment{$key} = $val;
@@ -266,7 +266,7 @@ sub manimake {
 	# Add built packlist
 	$comment{$PACKLIST} = 'Which files came with which kits';
 
-	open(PACKLIST, ">$PACKLIST") || do fatal("Can't create $PACKLIST: $!");
+	open(PACKLIST, ">$PACKLIST") || &fatal("Can't create $PACKLIST: $!");
 	print PACKLIST
 "After all the $package kits are run you should have the following files:
 
@@ -321,7 +321,7 @@ case \$todo in
 	'')
 		echo \"You have run all your kits.\"
 EOM
-	if (defined %Chopped) {		# Some splitting occurred
+	if (%Chopped) {		# Some splitting occurred
 		print KIT <<EOM;
 		if test -f $PACKNOTES; then
 			sh $PACKNOTES
