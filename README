@@ -1,10 +1,10 @@
                              dist 4.0
-                       **  Alpha version **
 
                    Copyright (c) 1988, Larry Wall
                 Copyright (c) 1990-1992, Harlan Stenn
               Copyright (c) 1991-1997, Raphael Manfredi
               Copyright (c) 2004-2006, Raphael Manfredi
+             Copyright (c) 2007+ Many other contributors
 
 ------------------------------------------------------------------------
     This program is free software; you can redistribute it and/or modify
@@ -18,15 +18,7 @@
 ------------------------------------------------------------------------
 
 This version of dist requires you to have at least perl 4.0 PL36.
-It has also been ported to work with perl 5.0 PL0, provided you have
-at least integrated patches 0a-0h, issued by Andy Dougherty and made
-available at the following ftp sites:
-
-	ftp.demon.co.uk:/pub/perl/db/perl5.000-p0a-p0h.tar.gz
-	ftp.funet.fi:/pub/languages/perl/ports/perl5/perl5.000-p0a-p0h.tar.gz
-
-Please read all the directions below before you proceed any further, and
-then follow them carefully.
+It has also been ported to work with modern perl 5.
 
 After you have unpacked your kit, you should have all the files listed
 in MANIFEST.
@@ -47,31 +39,6 @@ Each of these can be used separately from the others.  Before you can
 use any of those, however, the directory containing your package (not this
 package) must be initialized by putting a .package file into it.  This
 can be done by running packinit in that directory.
-
-There is a mailing list hosted in Japan and set up by Shigeya Suzuki
-<shigeya@foretune.co.jp>, for discussion about the dist package as a
-whole. It's a good place to ask questions (or answer them) and to
-send your patches. I will post official patches to the net, as well
-as to the dist-users list.
-
-To send a mail to the list, address it to <dist-users@foretune.co.jp>.
-To subscribe, send a mail to <majordomo@foretune.co.jp>. If you don't
-know how to use majordomo, the syntax of the subscribe command is:
-
-	subscribe dist-users [address]
-
-where the address part is optional. You may unsubscribe automatically
-at any time by sending:
-
-	unsubscribe dist-users
-
-If you have a problem with this version of dist, it is recommended that
-you subscribe to the list, then send a description of your problem to it.
-If you send mail to me personally, I may not be able to answer in a
-timely fashion.
-
-This mailing list has low traffic (a few articles per week, typically),
-and it is expected to remain so, with a high signal/noise ratio.
 
 Notes:
 
@@ -119,20 +86,10 @@ clean up everything and let you re-distribute this kit, without
 carrying useless files. You should keep this distribution intact, so
 that future patches will be applyable.
 
-7) I have an automatic patch sender. Send me the following mail:
-
-	Subject: Command
-	@SH mailhelp PATH
-
-and you'll get instructions (PATH stands for YOUR e-mail address, either
-in INTERNET or in bang notation). I would recommend you to get all the
-issued patches before you start making some modifications on this
-package.
-
-8) If you wish to deinstall the package, you may run "make deinstall".
+7) If you wish to deinstall the package, you may run "make deinstall".
 A separate "make deinstall.man" will remove the manual pages. Be sure
 the makefiles are correctly set before running any deinstall target.
 On USG systems, some executable have a chance to remain despite the
 deinstall (text file busy...).
 
-	Raphael Manfredi <Raphael_Manfredi@grenoble.hp.com>
+	Raphael Manfredi <Raphael_Manfredi@pobox.com>
