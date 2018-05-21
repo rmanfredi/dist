@@ -22,7 +22,7 @@ sub makedir {
     local($dir) = $_;
     if (!-d && $_ ne '') {
         # Make dirname first
-        do makedir($_) if s|(.*)/.*|\1|;
+        &makedir($_) if s|(.*)/.*|\1|;
 		mkdir($dir, 0700) if ! -d $dir;
     }
 }
