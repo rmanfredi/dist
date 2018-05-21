@@ -18,35 +18,35 @@ echo "Extracting mcon/man/metaxref.$manext (with variable substitutions)"
 $rm -f metaxref.$manext
 $spitshell >metaxref.$manext <<!GROK!THIS!
 .TH METAXREF $manext "Version $VERSION PL$PATCHLEVEL"
-''' @(#) Manual page for metaxref
-'''
-''' $Id$
-'''
-'''  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
-'''  
-'''  You may redistribute only under the terms of the Artistic Licence,
-'''  as specified in the README file that comes with the distribution.
-'''  You may reuse parts of this distribution only within the terms of
-'''  that same Artistic Licence; a copy of which may be found at the root
-'''  of the source tree for dist 4.0.
-'''
-''' $Log: mxref.SH,v $
-''' Revision 3.0.1.4  1997/02/28  16:30:39  ram
-''' patch61: new -L option to match metaconfig and metalint
-'''
-''' Revision 3.0.1.3  1994/10/29  16:34:26  ram
-''' patch36: the leading .TH was referring to metaconfig
-'''
-''' Revision 3.0.1.2  1993/10/16  13:52:46  ram
-''' patch12: added BUGS section
-'''
-''' Revision 3.0.1.1  1993/08/19  06:42:25  ram
-''' patch1: leading config.sh searching was not aborting properly
-'''
-''' Revision 3.0  1993/08/18  12:10:15  ram
-''' Baseline for dist 3.0 netwide release.
-'''
-'''
+.\" @(#) Manual page for metaxref
+.\"
+.\" $Id$
+.\"
+.\"  Copyright (c) 1991-1997, 2004-2006, Raphael Manfredi
+.\"  
+.\"  You may redistribute only under the terms of the Artistic Licence,
+.\"  as specified in the README file that comes with the distribution.
+.\"  You may reuse parts of this distribution only within the terms of
+.\"  that same Artistic Licence; a copy of which may be found at the root
+.\"  of the source tree for dist 4.0.
+.\"
+.\" $Log: mxref.SH,v $
+.\" Revision 3.0.1.4  1997/02/28  16:30:39  ram
+.\" patch61: new -L option to match metaconfig and metalint
+.\"
+.\" Revision 3.0.1.3  1994/10/29  16:34:26  ram
+.\" patch36: the leading .TH was referring to metaconfig
+.\"
+.\" Revision 3.0.1.2  1993/10/16  13:52:46  ram
+.\" patch12: added BUGS section
+.\"
+.\" Revision 3.0.1.1  1993/08/19  06:42:25  ram
+.\" patch1: leading config.sh searching was not aborting properly
+.\"
+.\" Revision 3.0  1993/08/18  12:10:15  ram
+.\" Baseline for dist 3.0 netwide release.
+.\"
+.\"
 .SH NAME
 metaxref \- builds cross-reference file/unit/item information
 .SH SYNOPSIS
