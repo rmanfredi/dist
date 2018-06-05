@@ -1,7 +1,9 @@
 .config/
+.package
 *.bak
 *.1
 Makefile
+Wanted
 bin/manicheck
 bin/manilist
 bin/packinit
