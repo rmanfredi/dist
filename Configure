@@ -13,12 +13,12 @@
 #
 # Note: this Configure script was generated automatically. Rather than
 # working with this copy of Configure, you may wish to get metaconfig.
-# The dist package (which contains metaconfig) is available via SVN:
-#     svn co https://svn.code.sf.net/p/dist/code/trunk/dist
+# The dist package (which contains metaconfig) is available via git:
+#     git clone git@github.com:rmanfredi/dist.git
 
 # $Id$
 #
-# Generated on Tue Jun  5 15:23:15 CEST 2018 [metaconfig 3.5-241]
+# Generated on Tue Jun  5 15:24:34 CEST 2018 [metaconfig 3.5-241]
 
 cat >c1$$ <<EOF
 ARGGGHHHH!!!!!
