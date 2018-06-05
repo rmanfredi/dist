@@ -35,7 +35,7 @@
 ?X: SH files, which among other things produce config.h and (usually) Makefile.
 ?X: It offers to do a make depend if the Makefile contains that target.
 ?X:
-?MAKE:Finish: Chk_MANI Extract Myread Oldsym Magic_h cat rm contains \
+?MAKE:Finish: Chk_MANI Extract Specific Myread Oldsym Magic_h cat rm contains \
 	test package make
 ?MAKE:	-pick add $@ %<
 ?F:!config.sh

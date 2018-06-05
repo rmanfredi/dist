@@ -1742,6 +1742,25 @@ before prompting via \fIgetfile\fR for instance. If the prefix does not
 make use of ~name expanstion, then the above will be a no-op on the \fI$dflt\fR
 variable, naturally.
 .TP
+Specific.U
+This unit is empty by default.  It is meant as a project-specific hook
+to have shell code executed by \fIConfigure\fR after \fIconfig.sh\fR was
+generated but before the extraction of .SH files.
+.sp
+Copy the unit to your project's \fIU/\fR directory and customize it.
+.sp
+Here is what the \fIdist\fR project uses it for (showing only the unit's code,
+not the full unit here):
+.Ex
+: project-specific code
+file=revision.h
+echo " "
+echo "Generating \$file..." >&4
+bin/svn-revision . \$file
+.Ef
+That shell code is executed when \fIConfigure\fR is back to the top directory
+of the source tree.
+.TP
 Typedef.U
 This unit produces the \fI\$typedef\fR shell variable, used internally by
 \fIConfigure\fR to check whether a typedef exists or not. A typical

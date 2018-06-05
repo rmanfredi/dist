@@ -8,6 +8,7 @@ MANIFEST                   This list of files
 Makefile.SH                A makefile to run subsidiary makefiles
 README                     Basic instructions
 Wishlist                   Features I would like to add
+U/Specific.U               Specific code for dist before .SH extraction
 bin/                       Some binary tools
 bin/Jmakefile              Generic makefile description for bin
 bin/Makefile.SH            Jmake-generated configured makefile
@@ -127,6 +128,7 @@ mcon/U/Rcs.U               Some stupid redefinitions to keep RCS happy
 mcon/U/Sendfile64.U        Is sendfile() working with the largefile flags?
 mcon/U/Setvar.U            Set a variable with some sanity checks
 mcon/U/Signal.U            Utilities for sig_name.U
+mcon/U/Specific.U          Hook for project-specific code before .SH extraction
 mcon/U/Tr.U                Builds a tr script to handle lower and upper classes
 mcon/U/Trylink.U           Compiles and links a test program
 mcon/U/Typedef.U           Defines a typedef lookup function

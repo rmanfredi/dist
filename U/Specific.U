@@ -1,0 +1,33 @@
+?RCS:
+?RCS: Copyright (c) 2018, Raphael Manfredi
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic License,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic License; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?X:
+?X: This unit is intended to be a project-specific hook.
+?X: By default, it is therefore empty, meant to be copied to your private
+?X: unit directory (U) and seasoned to taste.
+?X:
+?X: If you need specific code generation to happen once the configuration
+?X: is finished and config.sh was generated, but before the extraction of
+?X: the .SH files begins, then this is the place to put these special
+?X: code that the .SH files will require to run properly.
+?X:
+?X:	When this unit triggers, Configure is back to the top directory.
+?X:
+?MAKE:Specific: Config_sh
+?MAKE:	-pick add $@ %<
+?T:file
+?X:
+?X: Keep the above ?MAKE: lines and then append your specific code here.
+?X:
+: project-specific code
+file=revision.h
+echo " "
+echo "Generating $file..." >&4
+bin/svn-revision . $file
+
