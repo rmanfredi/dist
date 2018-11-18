@@ -311,6 +311,7 @@ mcon/U/d_memcmp.U          Do we have memcmp()?
 mcon/U/d_memcpy.U          Do we have memcpy()?
 mcon/U/d_memmove.U         Do we have memmove()?
 mcon/U/d_mempcpy.U         Do we have mempcpy()?
+mcon/U/d_memrchr.U         Do we have memrchr()?
 mcon/U/d_memset.U          Do we have memset()?
 mcon/U/d_mkdir.U           Do we have mkdir()?
 mcon/U/d_mkfifo.U          Do we have mkfifo()?

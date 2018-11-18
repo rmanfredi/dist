@@ -1,0 +1,40 @@
+?RCS:
+?RCS: Copyright (c) 2018 Raphael Manfredi
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic License,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic License; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_memrchr: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_memrchr:
+?S:	This variable conditionally defines the HAS_MEMRCHR symbol, which
+?S:	indicates to the C program that the memrchr() routine is available
+?S:	to scan a block of memory backwards for a character.
+?S:.
+?C:HAS_MEMRCHR:
+?C:	This symbol, if defined, indicates that the memrchr routine is available
+?C:	to scan a block of memory backwards for a character.
+?C:	If undefined, roll your own.
+?C:.
+?H:#$d_memrchr HAS_MEMRCHR		/**/
+?H:.
+?LINT:set d_memrchr
+: see if memrchr exists
+$cat >try.c <<EOC
+#include <string.h>
+int main(void)
+{
+	static char s[] = "xxx";
+	static size_t n = sizeof(s);
+	void *p;
+	p = memrchr(s, 'x', n);
+	return p ? 0 : 1;
+}
+EOC
+cyn=memrchr
+set d_memrchr
+eval $trylink
+
