@@ -64,8 +64,6 @@ use Getopt::Std;
 
 chop($date = `date`);
 chop($WD = `pwd`);				# Working directory
-my %excluded_symbol;
-read_exclusions($opt_X);
 $MC = $opt_L if $opt_L;			# May override  library path
 $MC = &tilda_expand($MC);		# ~name expansion
 chdir $MC || die "Can't chdir to $MC: $!\n";
@@ -81,7 +79,10 @@ if ($opt_V) {
 
 $NEWMANI = $opt_f || (-f 'MANIFEST.new' ? 'MANIFEST.new' : 'MANIFEST');
 
+&readpackage;							# Merely get the package's name
 &init;									# Various initializations
+my %excluded_symbol;
+read_exclusions($opt_X);				# Load -X or .package equivalent
 `mkdir .MT 2>&1` unless -d '.MT';		# For private temporary files
 unlink 'Obsolete';						# Obsolete file rebuilt
 
