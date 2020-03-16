@@ -640,8 +640,13 @@ sub p_file {
 			next;
 		}
 		delete $lintcreated{$uufile} if !$is_special;	# Detect spurious LINT
-		$filemaster{$uufile} = $unit unless defined $filemaster{$uufile};
-		$filecreated{$uufile} = 'a';	# Will be automagically incremented
+		if (exists $filemaster{$uufile}) {
+			my $other = $filemaster{$uufile};
+			warn "$where: UU file '$uufile' already created by $other.U.\n";
+		} else {
+			$filemaster{$uufile} = $unit;
+			$filecreated{$uufile} = 'a';	# Will be automagically incremented
+		}
 	}
 }
 

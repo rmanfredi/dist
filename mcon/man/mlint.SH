@@ -270,6 +270,10 @@ The listed file 'xxx' is already reported exported (listed likewise) in
 the other unit yyy.U and is conflicting.  An exported file is a generated
 file above the UU directory.
 .TP
+"(?F) UU file 'xxx' already created by yyy.U."
+The listed file 'xxx' is already created in the UU directory by the other
+unit yyy.U.  A created file is listed as ./xxx on the ?F: line.
+.TP
 "(?T) temporary symbol '\$xxx' multiply declared."
 Self explanatory.
 .TP
