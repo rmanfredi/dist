@@ -78,6 +78,7 @@ sub init_extraction {
 	%filetmp = ();				# Local temporary files in ?F: directives
 	%filesetin = ();			# Lists units defining a temporary file
 	%filecreated = ();			# Records files created in this unit
+	%filedefined = ();			# Records units that export a given file
 	%prodfile = ();				# Unit where a given file is said to be created
 	%defseen = ();				# Symbol defintions claimed
 	%lintset = ();				# Symbols declared set by a ?LINT: line
@@ -622,7 +623,17 @@ sub p_file {
 		}
 		$prodfile{$file} .= "$unit " if $fileseen{$file} == 1;
 		($uufile = $file) =~ s|^\./(\S+)$|$1|;
-		next if $file eq $uufile;	# Don't care about non-UU files
+		if ($file eq $uufile) {
+			# This is a non-UU files created and not a temporary file
+			# It is meant to be exported by Configure
+			if (exists $filedefined{$file}) {
+				my $other = $filedefined{$file};
+				warn "$where: file '$file' already exported by $other.U.\n";
+			} else {
+				$filedefined{$file} = $unit;
+			}
+			next;
+		}
 		unless ($is_special || $lintcreated{$uufile}) {
 			warn "$where: UU file '$uufile' in non-special unit ignored.\n";
 			delete $lintcreated{$uufile};	# Detect spurious LINT
@@ -1308,6 +1319,7 @@ sub sanity_checks {
 	undef %shspecial;
 	undef %shvisible;
 	undef %filemaster;
+	undef %filedefined;
 
 	# Spot multiply defined C symbols
 	foreach $sym (keys %cmaster) {

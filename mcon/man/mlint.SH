@@ -265,6 +265,11 @@ Private UU files (i.e. files like the \fImyread\fR script created for
 later perusal by \fIConfigure\fR) may only be created in special units.
 Exceptions allowed if the ?F: line is preceded by a proper ?LINT: hint.
 .TP
+"(?F) file 'xxx' already exported by yyy.U."
+The listed file 'xxx' is already reported exported (listed likewise) in
+the other unit yyy.U and is conflicting.  An exported file is a generated
+file above the UU directory.
+.TP
 "(?T) temporary symbol '\$xxx' multiply declared."
 Self explanatory.
 .TP
