@@ -111,6 +111,8 @@ sub() {
 	hue = buf;
 	if (doit())
 		iptr = hue;
+?X: Avoid "variable set but not used" compilation warning
+	(void) iptr;
 #endif
 	doit();
 }
