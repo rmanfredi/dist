@@ -32,7 +32,7 @@
 ?MAKE:	-pick add.Config_sh $@ %<
 ?MAKE:	-pick add $@ ./Obsol_sh
 ?MAKE:	-pick close.Config_sh $@ %<
-?F:!config.over !config.arch
+?F:!config.over !config.arch config.sh
 ?T:file sfile xsed
 ?LINT:unclosed EOT
 : back to where it started
