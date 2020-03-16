@@ -74,7 +74,7 @@ case "$cyn" in
 "") echo "--- $var ---" >> "$file";;
 *)
 	echo " "; $echo $n "Checking $msg...$c" >&4;
-	echo "--- $var --- ($msg)" >>"$file"
+	echo "--- $var --- ($msg)" >> "$file"
 	;;
 esac;
 $cat try.c >> "$file";
