@@ -37,10 +37,10 @@
 ?INIT:ccname=''
 ?INIT:ccversion=''
 : generate the trygcc script for later perusal
-cat <<EOS >trygcc
+$cat <<EOS >trygcc
 $startsh
 EOS
-cat <<'EOSC' >>trygcc
+$cat <<'EOSC' >>trygcc
 case "$cc" in
 '') ;;
 *)  $rm -f try try.*
@@ -100,10 +100,10 @@ esac
 EOSC
 
 : generate the checkcc script for later perusal
-cat <<EOS >checkcc
+$cat <<EOS >checkcc
 $startsh
 EOS
-cat <<'EOSC' >>checkcc
+$cat <<'EOSC' >>checkcc
 case "$cc" in        
 '') ;;
 *)  $rm -f try try.*              
