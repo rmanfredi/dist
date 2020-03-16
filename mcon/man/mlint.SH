@@ -260,7 +260,7 @@ The file is listed more than once on the ?F: line, under the same name.
 This does not appear when declaring both a private UU file and a public
 file with the same name, for instance.
 .TP
-"(?F) UU file $uufile in non-special unit ignored."
+"(?F) UU file 'xxx' in non-special unit ignored."
 Private UU files (i.e. files like the \fImyread\fR script created for
 later perusal by \fIConfigure\fR) may only be created in special units.
 Exceptions allowed if the ?F: line is preceded by a proper ?LINT: hint.
