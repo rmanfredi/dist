@@ -1,0 +1,80 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2020, Raphael Manfredi
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic License,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic License; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_bfd_section_vma d_bfd_section_vma2: Trylink cat cp rm d_bfd_lib
+?MAKE:	-pick add $@ %<
+?S:d_bfd_section_vma:
+?S:	This variable conditionally defines the HAS_BFD_SECTION_VMA_1ARG symbol,
+?S:	which indicates to the C program that the bfd_get_section_vma() routine from
+?S:	the BFD library takes only one argument.
+?S:.
+?S:d_bfd_section_vma2:
+?S:	This variable conditionally defines the HAS_BFD_SECTION_VMA_2ARGS symbol,
+?S:	which indicates to the C program that the bfd_get_section_vma() routine from
+?S:	the BFD library takes two arguments, the first being probably ignored.
+?S:	This was the old behaviour (before 2020-03 at least), the new behaviour
+?S:	being to use a new 1-argument signature.
+?S:.
+?C:HAS_BFD_SECTION_VMA_1ARG:
+?C:	This symbol, if defined, indicates that the bfd_get_section_vma() routine
+?C:	from the BFD library takes only one argument, which is the new behaviour
+?C:	starting from 2020-03 at least.
+?C:.
+?C:HAS_BFD_SECTION_VMA_2ARGS:
+?C:	This symbol, if defined, indicates that the bfd_get_section_vma() routine
+?C:	from the BFD library takes two arguments, which is the old behaviour,
+?C:	with the first argument probably ignored underneath.
+?C:.
+?H:#$d_bfd_section_vma HAS_BFD_SECTION_VMA_1ARG		/**/
+?H:#$d_bfd_section_vma2 HAS_BFD_SECTION_VMA_2ARGS	/**/
+?H:.
+?F:!head.c
+: see whether d_bfd_get_section_vma exists and takes 1 or 2 arguments
+$cat >head.c <<EOC
+?X: See d_bfd_lib.U to understand why we have to define these symbols.
+#define PACKAGE
+#define PACKAGE_VERSION
+#include <bfd.h>
+int main(void)
+{
+	bfd *b = 0;
+	asection *sec = 0;
+EOC
+case "$d_bfd_lib" in
+$undef)
+	d_bfd_section_vma=$undef
+	d_bfd_section_vma2=$undef
+	;;
+*)
+	$cp head.c try.c
+	$cat >>try.c <<EOC
+	return 0 == bfd_get_section_vma(b, sec);
+}
+EOC
+	cyn="whether bfd_get_section_vma() takes 2 arguments"
+	set d_bfd_section_vma2
+	eval $trylink
+	;;
+esac
+case "$d_bfd_lib$d_bfd_section_vma2" in
+$define$undef)
+	$cp head.c try.c
+	$cat >>try.c <<EOC
+	return 0 == bfd_get_section_vma(sec);
+}
+EOC
+	cyn="that a 1-argument bfd_get_section_vma() indeed exists"
+	set d_bfd_section_vma
+	eval $trylink
+	;;
+*) d_bfd_section_vma=$undef;;
+esac
+$rm -f head.c
+

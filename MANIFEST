@@ -172,6 +172,7 @@ mcon/U/d_backtrace.U       Do we have backtrace()?
 mcon/U/d_bcmp.U            Do we have bcmp() or memcmp()?
 mcon/U/d_bcopy.U           Do we have bcopy() or memcpy()?
 mcon/U/d_bfd_lib.U         Is the BFD library available?
+mcon/U/d_bfd_section_vma.U Does bfd_get_section_vma() take 1 or 2 arguments?
 mcon/U/d_bindtxtcode.U     Do we have bind_textdomain_codeset()?
 mcon/U/d_brokstat.U        Check whether stat() macros are broken
 mcon/U/d_bsdjmp.U          Do we have BSD _setjmp() and _longjmp()?
