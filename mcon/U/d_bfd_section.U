@@ -1,0 +1,49 @@
+?RCS: $Id$
+?RCS:
+?RCS: Copyright (c) 2020, Raphael Manfredi
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic License,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic License; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_bfd_section: Trylink cat d_bfd_lib
+?MAKE:	-pick add $@ %<
+?S:d_bfd_section:
+?S:	This variable conditionally defines the HAS_BFD_SECTION_1ARG symbol,
+?S:	which indicates to the C program that the bfd_section_xxx() accessors
+?S:	from the BFD library exists and taks only one argument.
+?S:.
+?C:HAS_BFD_SECTION_1ARG:
+?C:	This symbol, if defined, indicates that the bfd_section_xxx() accessors
+?C:	from the BFD library takes only one argument, which is the new behaviour
+?C:	starting from BFD 2.34.
+?C:.
+?H:#$d_bfd_section HAS_BFD_SECTION_1ARG		/**/
+?H:.
+: see whether bfd_section_vma exists and takes 1 argument
+case "$d_bfd_lib" in
+$undef)
+	d_bfd_section=$undef
+	;;
+*)
+	$cat >try.c <<EOC
+?X: See d_bfd_lib.U to understand why we have to define these symbols.
+#define PACKAGE
+#define PACKAGE_VERSION
+#include <bfd.h>
+int main(void)
+{
+	bfd *b = 0;
+	asection *sec = 0;
+
+	return 0 == bfd_section_vma(sec);
+}
+EOC
+	cyn="whether bfd_section_vma() takes 1 argument"
+	set d_bfd_section
+	eval $trylink
+	;;
+esac
+
