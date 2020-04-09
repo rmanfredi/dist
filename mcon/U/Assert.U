@@ -20,7 +20,6 @@
 ?X: There is no need to link the file to spot the assertion failure.
 ?X:
 $cat >static_assert.h <<'EOC'
-#define STATIC_ASSERT(expr)	\
-	do { switch (0) { case ((expr) ? 1 : 0): case 0: break; } } while(0)
+#define STATIC_ASSERT(expr)		((void) sizeof(char[1 - 2*!(expr)]))
 EOC
 
