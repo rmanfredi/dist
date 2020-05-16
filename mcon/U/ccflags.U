@@ -174,11 +174,11 @@ dflt=''
 case "$hint" in
 default|recommended)
 	case "$gccversion" in
-	1*) dflt='-fpcc-struct-return' ;;
+	1) dflt='-fpcc-struct-return' ;;
 	esac
 ?X: check for POSIXized ISC
 	case "$gccversion" in
-	2*) if test -d /etc/conf/kconfig.d &&
+	2) if test -d /etc/conf/kconfig.d &&
 			$contains _POSIX_VERSION $usrinc/sys/unistd.h >/dev/null 2>&1
 		then
 			dflt="$dflt -posix"
@@ -187,7 +187,7 @@ default|recommended)
 	esac
 ?X: turn warnings on if they're using gcc
 	case "$gccversion" in
-	1*|2*) dflt="$dflt -Wall";;
+	1|2) dflt="$dflt -Wall";;
 ?X: starting with version 3, add "-W -Wall -Wformat=2 -Wshadow" by default
 	*) dflt="$dflt -W -Wall -Wformat=2 -Wshadow";;
 	esac
@@ -265,7 +265,7 @@ esac
 : the following weeds options from ccflags that are of no interest to cpp
 cppflags="$ccflags"
 case "$gccversion" in
-1*) cppflags="$cppflags -D__GNUC__"
+1) cppflags="$cppflags -D__GNUC__"
 esac
 case "$mips_type" in
 '');;

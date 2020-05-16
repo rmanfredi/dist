@@ -17,6 +17,9 @@
 ?S:	If GNU cc (gcc) is used, this variable holds '1' or '3' (for instance)
 ?S:	to indicate whether the compiler is version 1 or 3.  This is used in
 ?S:	setting some of the default cflags.  It is set to '' if not gcc.
+?S:	Note that it only contains the major version number, and, when using
+?S:	case statements to do different things depending on the major, do not
+?S:	use statements like "1*)" because it will match version 1, 10, 11, etc.
 ?S:.
 ?S:gccosandvers:
 ?S:	If GNU cc (gcc) is used, this variable the operating system and
@@ -58,7 +61,7 @@ else
 fi
 $rm -f try try.*
 case "$gccversion" in
-1*) cpp=`./loc gcc-cpp $cpp $pth` ;;
+1) cpp=`./loc gcc-cpp $cpp $pth` ;;
 esac
 case "$gccversion" in
 '') gccosandvers='' ;;
@@ -99,7 +102,7 @@ esac
 : gcc 3.1 complains about adding -Idirectories that it already knows about,
 : so we will take those off from locincpth.
 case "$gccversion" in
-3*)
+3)
     echo "main(){}">try.c
     for incdir in `$cc -v -c try.c 2>&1 | \
        sed '1,/^#include <\.\.\.>/d;/^End of search list/,$d;s/^ //'` ; do
