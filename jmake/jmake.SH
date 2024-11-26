@@ -236,7 +236,7 @@ line: for ($i = 0; $i <= $#makefile; $i++) {
 		$last_was_blank = 0;
 	}
 
-	# In shell mode, we're transparent, untill we reach a "-shell"
+	# In shell mode, we're transparent, until we reach a "-shell"
 	# We don't call print_makefile() as we don't want to record
 	# those non-makefile lines in the @Generated array.
 
@@ -247,6 +247,7 @@ line: for ($i = 0; $i <= $#makefile; $i++) {
 		} elsif (/^\|shell/) {
 			die "$me: can't nest 'shell' sections.\n";
 		} else {
+			s/\s+$//;				# Ensure no accidental trailing space
 			print MAKEFILE "$_\n";
 		}
 		next;
@@ -500,6 +501,8 @@ sub expand {
 # Prints its argument in MAKEFILE and records it also in Generated
 sub print_makefile {
 	local($_) = shift(@_);		# Line to be printed
+	# Strip possible trailing whitespaces, to not annoy git
+	s/\s+$//;
 	print MAKEFILE "$_\n";
 	push(@Generated, "$_\n");
 }
