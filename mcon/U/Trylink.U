@@ -22,7 +22,7 @@
 ?X: to stop after the production of the config.sh file and be able to
 ?X: inspect the UU/trylink.log file.
 ?X:
-?X: Before calling $trylink, on can also set the $cyn variable (check yes/no)
+?X: Before calling $trylink, one can also set the $cyn variable (check yes/no)
 ?X: with a message that will be printed before the test is made and which
 ?X: will indicate whether the test was successful or not.  The string
 ?X: "Checking $cyn..." is emitted and will be followed by "yes." if the
