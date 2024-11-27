@@ -217,6 +217,7 @@ mcon/U/d_bcopy.U           Do we have bcopy() or memcpy()?
 mcon/U/d_bfd_lib.U         Is the BFD library available?
 mcon/U/d_bfd_section.U     Do bfd_section_xxx() accessors exist with 1 argument?
 mcon/U/d_bindtxtcode.U     Do we have bind_textdomain_codeset()?
+mcon/U/d_bool.U            Is 'bool' a known C type?
 mcon/U/d_brokstat.U        Check whether stat() macros are broken
 mcon/U/d_bsdjmp.U          Do we have BSD _setjmp() and _longjmp()?
 mcon/U/d_bsearch.U         Do we have bsearch()?

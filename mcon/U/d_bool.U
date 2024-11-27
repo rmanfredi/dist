@@ -1,0 +1,36 @@
+?RCS:
+?RCS: Copyright (c) 2024, Raphael Manfredi
+?RCS:
+?RCS: You may redistribute only under the terms of the Artistic License,
+?RCS: as specified in the README file that comes with the distribution.
+?RCS: You may reuse parts of this distribution only within the terms of
+?RCS: that same Artistic License; a copy of which may be found at the root
+?RCS: of the source tree for dist 4.0.
+?RCS:
+?MAKE:d_bool: Trylink cat
+?MAKE:	-pick add $@ %<
+?S:d_bool:
+?S:	This variable conditionally defines the HAS_BOOL symbol, which
+?S:	indicates to the C program that the "bool" type is available
+?S:	and does not need to be defined.
+?S:.
+?C:HAS_BOOL:
+?C:	This symbol, if defined, indicates that the "bool" type is available
+?C:	and that no "typedef int bool;" statement be used to define it.
+?C:.
+?H:#$d_bool HAS_BOOL		/**/
+?H:.
+?LINT:set d_bool
+: see whether bool type is known
+$cat >try.c <<EOC
+int main(void)
+{
+	static long n = sizeof(bool);
+	bool p = true;
+	return p + n;
+}
+EOC
+cyn="whether 'bool' is a known C type here"
+set d_bool
+eval $trylink
+
