@@ -156,9 +156,9 @@ Makefile target tests:
 .sp
 .RS
 .IP \(bu
-?\fItarget\fR?:<text>: keeps <test> iff \fItarget\fR is defined.
+?\fItarget\fR?:<text>: keeps <text> iff \fItarget\fR is defined.
 .IP \(bu
-%\fItarget\fR%:<text>: keeps <test> iff \fItarget\fR is not defined.
+%\fItarget\fR%:<text>: keeps <text> iff \fItarget\fR is not defined.
 .sp
 A makefile \fItarget\fR is defined as a standalone target, for instance
 the
