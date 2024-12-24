@@ -316,10 +316,10 @@ line: for ($i = 0; $i <= $#makefile; $i++) {
 	# only when target is used (resp. unused) in the generated makefile.
 
 	# Apply in sequence
-	while (/^\s*\?|\s*%/) {
+	while (/^\s*\?|\s*%\w/) {
 		if (s/^\s*\?([\w-.]+)\?://) {			# Wanted target ?
 			next line unless $target{$1};
-		} elsif (s/^\s*%([\w-.]+)%://) {		# Unwanted target ?
+		} elsif (s/^\s*%(\w[\w-.]*)%://) {		# Unwanted target ?
 			next line if $target{$1};
 		} else {
 			last;
@@ -330,7 +330,7 @@ line: for ($i = 0; $i <= $#makefile; $i++) {
 	# only if SYMBOL is defined (resp. undefined).
 
 	# Apply in sequence
-	while (/^\s*\?|\s*%/) {
+	while (/^\s*\?|\s*%\w/) {
 		if (s/^\s*\?(\w+)://) {					# Wanted symbol ?
 			next line unless $symbol{$1};
 		} elsif (s/^\s*%(\w+)://) {				# Unwanted symbol ?
