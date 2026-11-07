@@ -395,6 +395,7 @@ mcon/U/d_posix_fadvise.U   Do we have posix_fadvise()?
 mcon/U/d_posix_memalign.U  Do we have posix_memalign()?
 mcon/U/d_pread.U           Do we have pread()?
 mcon/U/d_preadv.U          Do we have preadv()?
+mcon/U/d_procctl.U         Is procctl() available to control process parameters?
 mcon/U/d_proginvocname.U   Do we have program_invocation_name variables?
 mcon/U/d_psignal.U         Do we have psignal()?
 mcon/U/d_ptattr_setstack.U Do we have pthread_attr_setstack()?
